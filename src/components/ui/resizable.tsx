@@ -4,6 +4,7 @@ import * as ResizablePrimitive from "react-resizable-panels"
 
 import { cn } from "@/lib/utils"
 
+// Panel Group
 function ResizablePanelGroup({
   className,
   ...props
@@ -20,12 +21,14 @@ function ResizablePanelGroup({
   )
 }
 
+// Panel
 function ResizablePanel({
   ...props
 }: React.ComponentProps<typeof ResizablePrimitive.Panel>) {
   return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />
 }
 
+// Handle with floating square grip
 function ResizableHandle({
   withHandle,
   className,
@@ -37,14 +40,31 @@ function ResizableHandle({
     <ResizablePrimitive.PanelResizeHandle
       data-slot="resizable-handle"
       className={cn(
-        "bg-border focus-visible:ring-ring relative flex w-px items-center justify-center after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:outline-hidden data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:left-0 data-[panel-group-direction=vertical]:after:h-1 data-[panel-group-direction=vertical]:after:w-full data-[panel-group-direction=vertical]:after:translate-x-0 data-[panel-group-direction=vertical]:after:-translate-y-1/2 [&[data-panel-group-direction=vertical]>div]:rotate-90",
+        "relative flex items-center justify-center bg-border focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1",
+        // thin line separator
+        "data-[panel-group-direction=horizontal]:w-1 data-[panel-group-direction=horizontal]:cursor-col-resize",
+        "data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:cursor-row-resize",
         className
       )}
       {...props}
     >
       {withHandle && (
-        <div className="bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border">
-          <GripVerticalIcon className="size-2.5" />
+        <div
+          className={cn(
+            "absolute z-10 flex items-center justify-center rounded-md border bg-background shadow-sm",
+            // square size
+            "h-4 w-3",
+            // positioning
+            "data-[panel-group-direction=horizontal]:top-1/2 data-[panel-group-direction=horizontal]:-translate-y-1/2",
+            "data-[panel-group-direction=vertical]:left-1/2 data-[panel-group-direction=vertical]:-translate-x-1/2"
+          )}
+        >
+          <GripVerticalIcon
+            className={cn(
+              "h-3 w-3 text-muted-foreground",
+              "data-[panel-group-direction=vertical]:rotate-90"
+            )}
+          />
         </div>
       )}
     </ResizablePrimitive.PanelResizeHandle>

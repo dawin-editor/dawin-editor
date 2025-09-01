@@ -5,13 +5,14 @@ import {
 import Preview from "./content/Preview";
 import Editing from "./content/Editing";
 
+
 const Content = () => {
   return (
       <ResizablePanelGroup direction="horizontal" className="flex-1">
-        <Preview />
+        <Preview  />
         <ResizableHandle
           withHandle
-          className="bg-[#bad7f0] hover:bg-gray-400 w-1"
+          className="bg-[#bad7f0] "
         />
         <Editing />
       </ResizablePanelGroup>

@@ -126,12 +126,13 @@ h6 {
   --color-sidebar-ring: var(--sidebar-ring);
 
   /* editor colors */
-  --color-lapis-lazuli: var(--lapis-lazuli);
-  --color-antiflash-white: var(--antiflash-white);
-  --color-cornsilk-foreground: var(--cornsilk-foreground);
-  --color-cornsilk: var(--cornsilk);
-  --color-alice-blue: var(--alice-blue);
-  --transparent-blue: var(--transparent-blue);
+  --color-main-blue: var(--main-blue);
+  --color-icons-color: var(--icons-color);
+  --color-icons-color-hover: var(--icons-color-hover);
+  --color-secondary-blue: var(--secondary-blue);
+  --color-icons-bg: var(--icons-bg);
+  --color-yello-bg: var(--yello-bg);
+  --color-yello-border: var(--yello-border);
 
   /* custom fonts */
   --font-dubai-regular: "Dubai-regular", sans-serif;
@@ -175,13 +176,13 @@ h6 {
   --sidebar-ring: oklch(0.708 0 0);
 
   /* editor colors */
-  --lapis-lazuli: #2368a1ff;
-  --antiflash-white: #f3f4f6;
-  --cornsilk-foreground: #f7d475ff;
-  --cornsilk: #fdf1cfff;
-  --alice-blue: #eef2f7ff;
-  --separator: #bad7f0;
-  --transparent-blue: rgba(238,242,247,1);
+  --main-blue: #2368A1;
+  --icons-color: #1A4D77;
+  --icons-color-hover: #BAD7F0;
+  --secondary-blue: #F4FAFC;
+  --icons-bg: #EEF2F7;
+  --yello-bg: #FDF1CF;
+  --yello-border: #F7D36F;
 }
 
 .dark {
