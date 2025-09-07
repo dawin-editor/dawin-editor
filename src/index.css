@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import './styles/_variables.scss';                                        
+@import './styles/_keyframe-animations.scss';                              
 
 @font-face {
   font-family: "Dubai-regular";
@@ -35,9 +37,11 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  
 }
 * {
   margin: 0;
+
 }
 @media (prefers-reduced-motion: no-preference) {
   html {

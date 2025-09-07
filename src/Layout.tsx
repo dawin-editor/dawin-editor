@@ -1,10 +1,17 @@
-import Editor from "./components/Editor/Editor";
+import { SimpleEditor } from "./components/tiptap-templates/simple/simple-editor"
+import NavBar from "./components/Editor/NavBar"
 const Layout = () => {
   return (
-    <>
-    <Editor/>
-    </>
-  );
-};
+    <div className="flex flex-col h-screen">
+      <div className="sticky top-0 z-20">
+        <NavBar />
+      </div>
 
-export default Layout;
+      <div className="flex-1 overflow-hidden">
+        <SimpleEditor/>
+      </div>
+    </div>
+  )
+}
+
+export default Layout

@@ -8,7 +8,7 @@ const NavBar = () => {
   const [fullScreen, setFullScreen] = useState(false);
 
   return (
-    <div className="navbar bg-main-blue text-primary-content shadow-sm  ">
+    <div className="navbar bg-main-blue text-primary-content shadow-sm w-[100vw]" >
       <TopNavBar isCollapsed={isCollapsed} />
 
       <div className="bg-white h-20 flex flex-row justify-between items-center p-6">
