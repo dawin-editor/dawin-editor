@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+/* Removed Google Fonts to avoid render-blocking; rely on system/local fonts */
 
 body {
   --tt-toolbar-height: 44px;
@@ -10,7 +10,7 @@ body {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-dubai-regular), sans-serif;
   color: var(--tt-theme-text);
   font-optical-sizing: auto;
   font-weight: 400;
@@ -51,7 +51,7 @@ body,
 }
 
 .tiptap.ProseMirror {
-  font-family: "DM Sans", sans-serif;
+  font-family: var(--font-dubai-regular), sans-serif;
 }
 
 .simple-editor-wrapper {

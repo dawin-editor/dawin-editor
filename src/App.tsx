@@ -1,9 +1,7 @@
 import Layout from "./Layout"
+
 const App = () => {
-  return (
-      // <SimpleEditor/>
-      <Layout/>
-  )
+  return <Layout />
 }
 
 export default App

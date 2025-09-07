@@ -140,7 +140,7 @@ const MainToolbarContent = ({
       <ToolbarSeparator />
 
       <ToolbarGroup>
-        <ImageUploadButton text="Add" />
+        <ImageUploadButton text="صورة" />
       </ToolbarGroup>
 
       <Spacer />
@@ -244,44 +244,43 @@ export function SimpleEditor() {
   }, [isMobile, mobileView]);
 
   return (
-    
-        <div className="simple-editor-wrapper">
-          <EditorContext.Provider value={{ editor }}>
-            {/* Toolbar sticks under navbar */}
-            <Toolbar
-              ref={toolbarRef}
-              className="sticky top-16 z-10 bg-white border-b"
-              style={{
-                ...(isMobile
-                  ? {
-                      bottom: `calc(100% - ${height - rect.y}px)`,
-                    }
-                  : {}),
-              }}
-            >
-              {mobileView === "main" ? (
-                <MainToolbarContent
-                  onHighlighterClick={() => setMobileView("highlighter")}
-                  onLinkClick={() => setMobileView("link")}
-                  isMobile={isMobile}
-                />
-              ) : (
-                <MobileToolbarContent
-                  type={mobileView === "highlighter" ? "highlighter" : "link"}
-                  onBack={() => setMobileView("main")}
-                />
-              )}
-            </Toolbar>
-
-            {/* Editor content */}
-            <div className=" w-screen h-screen overflow-auto ">
-            <EditorContent
-              editor={editor}
-              role="presentation"
-              className="simple-editor-content overflow-scroll"
+    <div className="simple-editor-wrapper  font-dubai-light">
+      <EditorContext.Provider value={{ editor }}>
+        {/* Toolbar sticks under navbar */}
+        <Toolbar
+          ref={toolbarRef}
+          className="sticky top-16 z-10 bg-white border-b"
+          style={{
+            ...(isMobile
+              ? {
+                  bottom: `calc(100% - ${height - rect.y}px)`,
+                }
+              : {}),
+          }}
+        >
+          {mobileView === "main" ? (
+            <MainToolbarContent
+              onHighlighterClick={() => setMobileView("highlighter")}
+              onLinkClick={() => setMobileView("link")}
+              isMobile={isMobile}
             />
-            </div>
-          </EditorContext.Provider>
+          ) : (
+            <MobileToolbarContent
+              type={mobileView === "highlighter" ? "highlighter" : "link"}
+              onBack={() => setMobileView("main")}
+            />
+          )}
+        </Toolbar>
+
+        {/* Editor content */}
+        <div  className="w-screen h-screen overflow-auto">
+          <EditorContent
+            editor={editor}
+            role="presentation"
+            className="simple-editor-content overflow-scroll"
+          />
         </div>
+      </EditorContext.Provider>
+    </div>
   );
 }

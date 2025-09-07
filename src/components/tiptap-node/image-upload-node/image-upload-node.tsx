@@ -423,11 +423,10 @@ const DropZoneContent: React.FC<{ maxSize: number; limit: number }> = ({
 
     <div className="tiptap-image-upload-content">
       <span className="tiptap-image-upload-text">
-        <em>Click to upload</em> or drag and drop
+        <em>انقر للرفع</em> أو اسحب وأفلت
       </span>
       <span className="tiptap-image-upload-subtext">
-        Maximum {limit} file{limit === 1 ? "" : "s"}, {maxSize / 1024 / 1024}MB
-        each.
+        حد أقصى {limit} ملف، {maxSize / 1024 / 1024} ميجابايت لكل ملف
       </span>
     </div>
   </>
@@ -517,7 +516,7 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
         <div className="tiptap-image-upload-previews">
           {fileItems.length > 1 && (
             <div className="tiptap-image-upload-header">
-              <span>Uploading {fileItems.length} files</span>
+              <span>جاري رفع {fileItems.length} ملف</span>
               <Button
                 type="button"
                 data-style="ghost"
@@ -526,7 +525,7 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
                   clearAllFiles()
                 }}
               >
-                Clear All
+                مسح الكل
               </Button>
             </div>
           )}

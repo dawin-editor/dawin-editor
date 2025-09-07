@@ -8,6 +8,7 @@
   font-style: normal;
   font-weight: 400; /* Regular */
   src: local("Dubai Regular"), url("./assets/fonts/Dubai-Regular.woff") format("woff");
+  font-display: swap;
 }
 
 @font-face {
@@ -15,6 +16,7 @@
   font-style: normal;
   font-weight: 300; /* Light */
   src: local("Dubai Light"), url("./assets/fonts/Dubai-Light.woff") format("woff");
+  font-display: swap;
 }
 
 @font-face {
@@ -22,6 +24,7 @@
   font-style: normal;
   font-weight: 500; /* Medium */
   src: local("Dubai Medium"), url("./assets/fonts/Dubai-Medium.woff") format("woff");
+  font-display: swap;
 }
 
 @font-face {
@@ -29,6 +32,7 @@
   font-style: normal;
   font-weight: 700; /* Bold */
   src: local("Dubai Bold"), url("./assets/fonts/Dubai-Bold.woff") format("woff");
+  font-display: swap;
 }
 
 
@@ -143,6 +147,12 @@ h6 {
   --font-dubai-light: "Dubai-light", sans-serif;
   --font-dubai-medium: "Dubai-medium", sans-serif;
   --font-dubai-bold: "Dubai-bold", sans-serif;
+  
+  /* Tailwind v4 font families */
+  --font-family-dubai-regular: var(--font-dubai-regular);
+  --font-family-dubai-light: var(--font-dubai-light);
+  --font-family-dubai-medium: var(--font-dubai-medium);
+  --font-family-dubai-bold: var(--font-dubai-bold);
 }
 
 :root {
@@ -235,5 +245,6 @@ h6 {
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-dubai-regular), sans-serif;
   }
 }

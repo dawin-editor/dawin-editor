@@ -18,7 +18,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
     <>
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="md:inline-flex items-center gap-1.5 font-Regular text-cerulean-30 hover:text-white active:text-white focus:outline-none cursor-pointer">
+        <button className="md:inline-flex items-center gap-1.5 font-Regular text-cerulean-30 hover:text-white active:text-white focus:outline-none cursor-pointer" aria-label="قائمة التصدير">
           {isMobile ? (
             <Download strokeWidth={2} className="cursor-pointer size-5.5" />
           ) : (

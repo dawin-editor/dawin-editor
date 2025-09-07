@@ -28,31 +28,33 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
           <X
             className="size-6 cursor-pointer text-white "
             onClick={() => setOpen(false)}
+            role="button"
+            aria-label="إغلاق القائمة"
           />
         </div>
 
         {/* Menu */}
         <ul className="p-4 space-y-3 text-white md:hidden">
           <li className="group">
-            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer">
+            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer" aria-label="تصدير كملف HTML">
               <Download className="size-6 text-blue-200" />
               <span className="font-dubai-medium text-lg">تصدير كملف HTML</span>
             </button>
           </li>
           <li className="group">
-            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer">
+            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer" aria-label="تصدير كملف MD">
               <Download className="size-6 text-blue-200" />
               <span className="font-dubai-medium text-lg">تصدير كملف MD</span>
             </button>
           </li>
           <li className="group">
-            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer">
+            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer" aria-label="طريقة الاستخدام">
               <Info className="size-6 text-blue-200" />
               <a href="https://guide.dawin.io/" className="font-dubai-medium text-lg">طريقة الاستخدام</a>
             </button>
           </li>
           <li className="group">
-            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer">
+            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer" aria-label="حول المحرّر">
               <MousePointerClick className="size-6 text-blue-200" />
               <a href="https://www.dawin.io/about" className="font-dubai-medium text-lg">حول المحرّر</a>
             </button>

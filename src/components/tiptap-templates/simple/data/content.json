@@ -2,84 +2,12 @@
   "type": "doc",
   "content": [
     {
-      "type": "heading",
-      "attrs": {
-        "textAlign": null,
-        "level": 1
-      },
-      "content": [
-        {
-          "type": "text",
-          "text": "Getting started"
-        }
-      ]
-    },
-    {
       "type": "paragraph",
-      "attrs": {
-        "textAlign": null
-      },
+      "attrs": { "textAlign": null },
       "content": [
         {
           "type": "text",
-          "text": "Welcome to the "
-        },
-        {
-          "type": "text",
-          "marks": [
-            {
-              "type": "italic"
-            },
-            {
-              "type": "highlight",
-              "attrs": {
-                "color": "var(--tt-color-highlight-yellow)"
-              }
-            }
-          ],
-          "text": "Simple Editor"
-        },
-        {
-          "type": "text",
-          "text": " template! This template integrates "
-        },
-        {
-          "type": "text",
-          "marks": [
-            {
-              "type": "bold"
-            }
-          ],
-          "text": "open source"
-        },
-        {
-          "type": "text",
-          "text": " UI components and Tiptap extensions licensed under "
-        },
-        {
-          "type": "text",
-          "marks": [
-            {
-              "type": "bold"
-            }
-          ],
-          "text": "MIT"
-        },
-        {
-          "type": "text",
-          "text": "."
-        }
-      ]
-    },
-    {
-      "type": "paragraph",
-      "attrs": {
-        "textAlign": null
-      },
-      "content": [
-        {
-          "type": "text",
-          "text": "Integrate it by following the "
+          "text": "مُحرر دوّن هو محرر ماركداون (Markdown) سهل للغاية، لا يحتاج منك أي جهد لتعلم الكتابة به. فقط اكتب أو عدّل هذا النص! يمكنك إدراج رابط بهذا الشكل: "
         },
         {
           "type": "text",
@@ -87,43 +15,45 @@
             {
               "type": "link",
               "attrs": {
-                "href": "https://tiptap.dev/docs/ui-components/templates/simple-editor",
+                "href": "http://example.com",
                 "target": "_blank",
                 "rel": "noopener noreferrer nofollow",
                 "class": null
               }
             }
           ],
-          "text": "Tiptap UI Components docs"
+          "text": "نص الرابط"
         },
         {
           "type": "text",
-          "text": " or using our CLI tool."
-        }
-      ]
-    },
-    {
-      "type": "codeBlock",
-      "attrs": {
-        "language": null
-      },
-      "content": [
+          "text": ". كما يمكنك أيضا "
+        },
         {
           "type": "text",
-          "text": "npx @tiptap/cli init"
-        }
-      ]
-    },
-    {
-      "type": "heading",
-      "attrs": {
-        "textAlign": null,
-        "level": 2
-      },
-      "content": [
+          "marks": [{ "type": "bold" }],
+          "text": "تثخين"
+        },
         {
           "type": "text",
-          "text": "Features"
+          "text": " النص، أو "
+        },
+        {
+          "type": "text",
+          "marks": [{ "type": "italic" }],
+          "text": "إمالته"
+        },
+        {
+          "type": "text",
+          "text": " أو حتى جعله "
+        },
+        {
+          "type": "text",
+          "marks": [{ "type": "strike" }],
+          "text": "مشطبا"
+        },
+        {
+          "type": "text",
+          "text": " إن احتجت لذلك :)"
         }
       ]
     },
@@ -132,62 +62,11 @@
       "content": [
         {
           "type": "paragraph",
-          "attrs": {
-            "textAlign": null
-          },
+          "attrs": { "textAlign": null },
           "content": [
             {
               "type": "text",
-              "marks": [
-                {
-                  "type": "italic"
-                }
-              ],
-              "text": "A fully responsive rich text editor with built-in support for common formatting and layout tools. Type markdown "
-            },
-            {
-              "type": "text",
-              "marks": [
-                {
-                  "type": "code"
-                }
-              ],
-              "text": "**"
-            },
-            {
-              "type": "text",
-              "marks": [
-                {
-                  "type": "italic"
-                }
-              ],
-              "text": " or use keyboard shortcuts "
-            },
-            {
-              "type": "text",
-              "marks": [
-                {
-                  "type": "code"
-                }
-              ],
-              "text": "⌘+B"
-            },
-            {
-              "type": "text",
-              "text": " for "
-            },
-            {
-              "type": "text",
-              "marks": [
-                {
-                  "type": "strike"
-                }
-              ],
-              "text": "most"
-            },
-            {
-              "type": "text",
-              "text": " all common markdown marks. 🪄"
+              "text": "هذا مثال على اقتباس، لاحظ استباقه بعلامة أكبر"
             }
           ]
         }
@@ -195,283 +74,100 @@
     },
     {
       "type": "paragraph",
-      "attrs": {
-        "textAlign": "left"
-      },
+      "attrs": { "textAlign": null },
       "content": [
         {
           "type": "text",
-          "text": "Add images, customize alignment, and apply "
-        },
-        {
-          "type": "text",
-          "marks": [
-            {
-              "type": "highlight",
-              "attrs": {
-                "color": "var(--tt-color-highlight-blue)"
-              }
-            }
-          ],
-          "text": "advanced formatting"
-        },
-        {
-          "type": "text",
-          "text": " to make your writing more engaging and professional."
+          "text": "مع تغيير تلقائي للاتجاه وتجربة قراءة أمتع."
         }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 1, "textAlign": null },
+      "content": [{ "type": "text", "text": "عنوان أول" }]
+    },
+    {
+      "type": "paragraph",
+      "attrs": { "textAlign": null },
+      "content": [
+        { "type": "text", "text": "هذا مثال لعنوان، فقط قم بسبقه بعلامة (#) ثم مسافة." }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 2, "textAlign": null },
+      "content": [{ "type": "text", "text": "عنوان ثاني" }]
+    },
+    {
+      "type": "paragraph",
+      "attrs": { "textAlign": null },
+      "content": [
+        { "type": "text", "text": "هذا مثال عنوان فرعي من الدرجة الثانية لا حظ زيادة علامة (#) لجعله هكذا." }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 3, "textAlign": null },
+      "content": [{ "type": "text", "text": "عنوان ثالث" }]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 4, "textAlign": null },
+      "content": [{ "type": "text", "text": "عنوان رابع" }]
+    },
+    {
+      "type": "paragraph",
+      "attrs": { "textAlign": null },
+      "content": [
+        { "type": "text", "text": "أدرج صورًا بهذا الشكل:" }
       ]
     },
     {
       "type": "image",
       "attrs": {
-        "src": "/images/tiptap-ui-placeholder-image.jpg",
-        "alt": "placeholder-image",
-        "title": "placeholder-image"
+        "src": "https://app.dawin.io/example.png",
+        "alt": "نص الصورة",
+        "title": "نص الصورة"
       }
+    },
+    {
+      "type": "paragraph",
+      "attrs": { "textAlign": null },
+      "content": [
+        { "type": "text", "text": "أو قائمة عناصر بهذا الشكل:" }
+      ]
     },
     {
       "type": "bulletList",
       "content": [
-        {
-          "type": "listItem",
-          "content": [
-            {
-              "type": "paragraph",
-              "attrs": {
-                "textAlign": "left"
-              },
-              "content": [
-                {
-                  "type": "text",
-                  "marks": [
-                    {
-                      "type": "bold"
-                    }
-                  ],
-                  "text": "Superscript"
-                },
-                {
-                  "type": "text",
-                  "text": " (x"
-                },
-                {
-                  "type": "text",
-                  "marks": [
-                    {
-                      "type": "superscript"
-                    }
-                  ],
-                  "text": "2"
-                },
-                {
-                  "type": "text",
-                  "text": ") and "
-                },
-                {
-                  "type": "text",
-                  "marks": [
-                    {
-                      "type": "bold"
-                    }
-                  ],
-                  "text": "Subscript"
-                },
-                {
-                  "type": "text",
-                  "text": " (H"
-                },
-                {
-                  "type": "text",
-                  "marks": [
-                    {
-                      "type": "subscript"
-                    }
-                  ],
-                  "text": "2"
-                },
-                {
-                  "type": "text",
-                  "text": "O) for precision."
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "listItem",
-          "content": [
-            {
-              "type": "paragraph",
-              "attrs": {
-                "textAlign": "left"
-              },
-              "content": [
-                {
-                  "type": "text",
-                  "marks": [
-                    {
-                      "type": "bold"
-                    }
-                  ],
-                  "text": "Typographic conversion"
-                },
-                {
-                  "type": "text",
-                  "text": ": automatically convert to "
-                },
-                {
-                  "type": "text",
-                  "marks": [
-                    {
-                      "type": "code"
-                    }
-                  ],
-                  "text": "->"
-                },
-                {
-                  "type": "text",
-                  "text": " an arrow "
-                },
-                {
-                  "type": "text",
-                  "marks": [
-                    {
-                      "type": "bold"
-                    }
-                  ],
-                  "text": "→"
-                },
-                {
-                  "type": "text",
-                  "text": "."
-                }
-              ]
-            }
-          ]
-        }
+        { "type": "listItem", "content": [{ "type": "paragraph", "attrs": { "textAlign": null }, "content": [{ "type": "text", "text": "عنصر" }] }] },
+        { "type": "listItem", "content": [{ "type": "paragraph", "attrs": { "textAlign": null }, "content": [{ "type": "text", "text": "عنصر آخر" }] }] },
+        { "type": "listItem", "content": [{ "type": "paragraph", "attrs": { "textAlign": null }, "content": [{ "type": "text", "text": "عنصر آخر" }] }] }
       ]
     },
     {
       "type": "paragraph",
-      "attrs": {
-        "textAlign": "left"
-      },
+      "attrs": { "textAlign": null },
       "content": [
-        {
-          "type": "text",
-          "marks": [
-            {
-              "type": "italic"
-            }
-          ],
-          "text": "→ "
-        },
-        {
-          "type": "text",
-          "marks": [
-            {
-              "type": "link",
-              "attrs": {
-                "href": "https://tiptap.dev/docs/ui-components/templates/simple-editor#features",
-                "target": "_blank",
-                "rel": "noopener noreferrer nofollow",
-                "class": null
-              }
-            }
-          ],
-          "text": "Learn more"
-        }
+        { "type": "text", "text": "وإن احتجت قائمة مرتبة:" }
       ]
     },
     {
-      "type": "horizontalRule"
-    },
-    {
-      "type": "heading",
-      "attrs": {
-        "textAlign": "left",
-        "level": 2
-      },
+      "type": "orderedList",
+      "attrs": { "order": 1 },
       "content": [
-        {
-          "type": "text",
-          "text": "Make it your own"
-        }
+        { "type": "listItem", "content": [{ "type": "paragraph", "attrs": { "textAlign": null }, "content": [{ "type": "text", "text": "عنصر أول" }] }] },
+        { "type": "listItem", "content": [{ "type": "paragraph", "attrs": { "textAlign": null }, "content": [{ "type": "text", "text": "عنصر ثانٍ" }] }] },
+        { "type": "listItem", "content": [{ "type": "paragraph", "attrs": { "textAlign": null }, "content": [{ "type": "text", "text": "عنصر ثالث" }] }] }
       ]
     },
     {
       "type": "paragraph",
-      "attrs": {
-        "textAlign": "left"
-      },
+      "attrs": { "textAlign": null },
       "content": [
-        {
-          "type": "text",
-          "text": "Switch between light and dark modes, and tailor the editor's appearance with customizable CSS to match your style."
-        }
+        { "type": "text", "text": "مبدئيا هذا ما ستحتاجه لكتابة محتوىً مذهل :)" }
       ]
-    },
-    {
-      "type": "taskList",
-      "content": [
-        {
-          "type": "taskItem",
-          "attrs": {
-            "checked": true
-          },
-          "content": [
-            {
-              "type": "paragraph",
-              "attrs": {
-                "textAlign": "left"
-              },
-              "content": [
-                {
-                  "type": "text",
-                  "text": "Test template"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "taskItem",
-          "attrs": {
-            "checked": false
-          },
-          "content": [
-            {
-              "type": "paragraph",
-              "attrs": {
-                "textAlign": "left"
-              },
-              "content": [
-                {
-                  "type": "text",
-                  "marks": [
-                    {
-                      "type": "link",
-                      "attrs": {
-                        "href": "https://tiptap.dev/docs/ui-components/templates/simple-editor",
-                        "target": "_blank",
-                        "rel": "noopener noreferrer nofollow",
-                        "class": null
-                      }
-                    }
-                  ],
-                  "text": "Integrate the free template"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "paragraph",
-      "attrs": {
-        "textAlign": "left"
-      }
     }
   ]
 }
