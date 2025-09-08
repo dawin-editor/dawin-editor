@@ -72,6 +72,102 @@ body,
   padding: 3rem 3rem 30vh;
 }
 
+
+
+/* Default preview look for TipTap content */
+.simple-editor-content .tiptap.ProseMirror.simple-editor {
+  line-height: 1.8;
+  color: var(--tt-theme-text);
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor h1,
+.simple-editor-content .tiptap.ProseMirror.simple-editor h2,
+.simple-editor-content .tiptap.ProseMirror.simple-editor h3,
+.simple-editor-content .tiptap.ProseMirror.simple-editor h4,
+.simple-editor-content .tiptap.ProseMirror.simple-editor h5,
+.simple-editor-content .tiptap.ProseMirror.simple-editor h6 {
+  font-family: var(--font-dubai-medium), sans-serif;
+  color: #0f599e;
+  margin: 1.6rem 0 0.8rem;
+  line-height: 1.35;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor h1 { font-size: 2rem; }
+.simple-editor-content .tiptap.ProseMirror.simple-editor h2 { font-size: 1.6rem; }
+.simple-editor-content .tiptap.ProseMirror.simple-editor h3 { font-size: 1.35rem; }
+.simple-editor-content .tiptap.ProseMirror.simple-editor h4 { font-size: 1.2rem; }
+.simple-editor-content .tiptap.ProseMirror.simple-editor h5 { font-size: 1.05rem; }
+.simple-editor-content .tiptap.ProseMirror.simple-editor h6 { font-size: 0.95rem; }
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor p {
+  margin: 0.75rem 0;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor a {
+  color: #0f599e;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor blockquote {
+  border-right: 4px solid #f0c36d; /* RTL-friendly */
+  background: #fff8e1;
+  color: #5a5a5a;
+  padding: 0.85rem 1rem;
+  margin: 1rem 0;
+  border-radius: 6px;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor ul,
+.simple-editor-content .tiptap.ProseMirror.simple-editor ol {
+  padding-inline-start: 1.25rem;
+  padding-inline-end: 1.25rem;
+  margin: 0.75rem 0 0.75rem 0;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor li {
+  margin: 0.35rem 0;
+}
+
+/* Gray bullets and numbers for lists */
+.simple-editor-content .tiptap.ProseMirror.simple-editor ul li::marker,
+.simple-editor-content .tiptap.ProseMirror.simple-editor ol li::marker {
+  color: #9ca3af; /* gray-400 */
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor code:not(pre code) {
+  background: rgba(15, 89, 158, 0.08);
+  color: #0f3b63;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.92em;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor pre code {
+  display: block;
+  background: #0b1220;
+  color: #e6edf3;
+  padding: 1rem 1.1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  border-radius: 8px;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(15, 89, 158, 0.4), transparent);
+  margin: 1.5rem 0;
+}
+
 @media screen and (max-width: 480px) {
   .simple-editor-content .tiptap.ProseMirror.simple-editor {
     padding: 1rem 1.5rem 30vh;
