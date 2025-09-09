@@ -13,6 +13,8 @@ import { Highlight } from "@tiptap/extension-highlight";
 import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
 import { Selection } from "@tiptap/extensions";
+import { FontFamily } from "@tiptap/extension-text-style/font-family";
+import { FontSize } from "@tiptap/extension-text-style/font-size";
 
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button";
@@ -51,7 +53,8 @@ import {
   LinkButton,
 } from "@/components/tiptap-ui/link-popover";
 import { MarkButton } from "@/components/tiptap-ui/mark-button";
-import { TextAlignButton } from "@/components/tiptap-ui/text-align-button";
+import { TextAlignDropdownMenu } from "@/components/tiptap-ui/text-align-dropdown-menu";
+import { FontFamilyDropdown } from "@/components/tiptap-ui/font-family-dropdown";
 import { UndoRedoButton } from "@/components/tiptap-ui/undo-redo-button";
 
 // --- Icons ---
@@ -61,11 +64,8 @@ import { LinkIcon } from "@/components/tiptap-icons/link-icon";
 
 // --- Hooks ---
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useWindowSize } from "@/hooks/use-window-size";
-import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
 
 // --- Components ---
-import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle";
 
 // --- Lib ---
 import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
@@ -131,10 +131,11 @@ const MainToolbarContent = ({
       <ToolbarSeparator />
 
       <ToolbarGroup>
-        <TextAlignButton align="left" />
-        <TextAlignButton align="center" />
-        <TextAlignButton align="right" />
-        <TextAlignButton align="justify" />
+        <FontFamilyDropdown portal={isMobile} />
+        <TextAlignDropdownMenu
+          aligns={["left", "center", "right", "justify"]}
+          portal={isMobile}
+        />
       </ToolbarGroup>
 
       <ToolbarSeparator />
@@ -144,12 +145,6 @@ const MainToolbarContent = ({
       </ToolbarGroup>
 
       <Spacer />
-
-      {isMobile && <ToolbarSeparator />}
-
-      <ToolbarGroup>
-        <ThemeToggle />
-      </ToolbarGroup>
     </>
   );
 };
@@ -185,7 +180,6 @@ const MobileToolbarContent = ({
 
 export function SimpleEditor() {
   const isMobile = useIsMobile();
-  const { height } = useWindowSize();
   const [mobileView, setMobileView] = React.useState<
     "main" | "highlighter" | "link"
   >("main");
@@ -228,13 +222,10 @@ export function SimpleEditor() {
         upload: handleImageUpload,
         onError: (error) => console.error("Upload failed:", error),
       }),
+      FontFamily,
+      FontSize,
     ],
     content,
-  });
-
-  const rect = useCursorVisibility({
-    editor,
-    overlayHeight: toolbarRef.current?.getBoundingClientRect().height ?? 0,
   });
 
   React.useEffect(() => {
@@ -244,18 +235,13 @@ export function SimpleEditor() {
   }, [isMobile, mobileView]);
 
   return (
-    <div className="simple-editor-wrapper  font-dubai-light">
+    <div className="simple-editor-wrapper font-dubai-light">
       <EditorContext.Provider value={{ editor }}>
-        {/* Toolbar sticks under navbar */}
         <Toolbar
           ref={toolbarRef}
-          className="sticky top-16 z-10 bg-white border-b"
+          className="sticky top-0 z-20 h-[var(--tt-toolbar-height)] supports-[backdrop-filter]:bg-white/60"
           style={{
-            ...(isMobile
-              ? {
-                  bottom: `calc(100% - ${height - rect.y}px)`,
-                }
-              : {}),
+            background: "#F3F4F6",
           }}
         >
           {mobileView === "main" ? (
@@ -272,12 +258,11 @@ export function SimpleEditor() {
           )}
         </Toolbar>
 
-        {/* Editor content */}
-        <div  className="w-screen h-screen overflow-auto">
+        {/* Editor content: scrollable area */}
+        <div className="editor-scroll-area overflow-auto ">
           <EditorContent
             editor={editor}
-            role="presentation"
-            className="simple-editor-content overflow-scroll"
+            className="simple-editor-content"
           />
         </div>
       </EditorContext.Provider>
