@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
+import { useEditorStore } from "@/store/EditroStore";
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit";
@@ -13,8 +14,7 @@ import { Highlight } from "@tiptap/extension-highlight";
 import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
 import { Selection } from "@tiptap/extensions";
-import { TextStyleKit } from '@tiptap/extension-text-style'
-
+import { TextStyleKit } from "@tiptap/extension-text-style";
 
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button";
@@ -75,6 +75,7 @@ import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
 import "@/components/tiptap-templates/simple/simple-editor.scss";
 
 import content from "@/components/tiptap-templates/simple/data/content.json";
+import { Copy } from "lucide-react";
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -110,7 +111,7 @@ const MainToolbarContent = ({
       {/* Font Controls - Essential for Arabic typography */}
       <ToolbarGroup>
         <FontFamilyDropdown portal={isMobile} />
-        <FontSizeDropdown/>
+        <FontSizeDropdown />
       </ToolbarGroup>
 
       <ToolbarSeparator />
@@ -198,6 +199,8 @@ export function SimpleEditor() {
   >("main");
   const toolbarRef = React.useRef<HTMLDivElement>(null);
 
+  const { setEditor } = useEditorStore();
+
   const editor = useEditor({
     immediatelyRender: false,
     shouldRerenderOnTransaction: false,
@@ -238,6 +241,15 @@ export function SimpleEditor() {
       TextStyleKit,
     ],
     content,
+    onCreate({ editor }) {
+      setEditor(editor);
+    },
+    onUpdate: ({ editor }) => {
+      setEditor(editor);
+    },
+    onDestroy: () => {
+      setEditor(null);
+    },
   });
 
   React.useEffect(() => {
@@ -269,9 +281,10 @@ export function SimpleEditor() {
             />
           )}
         </Toolbar>
-
-        {/* Editor content: scrollable area */}
-        <div className="editor-scroll-area overflow-auto" style={{fontFamily: "Samim"}}>
+        <div
+          className="editor-scroll-area overflow-auto"
+          style={{ fontFamily: "Samim" }}
+        >
           <EditorContent
             editor={editor}
             className="simple-editor-content "

@@ -95,7 +95,7 @@ body,
       line-height: 1.35;
     }
 
-    h1 { font-size: 2rem; }
+    h1 { font-size: 2.25rem; }
     h2 { font-size: 1.6rem; }
     h3 { font-size: 1.35rem; }
     h4 { font-size: 1.2rem; }
@@ -113,12 +113,18 @@ body,
     }
 
     blockquote {
-      border-inline-start: 4px solid #f0c36d; /* RTL/LTR friendly */
-      background: #fff8e1;
+      border-inline-start: 5px solid #618EE7; /* RTL/LTR friendly */
+      background: #FDF1CF;
       color: #5a5a5a;
-      padding: 0.85rem 1rem;
-      margin-block: 1rem;
-      border-radius: 6px;
+      padding-top:0;
+      padding-bottom: 0;
+      padding-right: 10px;
+      
+      // padding: 0.85rem 0.5rem;
+      // margin-block: 1rem;
+    }
+    blockquote::before{
+      display: none;
     }
 
     ul,
