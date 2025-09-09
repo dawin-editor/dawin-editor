@@ -9,7 +9,6 @@ import type { TextAlign } from "@/components/tiptap-ui/text-align-button"
 import {
   canSetTextAlign,
   isTextAlignActive,
-  setTextAlign,
   textAlignIcons,
   textAlignLabels,
 } from "@/components/tiptap-ui/text-align-button/use-text-align"
@@ -70,12 +69,10 @@ export function getFilteredTextAlignOptions(aligns: TextAlign[]) {
 
 export function shouldShowTextAlignDropdown({
   editor,
-  alignTypes,
   hideWhenUnavailable,
   canToggleAny,
 }: {
   editor: Editor | null
-  alignTypes: TextAlign[]
   hideWhenUnavailable: boolean
   canToggleAny: boolean
 }): boolean {
@@ -118,7 +115,6 @@ export function useTextAlignDropdownMenu(config?: UseTextAlignDropdownMenuConfig
       setIsVisible(
         shouldShowTextAlignDropdown({
           editor,
-          alignTypes: aligns,
           hideWhenUnavailable,
           canToggleAny,
         })

@@ -39,17 +39,17 @@ export interface FontFamilyDropdownProps extends Omit<ButtonProps, "type"> {
 }
 
 const DEFAULT_FONT_FAMILIES = [
-  "Inter",
-  "Arial",
-  "Helvetica",
-  "Times New Roman",
-  "Georgia",
-  "Verdana",
-  "Courier New",
-  "Monaco",
-  "serif",
-  "sans-serif",
-  "monospace",
+  // Local Arabic fonts
+  "SaudiWeb-Regular",
+  // Google Fonts Arabic
+  "Amiri",
+  "Almarai",
+  "Cairo",
+  "Changa",
+  "Harmattan",
+  "Noto Kufi Arabic",
+  "Noto Naskh Arabic",
+  "Tajawal",
 ]
 
 export function FontFamilyDropdown({
@@ -84,10 +84,10 @@ export function FontFamilyDropdown({
   )
 
   const getCurrentFontFamily = React.useCallback(() => {
-    if (!editor) return "Font Family"
+    if (!editor) return "نوع الخط"
     
     const fontFamily = editor.getAttributes("textStyle").fontFamily
-    return fontFamily || "Font Family"
+    return fontFamily || "نوع الخط"
   }, [editor])
 
   if (!editor || !editor.isEditable) {

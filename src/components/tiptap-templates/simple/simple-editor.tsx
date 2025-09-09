@@ -13,8 +13,8 @@ import { Highlight } from "@tiptap/extension-highlight";
 import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
 import { Selection } from "@tiptap/extensions";
-import { FontFamily } from "@tiptap/extension-text-style/font-family";
-import { FontSize } from "@tiptap/extension-text-style/font-size";
+import { TextStyleKit } from '@tiptap/extension-text-style'
+
 
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button";
@@ -56,6 +56,7 @@ import { MarkButton } from "@/components/tiptap-ui/mark-button";
 import { TextAlignDropdownMenu } from "@/components/tiptap-ui/text-align-dropdown-menu";
 import { FontFamilyDropdown } from "@/components/tiptap-ui/font-family-dropdown";
 import { UndoRedoButton } from "@/components/tiptap-ui/undo-redo-button";
+import { FontSizeDropdown } from "@/components/tiptap-ui/font-size-dropdown";
 
 // --- Icons ---
 import { ArrowLeftIcon } from "@/components/tiptap-icons/arrow-left-icon";
@@ -88,6 +89,7 @@ const MainToolbarContent = ({
     <>
       <Spacer />
 
+      {/* History Actions - Most commonly used */}
       <ToolbarGroup>
         <UndoRedoButton action="undo" />
         <UndoRedoButton action="redo" />
@@ -95,6 +97,34 @@ const MainToolbarContent = ({
 
       <ToolbarSeparator />
 
+      {/* Text Formatting - Core Arabic text formatting */}
+      <ToolbarGroup>
+        <MarkButton type="bold" />
+        <MarkButton type="italic" />
+        <MarkButton type="underline" />
+        <MarkButton type="strike" />
+      </ToolbarGroup>
+
+      <ToolbarSeparator />
+
+      {/* Font Controls - Essential for Arabic typography */}
+      <ToolbarGroup>
+        <FontFamilyDropdown portal={isMobile} />
+        <FontSizeDropdown/>
+      </ToolbarGroup>
+
+      <ToolbarSeparator />
+
+      {/* Text Alignment - Important for Arabic RTL text */}
+      <ToolbarGroup>
+        <TextAlignDropdownMenu
+          aligns={["right", "center", "left", "justify"]}
+          portal={isMobile}
+        />
+      </ToolbarGroup>
+      <ToolbarSeparator />
+
+      {/* Document Structure - Headings and lists */}
       <ToolbarGroup>
         <HeadingDropdownMenu levels={[1, 2, 3, 4]} portal={isMobile} />
         <ListDropdownMenu
@@ -102,45 +132,28 @@ const MainToolbarContent = ({
           portal={isMobile}
         />
         <BlockquoteButton />
+      </ToolbarGroup>
+
+      <ToolbarSeparator />
+
+      {/* Advanced Formatting */}
+      <ToolbarGroup>
+        <MarkButton type="code" />
+        <MarkButton type="superscript" />
+        <MarkButton type="subscript" />
         <CodeBlockButton />
       </ToolbarGroup>
 
       <ToolbarSeparator />
 
+      {/* Interactive Elements */}
       <ToolbarGroup>
-        <MarkButton type="bold" />
-        <MarkButton type="italic" />
-        <MarkButton type="strike" />
-        <MarkButton type="code" />
-        <MarkButton type="underline" />
         {!isMobile ? (
           <ColorHighlightPopover />
         ) : (
           <ColorHighlightPopoverButton onClick={onHighlighterClick} />
         )}
         {!isMobile ? <LinkPopover /> : <LinkButton onClick={onLinkClick} />}
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      <ToolbarGroup>
-        <MarkButton type="superscript" />
-        <MarkButton type="subscript" />
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      <ToolbarGroup>
-        <FontFamilyDropdown portal={isMobile} />
-        <TextAlignDropdownMenu
-          aligns={["left", "center", "right", "justify"]}
-          portal={isMobile}
-        />
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      <ToolbarGroup>
         <ImageUploadButton text="صورة" />
       </ToolbarGroup>
 
@@ -222,8 +235,7 @@ export function SimpleEditor() {
         upload: handleImageUpload,
         onError: (error) => console.error("Upload failed:", error),
       }),
-      FontFamily,
-      FontSize,
+      TextStyleKit,
     ],
     content,
   });
@@ -259,10 +271,11 @@ export function SimpleEditor() {
         </Toolbar>
 
         {/* Editor content: scrollable area */}
-        <div className="editor-scroll-area overflow-auto ">
+        <div className="editor-scroll-area overflow-auto" style={{fontFamily: "Samim"}}>
           <EditorContent
             editor={editor}
-            className="simple-editor-content"
+            className="simple-editor-content "
+            dir="rtl"
           />
         </div>
       </EditorContext.Provider>
