@@ -34,8 +34,8 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
     <div
       onClick={() => setOpen(false)}
       className={cn(
-        "fixed inset-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] md:hidden",
-        open ? "bg-black/80 backdrop-blur-sm" : "pointer-events-none bg-transparent"
+        "fixed inset-0 z-50 transition-colors duration-300 ease-out md:hidden",
+        open ? "bg-black/70" : "pointer-events-none bg-transparent"
       )}
     >
       {/* Sidebar container */}
@@ -45,7 +45,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
         className={cn(
-          "fixed top-0 right-0 h-full w-8/9 bg-main-blue shadow-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform transform-gpu md:hidden",
+          "fixed top-0 right-0 h-full w-8/9 bg-main-blue shadow-xl transition-transform duration-300 ease-out transform-gpu md:hidden",
           open ? "translate-x-0" : "translate-x-full"
         )}
       >
