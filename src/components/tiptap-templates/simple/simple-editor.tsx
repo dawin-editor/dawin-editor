@@ -245,33 +245,31 @@ export function SimpleEditor() {
     ],
     // **Initialize content from localStorage if available**
     content: (() => {
-      // Clear localStorage for testing - remove this line later
-      // localStorage.removeItem("editorContent");
-    
       const saved = localStorage.getItem("editorContent");
-      console.log("Saved content:", saved);
-    
+      console.log("Saved content:");
+
       if (saved) {
-        try {
-          return JSON.parse(saved); // parse saved string
-        } catch (e) {
-          console.error("Failed to parse saved content:", e);
-        }
+        return JSON.parse(saved); // load saved content
       }
-    
-      // If localStorage is empty or invalid, render content.json structure
-      console.log("Rendering content.json structure");
-      return content; // return as object, not JSON string
+
+      return content;
     })(),
-    
 
     onCreate({ editor }) {
       setEditor(editor);
-      localStorage.setItem("editorContent", JSON.stringify(editor.getJSON()));
     },
+
     onUpdate({ editor }) {
       setEditor(editor);
-      localStorage.setItem("editorContent", JSON.stringify(editor.getJSON()));
+
+      const text = editor.getText().trim();
+      if (!text) {
+        // Remove storage if editor is empty
+        localStorage.removeItem("editorContent");
+      } else {
+        // Save content if not empty
+        localStorage.setItem("editorContent", JSON.stringify(editor.getJSON()));
+      }
     },
   });
 
