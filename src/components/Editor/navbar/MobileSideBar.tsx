@@ -1,5 +1,9 @@
-import { X, Download, MousePointerClick, Info } from "lucide-react";
+import { X, Download, MousePointerClick, Info, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { handleUpload } from "@/lib/upload";
+import { useEditorStore } from "@/store/EditroStore";
+import ExportDialog from "./ExportDialog";
+import { useState } from "react";
 
 interface MobileSideBarProps {
   open: boolean;
@@ -7,6 +11,14 @@ interface MobileSideBarProps {
 }
 
 const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
+  const { editor } = useEditorStore();
+  const [isOpen, setIsOpen] = useState({
+    contentType: "",
+    isOpen: false,
+    content: "",
+  });
+
+  if (!editor) return null;
   return (
     <div
       className={cn(
@@ -36,31 +48,100 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
         {/* Menu */}
         <ul className="p-4 space-y-3 text-white md:hidden">
           <li className="group">
-            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer" aria-label="تصدير كملف HTML">
+            <button
+              className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
+              aria-label="تصدير كملف HTML"
+              onClick={() => {
+                setIsOpen({
+                  contentType: "HTML",
+                  isOpen: true,
+                  content: editor?.getHTML() || "",
+                });
+              }}
+            >
               <Download className="size-6 text-blue-200" />
               <span className="font-dubai-medium text-lg">تصدير كملف HTML</span>
             </button>
           </li>
           <li className="group">
-            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer" aria-label="تصدير كملف MD">
+            <button
+              className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
+              aria-label="تصدير كملف MD"
+              onClick={() => {
+                setIsOpen({
+                  contentType: "MD",
+                  isOpen: true,
+                  content: (editor?.storage as any)?.markdown?.getMarkdown?.() || "",
+                });
+              }}
+            >
               <Download className="size-6 text-blue-200" />
               <span className="font-dubai-medium text-lg">تصدير كملف MD</span>
             </button>
           </li>
+          {/* upload from sidebar */}
           <li className="group">
-            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer" aria-label="طريقة الاستخدام">
+            <label
+              htmlFor="file-upload"
+              className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
+              aria-label="استيراد ملف"
+            >
+              <Upload className="size-6 text-blue-200" />
+              <span className="font-dubai-medium text-lg">استيراد ملف</span>
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              accept=".txt,.md,.html,.json"
+              className="hidden"
+              onChange={(e) => {
+                handleUpload(e, editor);
+                setOpen(false);
+              }}
+            />
+          </li>
+
+          <li className="group">
+            <button
+              className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
+              aria-label="طريقة الاستخدام"
+            >
               <Info className="size-6 text-blue-200" />
-              <a href="https://guide.dawin.io/" className="font-dubai-medium text-lg">طريقة الاستخدام</a>
+              <a
+                href="https://guide.dawin.io/"
+                className="font-dubai-medium text-lg"
+              >
+                طريقة الاستخدام
+              </a>
             </button>
           </li>
           <li className="group">
-            <button className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer" aria-label="حول المحرّر">
+            <button
+              className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
+              aria-label="حول المحرّر"
+            >
               <MousePointerClick className="size-6 text-blue-200" />
-              <a href="https://www.dawin.io/about" className="font-dubai-medium text-lg">حول المحرّر</a>
+              <a
+                href="https://www.dawin.io/about"
+                className="font-dubai-medium text-lg"
+              >
+                حول المحرّر
+              </a>
             </button>
           </li>
         </ul>
       </div>
+
+      <ExportDialog
+        contentType={isOpen.contentType}
+        isOpen={isOpen.isOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setIsOpen({ contentType: "", isOpen: false, content: "" });
+          }
+        }}
+        content={isOpen.content}
+      />
     </div>
   );
 };

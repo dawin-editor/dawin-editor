@@ -3,6 +3,7 @@
 import * as React from "react";
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
 import { useEditorStore } from "@/store/EditroStore";
+import { Markdown } from "tiptap-markdown";
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit";
@@ -13,9 +14,9 @@ import { Typography } from "@tiptap/extension-typography";
 import { Highlight } from "@tiptap/extension-highlight";
 import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
-import { Selection } from "@tiptap/extensions";
+import { CharacterCount, Selection } from "@tiptap/extensions";
 import { TextStyleKit } from "@tiptap/extension-text-style";
-
+import { MarkdownPaste } from "@/extensions/MarkdownPaste";
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button";
 import { Spacer } from "@/components/tiptap-ui-primitive/spacer";
@@ -75,7 +76,6 @@ import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
 import "@/components/tiptap-templates/simple/simple-editor.scss";
 
 import content from "@/components/tiptap-templates/simple/data/content.json";
-import { Copy } from "lucide-react";
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -221,6 +221,9 @@ export function SimpleEditor() {
           enableClickSelection: true,
         },
       }),
+      CharacterCount,
+      Markdown,
+      MarkdownPaste,
       HorizontalRule,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
@@ -240,15 +243,35 @@ export function SimpleEditor() {
       }),
       TextStyleKit,
     ],
-    content,
+    // **Initialize content from localStorage if available**
+    content: (() => {
+      // Clear localStorage for testing - remove this line later
+      // localStorage.removeItem("editorContent");
+    
+      const saved = localStorage.getItem("editorContent");
+      console.log("Saved content:", saved);
+    
+      if (saved) {
+        try {
+          return JSON.parse(saved); // parse saved string
+        } catch (e) {
+          console.error("Failed to parse saved content:", e);
+        }
+      }
+    
+      // If localStorage is empty or invalid, render content.json structure
+      console.log("Rendering content.json structure");
+      return content; // return as object, not JSON string
+    })(),
+    
+
     onCreate({ editor }) {
       setEditor(editor);
+      localStorage.setItem("editorContent", JSON.stringify(editor.getJSON()));
     },
-    onUpdate: ({ editor }) => {
+    onUpdate({ editor }) {
       setEditor(editor);
-    },
-    onDestroy: () => {
-      setEditor(null);
+      localStorage.setItem("editorContent", JSON.stringify(editor.getJSON()));
     },
   });
 
@@ -263,9 +286,11 @@ export function SimpleEditor() {
       <EditorContext.Provider value={{ editor }}>
         <Toolbar
           ref={toolbarRef}
-          className="sticky top-0 z-20 h-[var(--tt-toolbar-height)] supports-[backdrop-filter]:bg-white/60"
+          className="sticky top-0 z-20 flex items-start justify-center p-0"
+          variant="fixed"
           style={{
             background: "#F3F4F6",
+            height: "var(--tt-toolbar-height)",
           }}
         >
           {mobileView === "main" ? (
@@ -287,7 +312,7 @@ export function SimpleEditor() {
         >
           <EditorContent
             editor={editor}
-            className="simple-editor-content "
+            className="simple-editor-content"
             dir="rtl"
           />
         </div>

@@ -1,7 +1,7 @@
 /* Removed Google Fonts to avoid render-blocking; rely on system/local fonts */
 
 body {
-  --tt-toolbar-height: 48px;
+  --tt-toolbar-height: 2.75rem;
   --tt-theme-text: var(--tt-gray-light-900);
   --tt-scrollbar-color: #2368A1; /* blue-700 */
 
@@ -30,7 +30,7 @@ html,
 body,
 #root,
 #app {
-  height: 100%;
+  height: 100dvh;
   background-color: var(--tt-bg-color);
 }
 
@@ -66,12 +66,17 @@ body,
   flex-direction: column;
   width: 100%;
   height: 100%;
+  @media (max-width: 768px) {
+    height: 100%;
+    overflow: hidden;
+  }
 }
 
 .simple-editor-content {
   max-width: 1000px;
   margin: 0 auto;
   .tiptap.ProseMirror.simple-editor {
+    height: 80dvh;
     flex: 1;
     /* padding: block start/end | inline */
     padding-block: 2rem ;
@@ -188,4 +193,11 @@ body,
   min-height: 0; /* allow child to shrink and enable scrolling */
   -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
   overscroll-behavior: contain; /* stop scroll chaining */
+  
+  @media (max-width: 768px) {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
 }

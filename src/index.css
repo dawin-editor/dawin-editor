@@ -271,3 +271,44 @@ h6 {
     font-family: var(--font-samim), sans-serif;
   }
 }
+
+/* Mobile viewport handling for keyboard */
+@supports (height: 100dvh) {
+  html, body, #root {
+    height: 100dvh;
+  }
+}
+
+/* Prevent toolbar movement on mobile keyboard */
+@media (max-width: 768px) {
+  html {
+    /* Use fixed viewport units to prevent keyboard interference */
+    height: 100vh;
+    height: 100dvh;
+  }
+  
+  body {
+    /* Prevent body from resizing when keyboard appears */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+  
+  #root {
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .mobile-layout {
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .mobile-content {
+    overflow: hidden;
+    position: relative;
+  }
+}
