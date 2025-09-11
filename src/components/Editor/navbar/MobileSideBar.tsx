@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { handleUpload } from "@/lib/upload";
 import { useEditorStore } from "@/store/EditroStore";
 import ExportDialog from "./ExportDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface MobileSideBarProps {
   open: boolean;
@@ -18,19 +18,34 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
     content: "",
   });
 
+  // Lock scroll on mobile when sidebar is open
+  useEffect(() => {
+    if (open) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [open]);
+
   if (!editor) return null;
   return (
     <div
+      onClick={() => setOpen(false)}
       className={cn(
-        "fixed inset-0 z-50 transition-colors duration-300 md:hidden",
-        open ? "bg-black/80" : "pointer-events-none bg-transparent"
+        "fixed inset-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] md:hidden",
+        open ? "bg-black/80 backdrop-blur-sm" : "pointer-events-none bg-transparent"
       )}
     >
       {/* Sidebar container */}
       <div
         dir="rtl"
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
         className={cn(
-          "fixed top-0 right-0 h-full w-8/9 bg-main-blue shadow-xl transition-transform duration-300 ease-in-out md:hidden",
+          "fixed top-0 right-0 h-full w-8/9 bg-main-blue shadow-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform transform-gpu md:hidden",
           open ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -71,7 +86,9 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
                 setIsOpen({
                   contentType: "MD",
                   isOpen: true,
-                  content: (editor?.storage as any)?.markdown?.getMarkdown?.() || "",
+                  content:
+                    (editor?.storage as unknown as { markdown?: { getMarkdown?: () => string } })
+                      ?.markdown?.getMarkdown?.() || "",
                 });
               }}
             >

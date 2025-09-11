@@ -166,8 +166,7 @@
   ::before,
   ::after {
     box-sizing: border-box;
-    transition: none var(--tt-transition-duration-default)
-      var(--tt-transition-easing-default);
+    /* Do not set any global transition defaults to avoid unwanted animations */
   }
 }
 
