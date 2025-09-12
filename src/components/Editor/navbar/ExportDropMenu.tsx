@@ -10,7 +10,6 @@ import { useState } from "react";
 import { useEditorStore } from "@/store/EditroStore";
 import UploadFile from "./UploadFile";
 
-
 const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
   const [isOpen, setIsOpen] = useState({
     contentType: "",
@@ -44,6 +43,10 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
 
         <DropdownMenuContent align="end" sideOffset={8} className="py-1 w-45 ">
           <DropdownMenuItem asChild>
+            <UploadFile />
+          </DropdownMenuItem>
+
+          <DropdownMenuItem asChild>
             <span
               className="flex items-center justify-end px-3 py-2 cursor-pointer gap-1.5"
               onClick={() =>
@@ -68,7 +71,8 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
                 setIsOpen({
                   contentType: "MD",
                   isOpen: true,
-                  content: (editor?.storage as any)?.markdown?.getMarkdown?.() || "",
+                  content:
+                    (editor?.storage as any)?.markdown?.getMarkdown?.() || "",
                 })
               }
             >
@@ -78,11 +82,6 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
               <CodeXml className="size-5 translate-y-[0.5px]" opacity={0.6} />
             </span>
           </DropdownMenuItem>
-
-          <DropdownMenuItem asChild>
-            <UploadFile/>
-          </DropdownMenuItem>
-          
         </DropdownMenuContent>
       </DropdownMenu>
 

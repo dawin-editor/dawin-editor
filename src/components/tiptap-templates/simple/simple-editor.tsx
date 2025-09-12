@@ -17,6 +17,7 @@ import { Superscript } from "@tiptap/extension-superscript";
 import { CharacterCount, Selection } from "@tiptap/extensions";
 import { TextStyleKit } from "@tiptap/extension-text-style";
 import { MarkdownPaste } from "@/extensions/MarkdownPaste";
+
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button";
 import { Spacer } from "@/components/tiptap-ui-primitive/spacer";
@@ -76,6 +77,7 @@ import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
 import "@/components/tiptap-templates/simple/simple-editor.scss";
 
 import content from "@/components/tiptap-templates/simple/data/content.json";
+import EraserButton from "@/components/tiptap-ui/eraser-button/Eraser-button";
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -89,16 +91,15 @@ const MainToolbarContent = ({
   return (
     <>
       <Spacer />
-
-      {/* History Actions - Most commonly used */}
       <ToolbarGroup>
         <UndoRedoButton action="undo" />
         <UndoRedoButton action="redo" />
+        <EraserButton />
       </ToolbarGroup>
 
       <ToolbarSeparator />
 
-      {/* Text Formatting - Core Arabic text formatting */}
+      {/* 2. Core text formatting */}
       <ToolbarGroup>
         <MarkButton type="bold" />
         <MarkButton type="italic" />
@@ -106,26 +107,19 @@ const MainToolbarContent = ({
         <MarkButton type="strike" />
       </ToolbarGroup>
 
-      <ToolbarSeparator />
-
-      {/* Font Controls - Essential for Arabic typography */}
+      {/* 3. Arabic typography (important, keep visible) */}
       <ToolbarGroup>
         <FontFamilyDropdown portal={isMobile} />
         <FontSizeDropdown />
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      {/* Text Alignment - Important for Arabic RTL text */}
-      <ToolbarGroup>
         <TextAlignDropdownMenu
           aligns={["right", "center", "left", "justify"]}
           portal={isMobile}
         />
       </ToolbarGroup>
+
       <ToolbarSeparator />
 
-      {/* Document Structure - Headings and lists */}
+      {/* 4. Document structure */}
       <ToolbarGroup>
         <HeadingDropdownMenu levels={[1, 2, 3, 4]} portal={isMobile} />
         <ListDropdownMenu
@@ -137,7 +131,7 @@ const MainToolbarContent = ({
 
       <ToolbarSeparator />
 
-      {/* Advanced Formatting */}
+      {/* 5. Advanced formatting - less common */}
       <ToolbarGroup>
         <MarkButton type="code" />
         <MarkButton type="superscript" />
@@ -147,7 +141,7 @@ const MainToolbarContent = ({
 
       <ToolbarSeparator />
 
-      {/* Interactive Elements */}
+      {/* 6. Interactive elements */}
       <ToolbarGroup>
         {!isMobile ? (
           <ColorHighlightPopover />
@@ -246,12 +240,9 @@ export function SimpleEditor() {
     // **Initialize content from localStorage if available**
     content: (() => {
       const saved = localStorage.getItem("editorContent");
-      console.log("Saved content:");
-
       if (saved) {
         return JSON.parse(saved); // load saved content
       }
-
       return content;
     })(),
 
@@ -261,7 +252,6 @@ export function SimpleEditor() {
 
     onUpdate({ editor }) {
       setEditor(editor);
-
       const text = editor.getText().trim();
       if (!text) {
         // Remove storage if editor is empty
@@ -270,6 +260,7 @@ export function SimpleEditor() {
         // Save content if not empty
         localStorage.setItem("editorContent", JSON.stringify(editor.getJSON()));
       }
+      console.log(text.split(" "));
     },
   });
 
@@ -312,6 +303,7 @@ export function SimpleEditor() {
             editor={editor}
             className="simple-editor-content"
             dir="rtl"
+            spellCheck="true"
           />
         </div>
       </EditorContext.Provider>
