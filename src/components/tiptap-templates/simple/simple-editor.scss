@@ -66,17 +66,18 @@ body,
   flex-direction: column;
   width: 100%;
   height: 100%;
-  @media (max-width: 768px) {
-    height: 100%;
-    overflow: hidden;
-  }
+  // @media (max-width: 768px) {
+  //   height: 100%;
+  //   overflow: hidden;
+  // }
 }
 
 .simple-editor-content {
   max-width: 1000px;
   margin: 0 auto;
+  background: #b8f0f0;
   .tiptap.ProseMirror.simple-editor {
-    height: 80dvh;
+    // height: 10dvh;
     flex: 1;
     /* padding: block start/end | inline */
     padding-block: 2rem ;
@@ -188,16 +189,16 @@ body,
   }
 }
 
-.editor-scroll-area {
-  flex: 1 1 auto;
-  min-height: 0; /* allow child to shrink and enable scrolling */
-  -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
-  overscroll-behavior: contain; /* stop scroll chaining */
+// .editor-scroll-area {
+//   flex: 1 1 auto;
+//   // min-height: 0; /* allow child to shrink and enable scrolling */
+//   -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+//   overscroll-behavior: contain; /* stop scroll chaining */
   
-  @media (max-width: 768px) {
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
-}
+//   @media (max-width: 768px) {
+//     height: 100%;
+//     overflow-y: auto;
+//     overflow-x: hidden;
+//     -webkit-overflow-scrolling: touch;
+//   }
+// }

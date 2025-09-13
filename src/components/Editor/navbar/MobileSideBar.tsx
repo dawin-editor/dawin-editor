@@ -83,7 +83,6 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               }}
             />
           </li>
-
           <li className="group">
             <button
               className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
