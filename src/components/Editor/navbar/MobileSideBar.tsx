@@ -62,6 +62,28 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
 
         {/* Menu */}
         <ul className="p-4 space-y-3 text-white md:hidden">
+             {/* upload from sidebar */}
+             <li className="group">
+            <label
+              htmlFor="file-upload"
+              className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
+              aria-label="استيراد ملف"
+            >
+              <Upload className="size-6 text-blue-200" />
+              <span className="font-dubai-medium text-lg">استيراد ملف</span>
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              accept=".txt,.md,.html,.json"
+              className="hidden"
+              onChange={(e) => {
+                handleUpload(e, editor);
+                setOpen(false);
+              }}
+            />
+          </li>
+
           <li className="group">
             <button
               className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
@@ -96,28 +118,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               <span className="font-dubai-medium text-lg">تصدير كملف MD</span>
             </button>
           </li>
-          {/* upload from sidebar */}
-          <li className="group">
-            <label
-              htmlFor="file-upload"
-              className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
-              aria-label="استيراد ملف"
-            >
-              <Upload className="size-6 text-blue-200" />
-              <span className="font-dubai-medium text-lg">استيراد ملف</span>
-            </label>
-            <input
-              id="file-upload"
-              type="file"
-              accept=".txt,.md,.html,.json"
-              className="hidden"
-              onChange={(e) => {
-                handleUpload(e, editor);
-                setOpen(false);
-              }}
-            />
-          </li>
-
+       
           <li className="group">
             <button
               className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
