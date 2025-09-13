@@ -1,25 +1,44 @@
-import { Eraser } from "lucide-react";
-import { useEditorStore } from "@/store/EditroStore";
-import { Button } from "@/components/tiptap-ui-primitive/button";
+"use client"
 
-const EraserButton = () => {
-  const { editor } = useEditorStore();
-  const handleErase = () => {
-    editor?.commands.clearContent();
-  };
-  return (
-    <Button
-      type="button"
-      data-style="ghost"
-      role="button"
-      tabIndex={-1}
-      aria-label="Clear all content"
-      tooltip="Clear all content"
-      onClick={handleErase}
-    >
-      <Eraser className="tiptap-button-icon" />
-    </Button>
-  );
-};
+import * as React from "react"
+import { Eraser } from "lucide-react"
+import { useEditorStore } from "@/store/EditroStore"
+import { Button } from "@/components/tiptap-ui-primitive/button"
 
-export default EraserButton;
+export interface EraserButtonProps {
+  /**
+   * Optional tooltip text for the button.
+   * @default "مسح المحتوى"
+   */
+  tooltip?: string
+}
+
+const EraserButton = React.forwardRef<HTMLButtonElement, EraserButtonProps>(
+  ({ tooltip = "مسح المحتوى", ...props }, ref) => {
+    const { editor } = useEditorStore()
+
+    const handleErase = React.useCallback(() => {
+      editor?.commands.clearContent()
+    }, [editor])
+
+    return (
+      <Button
+        type="button"
+        data-style="ghost"
+        role="button"
+        tabIndex={-1}
+        aria-label={tooltip}
+        tooltip={tooltip} // ✅ نفس pattern زي MarkButton
+        onClick={handleErase}
+        ref={ref}
+        {...props}
+      >
+        <Eraser className="tiptap-button-icon" />
+      </Button>
+    )
+  }
+)
+
+EraserButton.displayName = "EraserButton"
+
+export default EraserButton

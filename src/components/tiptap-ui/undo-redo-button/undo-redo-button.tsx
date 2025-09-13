@@ -35,6 +35,10 @@ export interface UndoRedoButtonProps
    * @default false
    */
   showShortcut?: boolean
+  /**
+   * Optional tooltip text to display alongside the icon.
+   */
+  tooltip?: string
 }
 
 export function HistoryShortcutBadge({
@@ -66,6 +70,7 @@ export const UndoRedoButton = React.forwardRef<
       showShortcut = false,
       onClick,
       children,
+      tooltip,
       ...buttonProps
     },
     ref
@@ -101,7 +106,7 @@ export const UndoRedoButton = React.forwardRef<
         role="button"
         tabIndex={-1}
         aria-label={label}
-        tooltip={label}
+        tooltip={tooltip}
         onClick={handleClick}
         {...buttonProps}
         ref={ref}

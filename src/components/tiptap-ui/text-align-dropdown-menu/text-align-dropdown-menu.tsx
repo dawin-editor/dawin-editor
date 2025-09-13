@@ -90,7 +90,7 @@ export function TextAlignDropdownMenu({
           disabled={!canToggle}
           data-disabled={!canToggle}
           aria-label="Text alignment options"
-          tooltip="Text Alignment"
+          tooltip="محاذاة النص"
           {...props}
         >
           <Icon className="tiptap-button-icon" />

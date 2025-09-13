@@ -84,10 +84,10 @@ export function FontFamilyDropdown({
   )
 
   const getCurrentFontFamily = React.useCallback(() => {
-    if (!editor) return "نوع الخط"
+    if (!editor) return " الخط"
     
     const fontFamily = editor.getAttributes("textStyle").fontFamily
-    return fontFamily || "نوع الخط"
+    return fontFamily || " الخط"
   }, [editor])
 
   if (!editor || !editor.isEditable) {
@@ -103,7 +103,7 @@ export function FontFamilyDropdown({
           role="button"
           tabIndex={-1}
           aria-label="Font family options"
-          tooltip="Font Family"
+          tooltip="نوع الخط"
           {...props}
         >
           <span className="tiptap-button-text" style={{ fontFamily: getCurrentFontFamily() }}>

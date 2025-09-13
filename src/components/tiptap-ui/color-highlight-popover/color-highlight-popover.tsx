@@ -73,7 +73,7 @@ export const ColorHighlightPopoverButton = React.forwardRef<
     role="button"
     tabIndex={-1}
     aria-label="Highlight text"
-    tooltip="Highlight"
+    tooltip="تمييز النص"
     ref={ref}
     {...props}
   >
@@ -192,7 +192,7 @@ export function ColorHighlightPopover({
           data-disabled={!canColorHighlight}
           aria-pressed={isActive}
           aria-label={label}
-          tooltip={label}
+          tooltip="تمييز النص"
           {...props}
         >
           <Icon className="tiptap-button-icon" />

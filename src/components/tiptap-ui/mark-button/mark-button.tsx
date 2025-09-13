@@ -29,6 +29,11 @@ export interface MarkButtonProps
    * @default false
    */
   showShortcut?: boolean
+  /**
+   * Optional tooltip text for the button.
+   * @default "Text Mailing"
+   */
+  tooltip?: string
 }
 
 export function MarkShortcutBadge({
@@ -57,7 +62,8 @@ export const MarkButton = React.forwardRef<HTMLButtonElement, MarkButtonProps>(
       showShortcut = false,
       onClick,
       children,
-      ...buttonProps
+      tooltip,
+        ...buttonProps
     },
     ref
   ) => {
@@ -101,7 +107,7 @@ export const MarkButton = React.forwardRef<HTMLButtonElement, MarkButtonProps>(
         tabIndex={-1}
         aria-label={label}
         aria-pressed={isActive}
-        tooltip={label}
+        tooltip={tooltip}
         onClick={handleClick}
         {...buttonProps}
         ref={ref}

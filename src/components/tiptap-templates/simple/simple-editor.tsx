@@ -96,11 +96,11 @@ const MainToolbarContent = ({
     <>
       <Spacer />
       {/* Group 6: Editor actions (Blockquote, Paste, Clear, Redo, Undo) */}
-      <ToolbarGroup>
-        <PasteButton />
-        <EraserButton />
-        <UndoRedoButton action="redo" />
-        <UndoRedoButton action="undo" />
+      <ToolbarGroup >
+        <PasteButton tooltip="لصق كنص عادي" />
+        <EraserButton tooltip="مسح النص"/>
+        <UndoRedoButton action="redo" tooltip="إعادة" />
+        <UndoRedoButton action="undo" tooltip="تراجع" />
       </ToolbarGroup>
       <ToolbarSeparator />
       {/* Group 5: Font styling (Family, Size) */}
@@ -111,21 +111,21 @@ const MainToolbarContent = ({
       <ToolbarSeparator />
       {/* Group 4: Text decorations (Subscript, Superscript, Code, Strikethrough, Underline) */}
       <ToolbarGroup>
-        <MarkButton type="subscript" />
-        <MarkButton type="superscript" />
+        <MarkButton type="subscript" tooltip="نص سفلي" />
+        <MarkButton type="superscript" tooltip="نص علوي" />
         
         <CodeBlockButton />
         <BlockquoteButton />
 
-        <MarkButton type="code" />
-        <MarkButton type="strike" />
-        <MarkButton type="underline" />
+        <MarkButton type="code" tooltip="كود برمجي" />
+        <MarkButton type="strike" tooltip="نص مشطوب" />
+        <MarkButton type="underline" tooltip=" تسطير النص" />
       </ToolbarGroup>
       <ToolbarSeparator />
       {/* Group 3: Media and highlighting (Highlighter, Image) */}
       <ToolbarGroup>
         {!isMobile ? (
-          <ColorHighlightPopover />
+          <ColorHighlightPopover  />
         ) : (
           <ColorHighlightPopoverButton onClick={onHighlighterClick} />
         )}
@@ -148,8 +148,8 @@ const MainToolbarContent = ({
       {/* Group 1: Core text formatting (Link, Italic, Bold) */}
       <ToolbarGroup>
         {!isMobile ? <LinkPopover /> : <LinkButton onClick={onLinkClick} />}
-        <MarkButton type="italic" />
-        <MarkButton type="bold" />
+        <MarkButton type="italic" tooltip="نص مائل" />
+        <MarkButton type="bold" tooltip="نص غامق" />
       </ToolbarGroup>
       <Spacer />
     </>

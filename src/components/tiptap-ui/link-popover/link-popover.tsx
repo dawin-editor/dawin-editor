@@ -87,7 +87,7 @@ export const LinkButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         role="button"
         tabIndex={-1}
         aria-label="Link"
-        tooltip="Link"
+        tooltip="رابط"
         ref={ref}
         {...props}
       >

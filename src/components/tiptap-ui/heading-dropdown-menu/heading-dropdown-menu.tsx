@@ -90,7 +90,7 @@ export const HeadingDropdownMenu = React.forwardRef<
             data-disabled={!canToggle}
             aria-label="Format text as heading"
             aria-pressed={isActive}
-            tooltip="Heading"
+            tooltip="رؤوس/عناوين"
             {...buttonProps}
             ref={ref}
           >

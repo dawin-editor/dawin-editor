@@ -35,9 +35,16 @@ const EyePen = ({
       size={size === "icon" ? "icon" : "default"}
     >
       {preview ? (
-        <Eye className={IconsStyle} strokeWidth={IconsStroke} />
+        <SquarePen
+          className={IconsStyle}
+          strokeWidth={IconsStroke}
+          onClick={() => editor?.commands.focus("end")}
+        />
       ) : (
-        <SquarePen className={IconsStyle} strokeWidth={IconsStroke} />
+        <Eye
+          className={IconsStyle}
+          strokeWidth={IconsStroke}
+        />
       )}
     </Button>
   );

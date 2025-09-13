@@ -101,7 +101,7 @@ export const ImageUploadButton = React.forwardRef<
         data-disabled={!canInsert}
         aria-label={label}
         aria-pressed={isActive}
-        tooltip={label}
+        tooltip="إدراج صورة"
         onClick={handleClick}
         {...buttonProps}
         ref={ref}
