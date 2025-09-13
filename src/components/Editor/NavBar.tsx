@@ -1,18 +1,22 @@
 import TopNavBar from "./navbar/TopNavBar";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { PanelTopClose, PanelTopOpen, Expand,Shrink } from "lucide-react";
+import { PanelTopClose, PanelTopOpen, Expand, Shrink } from "lucide-react";
+import EyePen from "./navbar/EyePen";
 
 const NavBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
 
   return (
-    <div className="navbar bg-main-blue text-primary-content w-[100vw]" dir="rtl" >
+    <div
+      className="navbar bg-main-blue text-primary-content w-[100vw]"
+      dir="rtl"
+    >
       <TopNavBar isCollapsed={isCollapsed} />
 
       <div className="bg-white h-20 flex flex-row justify-between items-center p-6">
-      <div className="flex flex-col items-start gap-1">
+        <div className="flex flex-col items-start gap-1">
           <span className="font-dubai-regular text-sm text-[#6B7280]">
             عنوان المستند
           </span>
@@ -40,6 +44,7 @@ const NavBar = () => {
               <Expand className="size-5.5 text-icons-color" strokeWidth={2} />
             )}
           </Button>
+  {/* ******************************************* */}
           <Button
             variant="secondary"
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -58,8 +63,15 @@ const NavBar = () => {
               />
             )}
           </Button>
+{/* ********************************************* */}
+          <EyePen
+            className="size-8 bg-icons-bg hover:bg-icons-color-hover hidden md:flex"
+            variant="secondary"
+            size="icon"
+            IconsStyle="size-5.5 text-icons-color"
+            IconsStroke={2}
+          />
         </div>
-       
       </div>
     </div>
   );

@@ -1,11 +1,10 @@
 import ExportDropMenu from "./ExportDropMenu";
 import { cn } from "@/lib/utils";
-import {  Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import MobileSideBar from "./MobileSideBar";
-
+import EyePen from "./EyePen";
 const TopNavBar = ({ isCollapsed }: { isCollapsed: boolean }) => {
-  // const [isEditing, setIsEditing] = useState(false);
   const [isMobileSideBarOpen, setIsMobileSideBarOpen] = useState(false);
   return (
     <nav
@@ -45,19 +44,13 @@ const TopNavBar = ({ isCollapsed }: { isCollapsed: boolean }) => {
         </div>
 
         {/* visible on phones, hidden from md (>=768px) */}
-        {/* <div className="flex items-center gap-4 md:hidden">
-          <ExportDropMenu isMobile />
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="p-2 rounded-lg hover:bg-white/10 transition-colors"
-          >
-            {isEditing ? (
-              <Eye className="w-5 h-5 text-white" strokeWidth={2} />
-            ) : (
-              <SquarePen className="w-5 h-5 text-white" strokeWidth={2.1} />
-            )}
-          </button>
-        </div> */}
+        <EyePen
+          className="size-8  flex md:hidden"
+          variant="ghost"
+          size="icon"
+          IconsStyle="size-5.5 text-white"
+          IconsStroke={2}
+        />
       </div>
     </nav>
   );

@@ -59,6 +59,7 @@ import { TextAlignDropdownMenu } from "@/components/tiptap-ui/text-align-dropdow
 import { FontFamilyDropdown } from "@/components/tiptap-ui/font-family-dropdown";
 import { UndoRedoButton } from "@/components/tiptap-ui/undo-redo-button";
 import { FontSizeDropdown } from "@/components/tiptap-ui/font-size-dropdown";
+// import TextDirection from "tiptap-text-direction";
 
 // --- Icons ---
 import { ArrowLeftIcon } from "@/components/tiptap-icons/arrow-left-icon";
@@ -78,6 +79,9 @@ import "@/components/tiptap-templates/simple/simple-editor.scss";
 
 import content from "@/components/tiptap-templates/simple/data/content.json";
 import EraserButton from "@/components/tiptap-ui/eraser-button/Eraser-button";
+import PasteButton from "@/components/tiptap-ui/paste-button/paste-button";
+import { cn } from "@/lib/tiptap-utils";
+import { usePreviewStore } from "@/store/preview";
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -91,67 +95,62 @@ const MainToolbarContent = ({
   return (
     <>
       <Spacer />
+      {/* Group 6: Editor actions (Blockquote, Paste, Clear, Redo, Undo) */}
       <ToolbarGroup>
-        <UndoRedoButton action="undo" />
-        <UndoRedoButton action="redo" />
+        <PasteButton />
         <EraserButton />
+        <UndoRedoButton action="redo" />
+        <UndoRedoButton action="undo" />
       </ToolbarGroup>
-
       <ToolbarSeparator />
-
-      {/* 2. Core text formatting */}
-      <ToolbarGroup>
-        <MarkButton type="bold" />
-        <MarkButton type="italic" />
-        <MarkButton type="underline" />
-        <MarkButton type="strike" />
-      </ToolbarGroup>
-
-      {/* 3. Arabic typography (important, keep visible) */}
+      {/* Group 5: Font styling (Family, Size) */}
       <ToolbarGroup>
         <FontFamilyDropdown portal={isMobile} />
         <FontSizeDropdown />
-        <TextAlignDropdownMenu
-          aligns={["right", "center", "left", "justify"]}
-          portal={isMobile}
-        />
       </ToolbarGroup>
-
       <ToolbarSeparator />
-
-      {/* 4. Document structure */}
+      {/* Group 4: Text decorations (Subscript, Superscript, Code, Strikethrough, Underline) */}
       <ToolbarGroup>
-        <HeadingDropdownMenu levels={[1, 2, 3, 4]} portal={isMobile} />
-        <ListDropdownMenu
-          types={["bulletList", "orderedList", "taskList"]}
-          portal={isMobile}
-        />
-        <BlockquoteButton />
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      {/* 5. Advanced formatting - less common */}
-      <ToolbarGroup>
-        <MarkButton type="code" />
-        <MarkButton type="superscript" />
         <MarkButton type="subscript" />
+        <MarkButton type="superscript" />
+        
         <CodeBlockButton />
+        <BlockquoteButton />
+
+        <MarkButton type="code" />
+        <MarkButton type="strike" />
+        <MarkButton type="underline" />
       </ToolbarGroup>
-
       <ToolbarSeparator />
-
-      {/* 6. Interactive elements */}
+      {/* Group 3: Media and highlighting (Highlighter, Image) */}
       <ToolbarGroup>
         {!isMobile ? (
           <ColorHighlightPopover />
         ) : (
           <ColorHighlightPopoverButton onClick={onHighlighterClick} />
         )}
-        {!isMobile ? <LinkPopover /> : <LinkButton onClick={onLinkClick} />}
         <ImageUploadButton text="صورة" />
       </ToolbarGroup>
-
+      <ToolbarSeparator />
+      {/* Group 2: Document structure (Alignment, Lists, Headings) */}
+      <ToolbarGroup>
+        <TextAlignDropdownMenu
+          aligns={["right", "center", "left", "justify"]}
+          portal={isMobile}
+        />
+        <ListDropdownMenu
+          types={["bulletList", "orderedList", "taskList"]}
+          portal={isMobile}
+        />
+        <HeadingDropdownMenu levels={[1, 2, 3, 4]} portal={isMobile} />
+      </ToolbarGroup>
+      <ToolbarSeparator />
+      {/* Group 1: Core text formatting (Link, Italic, Bold) */}
+      <ToolbarGroup>
+        {!isMobile ? <LinkPopover /> : <LinkButton onClick={onLinkClick} />}
+        <MarkButton type="italic" />
+        <MarkButton type="bold" />
+      </ToolbarGroup>
       <Spacer />
     </>
   );
@@ -194,6 +193,7 @@ export function SimpleEditor() {
   const toolbarRef = React.useRef<HTMLDivElement>(null);
 
   const { setEditor } = useEditorStore();
+  const { preview } = usePreviewStore();
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -215,6 +215,7 @@ export function SimpleEditor() {
           enableClickSelection: true,
         },
       }),
+      // TextDirection,
       CharacterCount,
       Markdown,
       MarkdownPaste,
@@ -250,17 +251,16 @@ export function SimpleEditor() {
       setEditor(editor);
     },
 
-    onUpdate({ editor }) {
+    onUpdate: async ({ editor }) => {
       setEditor(editor);
       const text = editor.getText().trim();
+
       if (!text) {
-        // Remove storage if editor is empty
         localStorage.removeItem("editorContent");
-      } else {
-        // Save content if not empty
-        localStorage.setItem("editorContent", JSON.stringify(editor.getJSON()));
+        return;
       }
-      console.log(text.split(" "));
+
+      localStorage.setItem("editorContent", JSON.stringify(editor.getJSON()));
     },
   });
 
@@ -275,11 +275,12 @@ export function SimpleEditor() {
       <EditorContext.Provider value={{ editor }}>
         <Toolbar
           ref={toolbarRef}
-          className="sticky top-0 z-20 flex items-start justify-center p-0"
+          className="sticky top-0 z-20 flex items-start justify-center p-0 "
           variant="fixed"
           style={{
             background: "#F3F4F6",
             height: "var(--tt-toolbar-height)",
+            ...(preview ? { display: "none" } : {}),
           }}
         >
           {mobileView === "main" ? (
@@ -296,14 +297,16 @@ export function SimpleEditor() {
           )}
         </Toolbar>
         <div
-          className="editor-scroll-area overflow-auto"
+          className={cn(
+            "editor-scroll-area overflow-auto",
+            preview ? "bg-[#F4FAFC]" : ""
+          )}
           style={{ fontFamily: "Samim" }}
         >
           <EditorContent
             editor={editor}
             className="simple-editor-content"
             dir="rtl"
-            spellCheck="true"
           />
         </div>
       </EditorContext.Provider>
