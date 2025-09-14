@@ -17,12 +17,11 @@ import { TextStyleKit } from "@tiptap/extension-text-style";
 import { Typography } from "@tiptap/extension-typography";
 import { CharacterCount, Selection } from "@tiptap/extensions";
 import { StarterKit } from "@tiptap/starter-kit";
+import { TableKit } from '@tiptap/extension-table'
+
 
 // --- Tiptap Table Extensions ---
-import { Table } from "@tiptap/extension-table";
-import { TableCell } from "@tiptap/extension-table-cell";
-import { TableHeader } from "@tiptap/extension-table-header";
-import { TableRow } from "@tiptap/extension-table-row";
+
 
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button";
@@ -88,6 +87,9 @@ import EraserButton from "@/components/tiptap-ui/eraser-button/Eraser-button";
 import PasteButton from "@/components/tiptap-ui/paste-button/paste-button";
 import { cn } from "@/lib/tiptap-utils";
 import { usePreviewStore } from "@/store/preview";
+import TableButton from "@/components/tiptap-ui/table-button/table-button";
+import { Placeholder } from '@tiptap/extensions'; // or: import Placeholder from '@tiptap/extension-placeholder';
+
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -102,9 +104,10 @@ const MainToolbarContent = ({
     <>
       <Spacer />
       {/* Group 6: Editor actions (Blockquote, Paste, Clear, Redo, Undo) */}
-      <ToolbarGroup >
+
+      <ToolbarGroup>
         <PasteButton tooltip="لصق كنص عادي" />
-        <EraserButton tooltip="مسح النص"/>
+        <EraserButton tooltip="مسح النص" />
         <UndoRedoButton action="redo" tooltip="إعادة" />
         <UndoRedoButton action="undo" tooltip="تراجع" />
       </ToolbarGroup>
@@ -123,7 +126,9 @@ const MainToolbarContent = ({
 
         <CodeBlockButton />
         <BlockquoteButton />
-
+        <ToolbarGroup>
+          <TableButton />
+        </ToolbarGroup>
         <MarkButton type="code" tooltip="كود برمجي" />
         <MarkButton type="strike" tooltip="نص مشطوب" />
         <MarkButton type="underline" tooltip=" تسطير النص" />
@@ -132,7 +137,7 @@ const MainToolbarContent = ({
       {/* Group 3: Media and highlighting (Highlighter, Image) */}
       <ToolbarGroup>
         {!isMobile ? (
-          <ColorHighlightPopover  />
+          <ColorHighlightPopover />
         ) : (
           <ColorHighlightPopoverButton onClick={onHighlighterClick} />
         )}
@@ -140,6 +145,7 @@ const MainToolbarContent = ({
       </ToolbarGroup>
       <ToolbarSeparator />
       {/* Group 2: Document structure (Alignment, Lists, Headings) */}
+
       <ToolbarGroup>
         <TextAlignDropdownMenu
           aligns={["right", "center", "left", "justify"]}
@@ -223,7 +229,23 @@ export function SimpleEditor() {
         },
       }),
       // TextDirection,
+      TableKit.configure({
+        table: { resizable: false, lastColumnResizable: true },
+      }),
       CharacterCount,
+      Placeholder.configure({
+        // function returns placeholder per node type
+        placeholder: ({ node }) => {
+          if (node.type.name === "tableHeader") return "العمود";
+          if (node.type.name === "tableCell") return "النص";
+          // you can return other defaults for paragraphs etc.
+          return " ";
+        },
+        // show placeholders also for nested nodes (table cell content is nested)
+        includeChildren: true,
+        // show placeholders on all empty nodes (not only the currently selected one)
+        showOnlyCurrent: false,
+      }),
       Markdown,
       MarkdownPaste,
       HorizontalRule,
@@ -244,19 +266,6 @@ export function SimpleEditor() {
         onError: (error) => console.error("Upload failed:", error),
       }),
       TextStyleKit,
-      Table.configure({
-        resizable: true,
-        handleWidth: 5,
-        cellMinWidth: 25,
-        lastColumnResizable: true,
-        allowTableNodeSelection: false,
-        HTMLAttributes: {
-          class: "tiptap-table",
-        },
-      }),
-      TableRow,
-      TableCell,
-      TableHeader,
     ],
     // **Initialize content from localStorage if available**
     content: (() => {
@@ -318,7 +327,7 @@ export function SimpleEditor() {
         </Toolbar>
         <div
           className={cn(
-            "overflow-auto",
+            "overflow-auto flex-1",
             preview ? "bg-[#F4FAFC]" : ""
           )}
           style={{ fontFamily: "Samim" }}

@@ -279,3 +279,52 @@ h6 {
     font-family: var(--font-samim), sans-serif;
   }
 }
+
+
+
+/* show placeholders for table header & cells (works with Placeholder extension) */
+.ProseMirror th p.is-empty::before,
+.ProseMirror td p.is-empty::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  font-style: italic;
+  pointer-events: none;
+  display: inline-block;
+  height: 0;
+}
+
+/* fallback: when placeholder decoration is placed on the cell itself */
+.ProseMirror th.is-empty::before,
+.ProseMirror td.is-empty::before,
+.ProseMirror th[data-placeholder]:empty::before,
+.ProseMirror td[data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  font-style: italic;
+  pointer-events: none;
+  display: inline-block;
+  height: 0;
+}
+
+/* keep your minimal transparent table visuals */
+.ProseMirror table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+  margin: 1em 0;
+  background: transparent;
+}
+.ProseMirror table th,
+.ProseMirror table td {
+  border: none;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  text-align: right;
+  position: relative;
+}
+.ProseMirror table th { font-weight: 600; color: #374151; }
+.ProseMirror table td { color: #6b7280; }
+.ProseMirror table tr:last-child th,
+.ProseMirror table tr:last-child td { border-bottom: none; }
+.ProseMirror table td:hover,
+.ProseMirror table th:hover { background-color: #f9fafb; }
