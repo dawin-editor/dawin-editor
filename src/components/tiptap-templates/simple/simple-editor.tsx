@@ -1,22 +1,28 @@
 "use client";
 
-import * as React from "react";
-import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
 import { useEditorStore } from "@/store/EditroStore";
+import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
+import * as React from "react";
 import { Markdown } from "tiptap-markdown";
 
 // --- Tiptap Core Extensions ---
-import { StarterKit } from "@tiptap/starter-kit";
+import { MarkdownPaste } from "@/extensions/MarkdownPaste";
+import { Highlight } from "@tiptap/extension-highlight";
 import { Image } from "@tiptap/extension-image";
 import { TaskItem, TaskList } from "@tiptap/extension-list";
-import { TextAlign } from "@tiptap/extension-text-align";
-import { Typography } from "@tiptap/extension-typography";
-import { Highlight } from "@tiptap/extension-highlight";
 import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
-import { CharacterCount, Selection } from "@tiptap/extensions";
+import { TextAlign } from "@tiptap/extension-text-align";
 import { TextStyleKit } from "@tiptap/extension-text-style";
-import { MarkdownPaste } from "@/extensions/MarkdownPaste";
+import { Typography } from "@tiptap/extension-typography";
+import { CharacterCount, Selection } from "@tiptap/extensions";
+import { StarterKit } from "@tiptap/starter-kit";
+
+// --- Tiptap Table Extensions ---
+import { Table } from "@tiptap/extension-table";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { TableRow } from "@tiptap/extension-table-row";
 
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button";
@@ -28,43 +34,44 @@ import {
 } from "@/components/tiptap-ui-primitive/toolbar";
 
 // --- Tiptap Node ---
-import { ImageUploadNode } from "@/components/tiptap-node/image-upload-node/image-upload-node-extension";
-import { HorizontalRule } from "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension";
 import "@/components/tiptap-node/blockquote-node/blockquote-node.scss";
 import "@/components/tiptap-node/code-block-node/code-block-node.scss";
-import "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
-import "@/components/tiptap-node/list-node/list-node.scss";
-import "@/components/tiptap-node/image-node/image-node.scss";
 import "@/components/tiptap-node/heading-node/heading-node.scss";
+import { HorizontalRule } from "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension";
+import "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
+import "@/components/tiptap-node/image-node/image-node.scss";
+import { ImageUploadNode } from "@/components/tiptap-node/image-upload-node/image-upload-node-extension";
+import "@/components/tiptap-node/list-node/list-node.scss";
 import "@/components/tiptap-node/paragraph-node/paragraph-node.scss";
 
 // --- Tiptap UI ---
-import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu";
-import { ImageUploadButton } from "@/components/tiptap-ui/image-upload-button";
-import { ListDropdownMenu } from "@/components/tiptap-ui/list-dropdown-menu";
 import { BlockquoteButton } from "@/components/tiptap-ui/blockquote-button";
 import { CodeBlockButton } from "@/components/tiptap-ui/code-block-button";
 import {
   ColorHighlightPopover,
-  ColorHighlightPopoverContent,
   ColorHighlightPopoverButton,
+  ColorHighlightPopoverContent,
 } from "@/components/tiptap-ui/color-highlight-popover";
+import { FontFamilyDropdown } from "@/components/tiptap-ui/font-family-dropdown";
+import { FontSizeDropdown } from "@/components/tiptap-ui/font-size-dropdown";
+import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu";
+import { ImageUploadButton } from "@/components/tiptap-ui/image-upload-button";
 import {
-  LinkPopover,
-  LinkContent,
   LinkButton,
+  LinkContent,
+  LinkPopover,
 } from "@/components/tiptap-ui/link-popover";
+import { ListDropdownMenu } from "@/components/tiptap-ui/list-dropdown-menu";
 import { MarkButton } from "@/components/tiptap-ui/mark-button";
 import { TextAlignDropdownMenu } from "@/components/tiptap-ui/text-align-dropdown-menu";
-import { FontFamilyDropdown } from "@/components/tiptap-ui/font-family-dropdown";
 import { UndoRedoButton } from "@/components/tiptap-ui/undo-redo-button";
-import { FontSizeDropdown } from "@/components/tiptap-ui/font-size-dropdown";
 // import TextDirection from "tiptap-text-direction";
 
 // --- Icons ---
 import { ArrowLeftIcon } from "@/components/tiptap-icons/arrow-left-icon";
 import { HighlighterIcon } from "@/components/tiptap-icons/highlighter-icon";
 import { LinkIcon } from "@/components/tiptap-icons/link-icon";
+import { TableButton } from "@/components/tiptap-ui/table-button";
 
 // --- Hooks ---
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -101,6 +108,11 @@ const MainToolbarContent = ({
         <EraserButton tooltip="مسح النص"/>
         <UndoRedoButton action="redo" tooltip="إعادة" />
         <UndoRedoButton action="undo" tooltip="تراجع" />
+      </ToolbarGroup>
+      <ToolbarSeparator />
+      {/* Group 5.5: Table */}
+      <ToolbarGroup>
+        <TableButton />
       </ToolbarGroup>
       <ToolbarSeparator />
       {/* Group 5: Font styling (Family, Size) */}
@@ -237,6 +249,19 @@ export function SimpleEditor() {
         onError: (error) => console.error("Upload failed:", error),
       }),
       TextStyleKit,
+      Table.configure({
+        resizable: true,
+        handleWidth: 5,
+        cellMinWidth: 25,
+        lastColumnResizable: true,
+        allowTableNodeSelection: false,
+        HTMLAttributes: {
+          class: "tiptap-table",
+        },
+      }),
+      TableRow,
+      TableCell,
+      TableHeader,
     ],
     // **Initialize content from localStorage if available**
     content: (() => {

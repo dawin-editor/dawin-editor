@@ -7,6 +7,14 @@ import EyePen from "./navbar/EyePen";
 const NavBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
+  const [documentTitle, setDocumentTitle] = useState(
+    localStorage.getItem("docTitle") || "مستند بدون عنوان"
+  );
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value;
+    setDocumentTitle(newTitle);
+    localStorage.setItem("docTitle", newTitle);
+  };
 
   return (
     <div
@@ -20,9 +28,12 @@ const NavBar = () => {
           <span className="font-dubai-regular text-sm text-[#6B7280]">
             عنوان المستند
           </span>
-          <span className="font-dubai-regular opacity-90 text-lg text-main-blue">
-            مستند بدون عنوان
-          </span>
+          <input
+            className="font-dubai-regular opacity-90 text-main-blue border-none outline-none"
+            style={{ fontSize: "1.125rem" }}
+            value={documentTitle}
+            onChange={handleTitleChange}
+          />
         </div>
         <div className="flex flex-row justify-between items-center gap-8 *:cursor-pointer">
           <EyePen

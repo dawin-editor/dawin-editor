@@ -86,7 +86,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
       </DropdownMenu>
 
       <ExportDialog
-        contentType={isOpen.contentType}
+        contentType={isOpen.contentType} //HTML or Markdown
         isOpen={isOpen.isOpen}
         onOpenChange={(open) => {
           if (!open) {

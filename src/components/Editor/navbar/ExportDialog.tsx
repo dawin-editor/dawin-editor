@@ -12,33 +12,26 @@ import { Download, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ExportDialogProps {
-  contentType: string;
+  contentType: "HTML" | "Markdown" | ""; // allow empty
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   content: string;
 }
 
 const ExportDialog = ({ contentType, isOpen, onOpenChange, content }: ExportDialogProps) => {
+  const documentTitle = localStorage.getItem("docTitle") || "مستند بدون عنوان";
+
   const handleDownload = () => {
     if (!content) return;
 
-    const fileExtension = contentType.toLowerCase() === "html"
-      ? "html"
-      : contentType.toLowerCase() === "md"
-      ? "md"
-      : "json";
-
-    const mimeType = contentType.toLowerCase() === "html"
-      ? "text/html"
-      : contentType.toLowerCase() === "md"
-      ? "text/markdown"
-      : "application/json";
+    const fileExtension = contentType; // "html" or "md"
+    const mimeType = contentType === "HTML" ? "text/html" : "text/markdown";
 
     const blob = new Blob([content], { type: mimeType });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `document.${fileExtension}`;
+    link.download = `${documentTitle}.${fileExtension}`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -66,7 +59,6 @@ const ExportDialog = ({ contentType, isOpen, onOpenChange, content }: ExportDial
             className="w-full min-h-[260px] max-h-[50vh] rounded-md text-left border border-[var(--border)] bg-[var(--secondary)]/70 dark:bg-[var(--accent)]/10 p-3 text-[0.92rem] font-mono leading-6 outline-none text-foreground/90 selection:bg-cerulean/25 selection:text-foreground/95 resize-vertical"
             value={content || ""}
             placeholder="لا يوجد محتوى للعرض..."
-
           />
         </div>
 
