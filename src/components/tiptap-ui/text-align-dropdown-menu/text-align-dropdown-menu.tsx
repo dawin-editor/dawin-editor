@@ -1,51 +1,54 @@
-import * as React from "react"
-import { type Editor } from "@tiptap/react"
+import { type Editor } from "@tiptap/react";
+import * as React from "react";
 
 // --- Hooks ---
-import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
+import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
 
 // --- Icons ---
-import { ChevronDownIcon } from "@/components/tiptap-icons/chevron-down-icon"
+import { ChevronDownIcon } from "@/components/tiptap-icons/chevron-down-icon";
 
 // --- Tiptap UI ---
-import { TextAlignButton, type TextAlign } from "@/components/tiptap-ui/text-align-button"
+import {
+  TextAlignButton,
+  type TextAlign,
+} from "@/components/tiptap-ui/text-align-button";
 
-import { useTextAlignDropdownMenu } from "./use-text-align-dropdown-menu"
+import { useTextAlignDropdownMenu } from "./use-text-align-dropdown-menu";
 
 // --- UI Primitives ---
-import type { ButtonProps } from "@/components/tiptap-ui-primitive/button"
-import { Button, ButtonGroup } from "@/components/tiptap-ui-primitive/button"
+import type { ButtonProps } from "@/components/tiptap-ui-primitive/button";
+import { Button, ButtonGroup } from "@/components/tiptap-ui-primitive/button";
+import { Card, CardBody } from "@/components/tiptap-ui-primitive/card";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "@/components/tiptap-ui-primitive/dropdown-menu"
-import { Card, CardBody } from "@/components/tiptap-ui-primitive/card"
+  DropdownMenuTrigger,
+} from "@/components/tiptap-ui-primitive/dropdown-menu";
 
 export interface TextAlignDropdownMenuProps extends Omit<ButtonProps, "type"> {
   /**
    * The Tiptap editor instance.
    */
-  editor?: Editor
+  editor?: Editor;
   /**
    * The text alignment types to display in the dropdown.
    */
-  aligns?: TextAlign[]
+  aligns?: TextAlign[];
   /**
    * Whether the dropdown should be hidden when no alignment types are available
    * @default false
    */
-  hideWhenUnavailable?: boolean
+  hideWhenUnavailable?: boolean;
   /**
    * Callback for when the dropdown opens or closes
    */
-  onOpenChange?: (isOpen: boolean) => void
+  onOpenChange?: (isOpen: boolean) => void;
   /**
    * Whether to render the dropdown menu in a portal
    * @default false
    */
-  portal?: boolean
+  portal?: boolean;
 }
 
 export function TextAlignDropdownMenu({
@@ -56,26 +59,26 @@ export function TextAlignDropdownMenu({
   portal = false,
   ...props
 }: TextAlignDropdownMenuProps) {
-  const { editor } = useTiptapEditor(providedEditor)
-  const [isOpen, setIsOpen] = React.useState(false)
+  const { editor } = useTiptapEditor(providedEditor);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const { filteredAligns, canToggle, isActive, isVisible, Icon } =
     useTextAlignDropdownMenu({
       editor,
       aligns,
       hideWhenUnavailable,
-    })
+    });
 
   const handleOnOpenChange = React.useCallback(
     (open: boolean) => {
-      setIsOpen(open)
-      onOpenChange?.(open)
+      setIsOpen(open);
+      onOpenChange?.(open);
     },
     [onOpenChange]
-  )
+  );
 
   if (!isVisible || !editor || !editor.isEditable) {
-    return null
+    return null;
   }
 
   return (
@@ -89,7 +92,7 @@ export function TextAlignDropdownMenu({
           tabIndex={-1}
           disabled={!canToggle}
           data-disabled={!canToggle}
-          aria-label="Text alignment options"
+          aria-label="خيارات محاذاة النص"
           tooltip="محاذاة النص"
           {...props}
         >
@@ -99,7 +102,7 @@ export function TextAlignDropdownMenu({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="start" portal={portal}>
-        <Card>
+        <Card dir="rtl">
           <CardBody>
             <ButtonGroup>
               {filteredAligns.map((option) => (
@@ -107,7 +110,17 @@ export function TextAlignDropdownMenu({
                   <TextAlignButton
                     editor={editor}
                     align={option.align}
-                    text={option.label}
+                    text={
+                      option.align === "left"
+                        ? "محاذاة لليسار"
+                        : option.align === "center"
+                        ? "توسيط"
+                        : option.align === "right"
+                        ? "محاذاة لليمين"
+                        : option.align === "justify"
+                        ? "ضبط النص"
+                        : option.label
+                    }
                     showTooltip={false}
                   />
                 </DropdownMenuItem>
@@ -117,7 +130,7 @@ export function TextAlignDropdownMenu({
         </Card>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
-export default TextAlignDropdownMenu
+export default TextAlignDropdownMenu;

@@ -63,9 +63,10 @@ const ExportDialog = ({ contentType, isOpen, onOpenChange, content }: ExportDial
         <div className="mt-1" role="region" aria-label="معاينة المحتوى">
           <textarea
             readOnly
-            className="w-full min-h-[260px] max-h-[50vh] rounded-md border border-[var(--border)] bg-[var(--secondary)]/70 dark:bg-[var(--accent)]/10 p-3 text-[0.92rem] font-mono leading-6 outline-none text-foreground/90 selection:bg-cerulean/25 selection:text-foreground/95 resize-vertical"
+            className="w-full min-h-[260px] max-h-[50vh] rounded-md text-left border border-[var(--border)] bg-[var(--secondary)]/70 dark:bg-[var(--accent)]/10 p-3 text-[0.92rem] font-mono leading-6 outline-none text-foreground/90 selection:bg-cerulean/25 selection:text-foreground/95 resize-vertical"
             value={content || ""}
             placeholder="لا يوجد محتوى للعرض..."
+
           />
         </div>
 

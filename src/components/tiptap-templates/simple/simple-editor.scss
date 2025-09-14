@@ -75,7 +75,7 @@ body,
 .simple-editor-content {
   max-width: 1000px;
   margin: 0 auto;
-  
+
   .tiptap.ProseMirror.simple-editor {
     flex: 1;
     /* padding: block start/end | inline */
@@ -116,13 +116,13 @@ body,
     }
 
     blockquote {
-      border-inline-start: 5px solid #618EE7; /* RTL/LTR friendly */
-      background: #FDF1CF;
+      border-inline-start: 3px solid #618EE7; /* RTL/LTR friendly */
+      background: rgb(243, 244, 246);
       color: #5a5a5a;
-      padding-top:0;
-      padding-bottom: 0;
+      padding-top:20;
+      padding-bottom: 20;
       padding-right: 10px;
-      
+
       // padding: 0.85rem 0.5rem;
       // margin-block: 1rem;
     }
@@ -191,7 +191,7 @@ body,
 //   // min-height: 0; /* allow child to shrink and enable scrolling */
 //   -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
 //   overscroll-behavior: contain; /* stop scroll chaining */
-  
+
 //   @media (max-width: 768px) {
 //     height: 100%;
 //     overflow-y: auto;

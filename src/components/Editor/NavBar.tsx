@@ -15,7 +15,7 @@ const NavBar = () => {
     >
       <TopNavBar isCollapsed={isCollapsed} />
 
-      <div className="bg-white h-20 flex flex-row justify-between items-center p-6">
+      <div className="bg-white h-20 flex flex-row justify-between items-center p-8 border-b-1">
         <div className="flex flex-col items-start gap-1">
           <span className="font-dubai-regular text-sm text-[#6B7280]">
             عنوان المستند
@@ -25,10 +25,17 @@ const NavBar = () => {
           </span>
         </div>
         <div className="flex flex-row justify-between items-center gap-8 *:cursor-pointer">
+          <EyePen
+            className="size-8 bg-icons-bg hover:bg-icons-color-hover "
+            variant="secondary"
+            size="icon"
+            IconsStyle="size-5.5 text-icons-color"
+            IconsStroke={2}
+          />
           <Button
             variant="secondary"
             size="icon"
-            className="size-8 bg-icons-bg hover:bg-icons-color-hover rounded-0.5"
+            className="size-8 bg-icons-bg hover:bg-icons-color-hover rounded-0.5 hidden md:flex"
             onClick={() => {
               if (fullScreen) {
                 document.exitFullscreen();
@@ -44,7 +51,7 @@ const NavBar = () => {
               <Expand className="size-5.5 text-icons-color" strokeWidth={2} />
             )}
           </Button>
-  {/* ******************************************* */}
+          {/* ******************************************* */}
           <Button
             variant="secondary"
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -63,14 +70,7 @@ const NavBar = () => {
               />
             )}
           </Button>
-{/* ********************************************* */}
-          <EyePen
-            className="size-8 bg-icons-bg hover:bg-icons-color-hover hidden md:flex"
-            variant="secondary"
-            size="icon"
-            IconsStyle="size-5.5 text-icons-color"
-            IconsStroke={2}
-          />
+          {/* ********************************************* */}
         </div>
       </div>
     </div>

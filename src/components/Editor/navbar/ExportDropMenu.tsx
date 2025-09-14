@@ -69,7 +69,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
               className="flex items-center justify-end px-3 py-2 cursor-pointer gap-1.5"
               onClick={() =>
                 setIsOpen({
-                  contentType: "MD",
+                  contentType: "Markdown",
                   isOpen: true,
                   content:
                     (editor?.storage as any)?.markdown?.getMarkdown?.() || "",
@@ -77,7 +77,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
               }
             >
               <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
-                MD تصدير
+                Markdown تصدير
               </span>
               <CodeXml className="size-5 translate-y-[0.5px]" opacity={0.6} />
             </span>

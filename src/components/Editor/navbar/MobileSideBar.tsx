@@ -102,7 +102,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
           <li className="group">
             <button
               className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
-              aria-label="تصدير كملف MD"
+              aria-label="تصدير كملف Markdown"
               onClick={() => {
                 setIsOpen({
                   contentType: "MD",
@@ -114,10 +114,10 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               }}
             >
               <Download className="size-6 text-blue-200" />
-              <span className="font-dubai-medium text-lg">تصدير كملف MD</span>
+              <span className="font-dubai-medium text-lg">تصدير كملف Markdown</span>
             </button>
           </li>
-       
+
           <li className="group">
             <button
               className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"

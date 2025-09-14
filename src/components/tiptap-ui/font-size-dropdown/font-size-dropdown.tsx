@@ -1,109 +1,156 @@
-import * as React from "react"
-import { type Editor, useEditorState } from "@tiptap/react"
+import * as React from "react";
+import { type Editor, useEditorState } from "@tiptap/react";
+import { TextSelection } from "prosemirror-state";
 
-import type { ButtonProps } from "@/components/tiptap-ui-primitive/button"
-import { Plus, Minus } from "lucide-react"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/tiptap-ui-primitive/popover"
-import { cn } from "@/lib/tiptap-utils"
-import { useEditorStore } from "@/store/EditroStore"
+import type { ButtonProps } from "@/components/tiptap-ui-primitive/button";
+import { Plus, Minus } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/tiptap-ui-primitive/popover";
+import { cn } from "@/lib/tiptap-utils";
+import { useEditorStore } from "@/store/EditroStore";
 
 export interface FontSizeDropdownProps extends Omit<ButtonProps, "type"> {
-  editor?: Editor
+  editor?: Editor;
 }
 
-const DEFAULT_FONT_SIZE = "16"
+const DEFAULT_FONT_SIZE = 16;
 
 export function FontSizeDropdown() {
-  const { editor } = useEditorStore()
+  const { editor } = useEditorStore();
 
-  // state for input field
-  const [inputValue, setInputValue] = React.useState(DEFAULT_FONT_SIZE)
-  const [isFocused, setIsFocused] = React.useState(false)
+  const [inputValue, setInputValue] = React.useState(
+    DEFAULT_FONT_SIZE.toString()
+  );
+  const [isFocused, setIsFocused] = React.useState(false);
 
   // store a font size that should apply on *next typing*
-  const pendingFontSizeRef = React.useRef<number | null>(null)
+  const pendingFontSizeRef = React.useRef<number | null>(null);
 
   // current font size at cursor
-  const cursorFontSize = useEditorState({
-    editor,
-    selector: (ctx) => {
-      const current = ctx.editor?.getAttributes("textStyle").fontSize
-      if (current?.endsWith("px")) {
-        const parsed = parseInt(current, 10)
-        if (!Number.isNaN(parsed)) return parsed.toString()
-      }
-      return DEFAULT_FONT_SIZE
-    },
-  }) || DEFAULT_FONT_SIZE
+  const cursorFontSize =
+    useEditorState({
+      editor,
+      selector: (ctx) => {
+        const size = ctx.editor?.getAttributes("textStyle").fontSize;
+        if (size?.endsWith("px")) {
+          const parsed = parseInt(size, 10);
+          if (!Number.isNaN(parsed)) return parsed.toString();
+        }
+        return DEFAULT_FONT_SIZE.toString();
+      },
+    }) || DEFAULT_FONT_SIZE.toString();
 
   // sync input when cursor moves
   React.useEffect(() => {
     if (!isFocused && pendingFontSizeRef.current == null) {
-      setInputValue(cursorFontSize)
+      setInputValue(cursorFontSize);
     }
-  }, [cursorFontSize, isFocused])
+  }, [cursorFontSize, isFocused]);
 
-  // listen for typing -> apply pending font size
+  // listen for typing -> apply pending font size with flash selection
   React.useEffect(() => {
-    if (!editor) return
+    if (!editor) return;
+
     const handler = ({ transaction }: { transaction: any }) => {
-      const pending = pendingFontSizeRef.current
-      if (!pending || !transaction.docChanged) return
-      editor.chain().focus().setFontSize(`${pending}px`).run()
-      setInputValue(String(pending))
-      pendingFontSizeRef.current = null
-    }
-    editor.on("transaction", handler)
-    return () => editor.off("transaction", handler)
-  }, [editor])
+      const pending = pendingFontSizeRef.current;
+      if (!pending || !transaction.docChanged) return;
+
+      // Flash selection approach - ultra-fast selection and formatting
+      setTimeout(() => {
+        const { from } = editor.state.selection;
+
+        try {
+          // Go back one step, select the just-typed character, apply font size, restore cursor
+          editor
+            .chain()
+            .command(({ tr }) => {
+              const prevPos = Math.max(0, from - 1);
+              tr.setSelection(TextSelection.create(tr.doc, prevPos, from));
+              return true;
+            })
+            .setFontSize(`${pending}px`)
+            .command(({ tr }) => {
+              tr.setSelection(TextSelection.create(tr.doc, from));
+              return true;
+            })
+            .run();
+
+          setInputValue(String(pending));
+          pendingFontSizeRef.current = null;
+        } catch (error) {
+          console.warn("Font size flash selection failed:", error);
+          // Fallback to simple approach
+          editor.chain().focus().setFontSize(`${pending}px`).run();
+          setInputValue(String(pending));
+          pendingFontSizeRef.current = null;
+        }
+      }, 0); // Immediate but async for flash effect
+    };
+
+    editor.on("transaction", handler);
+    return () => {
+      editor.off("transaction", handler);
+      // Do not return anything here (void)
+    };
+  }, [editor]);
 
   // validate & apply typed value
-  const handleInputChange = () => {
-    const newSize = parseInt(inputValue, 10)
-    if (Number.isNaN(newSize) || newSize < 1 || newSize > 100) return
+  const applyFontSize = (size: number) => {
+    if (!editor) return;
 
-    if (editor && !editor.state.selection.empty) {
-      editor.chain().setFontSize(`${newSize}px`).run()
-      pendingFontSizeRef.current = null
+    if (!editor.state.selection.empty) {
+      // Apply immediately to selected text
+      editor.chain().setFontSize(`${size}px`).run();
+      pendingFontSizeRef.current = null;
     } else {
-      pendingFontSizeRef.current = newSize
+      // Store for next typing (flash selection will handle it)
+      pendingFontSizeRef.current = size;
     }
-  }
+    setInputValue(size.toString());
+  };
 
-  // +/- buttons
-  const handleFontSizeChange = (delta: number) => {
-    const base = Number(isFocused ? inputValue : (pendingFontSizeRef.current ?? cursorFontSize))
-    if (Number.isNaN(base)) return
-
-    let newSize = Math.max(8, Math.min(100, base + delta))
-    setInputValue(newSize.toString())
-
-    if (editor && !editor.state.selection.empty) {
-      editor.chain().setFontSize(`${newSize}px`).run()
-      pendingFontSizeRef.current = null
+  const handleInputBlurOrEnter = () => {
+    const newSize = parseInt(inputValue, 10);
+    if (!Number.isNaN(newSize) && newSize >= 1 && newSize <= 100) {
+      applyFontSize(newSize);
     } else {
-      pendingFontSizeRef.current = newSize
+      // Invalid input - restore current value
+      setInputValue(cursorFontSize);
     }
-  }
+    setIsFocused(false);
+  };
 
-  const displayValue = isFocused ? inputValue : (pendingFontSizeRef.current ?? cursorFontSize)
+  const handleButtonChange = (delta: number) => {
+    const base = Number(pendingFontSizeRef.current ?? cursorFontSize);
+    const newSize = Math.max(8, Math.min(100, base + delta));
+    applyFontSize(newSize);
+  };
 
-  if (!editor) return null
+  const displayValue = isFocused
+    ? inputValue
+    : pendingFontSizeRef.current ?? cursorFontSize;
+
+  if (!editor) return null;
 
   return (
     <div className="flex items-center">
       {/* Decrease font size */}
       <button
-        onClick={() => handleFontSizeChange(-1)}
+        onClick={() => handleButtonChange(-1)}
         disabled={Number(displayValue) <= 8}
-        className={cn("tiptap-button p-1.5 rounded-md hover:bg-[var(--tt-button-hover-bg-color)]")}
+        className={cn(
+          "tiptap-button p-1.5 rounded-md hover:bg-[var(--tt-button-hover-bg-color)]"
+        )}
         title="تقليل حجم الخط"
         data-style="ghost"
       >
         <Minus className="w-4 h-4" />
       </button>
 
-      {/* Input field */}
+      {/* Input field with popover */}
       <Popover open={isFocused}>
         <PopoverTrigger asChild>
           <input
@@ -111,27 +158,27 @@ export function FontSizeDropdown() {
             value={String(displayValue)}
             onChange={(e) => setInputValue(e.target.value)}
             onFocus={() => {
-              setIsFocused(true)
-              setInputValue(String(pendingFontSizeRef.current ?? cursorFontSize))
+              setIsFocused(true);
+              setInputValue(
+                String(pendingFontSizeRef.current ?? cursorFontSize)
+              );
             }}
-            onBlur={() => {
-              setIsFocused(false)
-              handleInputChange()
-            }}
+            onBlur={handleInputBlurOrEnter}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                e.preventDefault()
-                handleInputChange()
-                setIsFocused(false)
+                e.preventDefault();
+                handleInputBlurOrEnter();
               }
-              if (e.key === "Escape") setIsFocused(false)
+              if (e.key === "Escape") {
+                setIsFocused(false);
+              }
               if (e.key === "ArrowUp") {
-                e.preventDefault()
-                handleFontSizeChange(1)
+                e.preventDefault();
+                handleButtonChange(1);
               }
               if (e.key === "ArrowDown") {
-                e.preventDefault()
-                handleFontSizeChange(-1)
+                e.preventDefault();
+                handleButtonChange(-1);
               }
             }}
             className={cn(
@@ -141,21 +188,25 @@ export function FontSizeDropdown() {
             title="حجم الخط"
           />
         </PopoverTrigger>
-        <PopoverContent className="px-2 py-1 text-xs">اكتب الحجم</PopoverContent>
+        <PopoverContent className="px-2 py-1 text-xs">
+          اكتب الحجم
+        </PopoverContent>
       </Popover>
 
       {/* Increase font size */}
       <button
-        onClick={() => handleFontSizeChange(1)}
+        onClick={() => handleButtonChange(1)}
         disabled={Number(displayValue) >= 100}
-        className={cn("tiptap-button p-1.5 rounded-md hover:bg-[var(--tt-button-hover-bg-color)]")}
+        className={cn(
+          "tiptap-button p-1.5 rounded-md hover:bg-[var(--tt-button-hover-bg-color)]"
+        )}
         title="زيادة حجم الخط"
         data-style="ghost"
       >
         <Plus className="w-4 h-4" />
       </button>
     </div>
-  )
+  );
 }
 
-export default FontSizeDropdown
+export default FontSizeDropdown;

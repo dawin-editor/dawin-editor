@@ -1,47 +1,33 @@
-import * as React from "react"
-import { type Editor } from "@tiptap/react"
+import { type Editor } from "@tiptap/react";
+import * as React from "react";
 
 // --- Hooks ---
-import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
+import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
+import { ButtonGroup } from "@/components/tiptap-ui-primitive/button";
 
 // --- Icons ---
-import { ChevronDownIcon } from "@/components/tiptap-icons/chevron-down-icon"
+import { ChevronDownIcon } from "@/components/tiptap-icons/chevron-down-icon";
 
 // --- UI Primitives ---
-import type { ButtonProps } from "@/components/tiptap-ui-primitive/button"
-import { Button } from "@/components/tiptap-ui-primitive/button"
+import type { ButtonProps } from "@/components/tiptap-ui-primitive/button";
+import { Button } from "@/components/tiptap-ui-primitive/button";
+import { Card, CardBody } from "@/components/tiptap-ui-primitive/card";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "@/components/tiptap-ui-primitive/dropdown-menu"
-import { Card, CardBody } from "@/components/tiptap-ui-primitive/card"
+  DropdownMenuTrigger,
+} from "@/components/tiptap-ui-primitive/dropdown-menu";
 
 export interface FontFamilyDropdownProps extends Omit<ButtonProps, "type"> {
-  /**
-   * The Tiptap editor instance.
-   */
-  editor?: Editor
-  /**
-   * The font families to display in the dropdown.
-   */
-  fontFamilies?: string[]
-  /**
-   * Whether to render the dropdown menu in a portal
-   * @default false
-   */
-  portal?: boolean
-  /**
-   * Callback for when the dropdown opens or closes
-   */
-  onOpenChange?: (isOpen: boolean) => void
+  editor?: Editor;
+  fontFamilies?: string[];
+  portal?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
 const DEFAULT_FONT_FAMILIES = [
-  // Local Arabic fonts
   "SaudiWeb-Regular",
-  // Google Fonts Arabic
   "Amiri",
   "Almarai",
   "Cairo",
@@ -50,7 +36,7 @@ const DEFAULT_FONT_FAMILIES = [
   "Noto Kufi Arabic",
   "Noto Naskh Arabic",
   "Tajawal",
-]
+];
 
 export function FontFamilyDropdown({
   editor: providedEditor,
@@ -59,40 +45,36 @@ export function FontFamilyDropdown({
   onOpenChange,
   ...props
 }: FontFamilyDropdownProps) {
-  const { editor } = useTiptapEditor(providedEditor)
-  const [isOpen, setIsOpen] = React.useState(false)
+  const { editor } = useTiptapEditor(providedEditor);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const handleOnOpenChange = React.useCallback(
     (open: boolean) => {
-      setIsOpen(open)
-      onOpenChange?.(open)
+      setIsOpen(open);
+      onOpenChange?.(open);
     },
     [onOpenChange]
-  )
+  );
 
   const handleFontFamilyChange = React.useCallback(
     (fontFamily: string) => {
-      if (!editor || !editor.isEditable) return
-
+      if (!editor || !editor.isEditable) return;
       if (fontFamily === "default") {
-        editor.chain().focus().unsetFontFamily().run()
+        editor.chain().focus().unsetFontFamily().run();
       } else {
-        editor.chain().focus().setFontFamily(fontFamily).run()
+        editor.chain().focus().setFontFamily(fontFamily).run();
       }
     },
     [editor]
-  )
+  );
 
   const getCurrentFontFamily = React.useCallback(() => {
-    if (!editor) return " الخط"
-    
-    const fontFamily = editor.getAttributes("textStyle").fontFamily
-    return fontFamily || " الخط"
-  }, [editor])
+    if (!editor) return "الخط";
+    const fontFamily = editor.getAttributes("textStyle").fontFamily;
+    return fontFamily || "الخط";
+  }, [editor]);
 
-  if (!editor || !editor.isEditable) {
-    return null
-  }
+  if (!editor || !editor.isEditable) return null;
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={handleOnOpenChange}>
@@ -102,11 +84,15 @@ export function FontFamilyDropdown({
           data-style="ghost"
           role="button"
           tabIndex={-1}
-          aria-label="Font family options"
+          aria-label="خيارات نوع الخط"
           tooltip="نوع الخط"
+          dir="rtl"
           {...props}
         >
-          <span className="tiptap-button-text" style={{ fontFamily: getCurrentFontFamily() }}>
+          <span
+            className="tiptap-button-text"
+            style={{ fontFamily: getCurrentFontFamily() }}
+          >
             {getCurrentFontFamily()}
           </span>
           <ChevronDownIcon className="tiptap-button-dropdown-small" />
@@ -114,30 +100,42 @@ export function FontFamilyDropdown({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="start" portal={portal}>
-        <Card>
-          <CardBody>
-            <div className="space-y-1">
-              <DropdownMenuItem
-                onClick={() => handleFontFamilyChange("default")}
-                className="cursor-pointer"
-              >
-                <span>Default</span>
-              </DropdownMenuItem>
-              {fontFamilies.map((fontFamily) => (
+        <div dir="rtl">
+          <Card>
+            <CardBody>
+              <ButtonGroup  dir="rtl" className="space-y-1">
                 <DropdownMenuItem
-                  key={fontFamily}
-                  onClick={() => handleFontFamilyChange(fontFamily)}
+                  asChild
                   className="cursor-pointer"
+                  onClick={() => handleFontFamilyChange("default")}
                 >
-                  <span style={{ fontFamily }}>{fontFamily}</span>
+                  <Button type="button" data-style="ghost">
+                    الافتراضي
+                  </Button>
                 </DropdownMenuItem>
-              ))}
-            </div>
-          </CardBody>
-        </Card>
+                {fontFamilies.map((fontFamily) => (
+                  <DropdownMenuItem
+                    key={fontFamily}
+                    asChild
+                    className="cursor-pointer"
+                    onClick={() => handleFontFamilyChange(fontFamily)}
+                  >
+                    <Button
+                      type="button"
+                      data-style="ghost"
+                      style={{ fontFamily }}
+                    >
+                      {fontFamily}
+                    </Button>
+                  </DropdownMenuItem>
+                ))}
+              </ButtonGroup>
+            </CardBody>
+          </Card>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
-export default FontFamilyDropdown
+export default FontFamilyDropdown;

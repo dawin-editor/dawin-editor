@@ -28,7 +28,7 @@ const Stat = () => {
   return (
     <div className="flex flex-row  items-baseline justify-between font-dubai-regular ">
       <span className="text-[#c3920a] text-[0.6rem]">إحصائيات</span>
-      <ul className="flex items-end gap-3 text-[0.8rem] ">
+      <ul className="flex items-end gap-4 text-[0.8rem] ">
         <li>
           <span className="text-[#8c6d20] ">عدد الحروف: </span>
           <span className="text-[#5c4813]">{characters}</span>
