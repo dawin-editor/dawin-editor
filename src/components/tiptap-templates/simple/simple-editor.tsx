@@ -71,7 +71,6 @@ import { UndoRedoButton } from "@/components/tiptap-ui/undo-redo-button";
 import { ArrowLeftIcon } from "@/components/tiptap-icons/arrow-left-icon";
 import { HighlighterIcon } from "@/components/tiptap-icons/highlighter-icon";
 import { LinkIcon } from "@/components/tiptap-icons/link-icon";
-import { TableButton } from "@/components/tiptap-ui/table-button";
 
 // --- Hooks ---
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -109,11 +108,7 @@ const MainToolbarContent = ({
         <UndoRedoButton action="redo" tooltip="إعادة" />
         <UndoRedoButton action="undo" tooltip="تراجع" />
       </ToolbarGroup>
-      <ToolbarSeparator />
-      {/* Group 5.5: Table */}
-      <ToolbarGroup>
-        <TableButton />
-      </ToolbarGroup>
+
       <ToolbarSeparator />
       {/* Group 5: Font styling (Family, Size) */}
       <ToolbarGroup>

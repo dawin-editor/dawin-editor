@@ -4,10 +4,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Download, CodeXml } from "lucide-react";
-import ExportDialog from "./ExportDialog";
-import { useState } from "react";
 import { useEditorStore } from "@/store/EditroStore";
+import { ChevronDown, CodeXml, Download } from "lucide-react";
+import { useState } from "react";
+import ExportDialog from "./ExportDialog";
 import UploadFile from "./UploadFile";
 
 const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
@@ -65,8 +65,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <span
-              className="flex items-center justify-end px-3 py-2 cursor-pointer gap-1.5"
+            <span className="flex items-center justify-end px-3 py-2 cursor-pointer gap-1.5"
               onClick={() =>
                 setIsOpen({
                   contentType: "Markdown",
@@ -86,7 +85,11 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
       </DropdownMenu>
 
       <ExportDialog
-        contentType={isOpen.contentType} //HTML or Markdown
+        contentType={
+          isOpen.contentType === "HTML" || isOpen.contentType === "Markdown"
+            ? isOpen.contentType
+            : ""
+        }
         isOpen={isOpen.isOpen}
         onOpenChange={(open) => {
           if (!open) {

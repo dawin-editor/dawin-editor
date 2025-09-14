@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import './styles/_variables.scss';                                        
-@import './styles/_keyframe-animations.scss';                              
+@import './styles/_variables.scss';
+@import './styles/_keyframe-animations.scss';
 
 @font-face {
   font-family: "Dubai-regular";
@@ -51,6 +51,13 @@
   src: local("SaudiWeb Regular"), url("./assets/fonts/SaudiWeb-Regular.woff") format("woff");
   font-display: swap;
 }
+@font-face {
+  font-family: "Consolas";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Consolas"), url("./assets/fonts/Consolas-Regular.ttf") format("truetype");
+  font-display: swap;
+}
 
 
 
@@ -60,7 +67,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  
+
 }
 * {
   margin: 0;
@@ -168,7 +175,8 @@ h6 {
   --font-dubai-bold: "Dubai-bold", sans-serif;
   --font-samim: "Samim", sans-serif;
   --font-saudiweb-regular: "SaudiWeb-Regular", sans-serif;
-  
+  --font-Consolas-regular: "Consolas", monospace;
+
   /* Tailwind v4 font families */
   --font-family-dubai-regular: var(--font-dubai-regular);
   --font-family-dubai-light: var(--font-dubai-light);
@@ -176,6 +184,7 @@ h6 {
   --font-family-dubai-bold: var(--font-dubai-bold);
   --font-family-samim: var(--font-samim);
   --font-family-saudiweb-regular: var(--font-saudiweb-regular);
+  --font-family-Consolas-regular: var(--font-Consolas-regular);
 }
 
 :root {
@@ -210,7 +219,7 @@ h6 {
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0); 
+  --sidebar-ring: oklch(0.708 0 0);
   /* editor colors */
   --main-blue: #2368A1;
   --icons-color: #1A4D77;
@@ -270,4 +279,3 @@ h6 {
     font-family: var(--font-samim), sans-serif;
   }
 }
-

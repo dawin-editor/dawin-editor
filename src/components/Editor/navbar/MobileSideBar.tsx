@@ -1,9 +1,9 @@
-import { X, Download, MousePointerClick, Info, Upload } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { handleUpload } from "@/lib/upload";
+import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/EditroStore";
-import ExportDialog from "./ExportDialog";
+import { Download, Info, MousePointerClick, Upload, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import ExportDialog from "./ExportDialog";
 
 interface MobileSideBarProps {
   open: boolean;
@@ -62,8 +62,8 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
 
         {/* Menu */}
         <ul className="p-4 space-y-3 text-white md:hidden">
-             {/* upload from sidebar */}
-             <li className="group">
+          {/* upload from sidebar */}
+          <li className="group">
             <label
               htmlFor="file-upload"
               className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
@@ -108,13 +108,18 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
                   contentType: "MD",
                   isOpen: true,
                   content:
-                    (editor?.storage as unknown as { markdown?: { getMarkdown?: () => string } })
-                      ?.markdown?.getMarkdown?.() || "",
+                    (
+                      editor?.storage as unknown as {
+                        markdown?: { getMarkdown?: () => string };
+                      }
+                    )?.markdown?.getMarkdown?.() || "",
                 });
               }}
             >
               <Download className="size-6 text-blue-200" />
-              <span className="font-dubai-medium text-lg">تصدير كملف Markdown</span>
+              <span className="font-dubai-medium text-lg">
+                تصدير كملف Markdown
+              </span>
             </button>
           </li>
 
@@ -150,7 +155,11 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
       </div>
 
       <ExportDialog
-        contentType={isOpen.contentType}
+        contentType={
+          isOpen.contentType === "HTML" || isOpen.contentType === "Markdown"
+            ? isOpen.contentType
+            : ""
+        }
         isOpen={isOpen.isOpen}
         onOpenChange={(open) => {
           if (!open) {

@@ -105,6 +105,7 @@ export const CodeBlockButton = React.forwardRef<
         onClick={handleClick}
         {...buttonProps}
         ref={ref}
+        dir="ltr"
       >
         {children ?? (
           <>
