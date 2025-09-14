@@ -113,7 +113,7 @@ const MainToolbarContent = ({
       <ToolbarGroup>
         <MarkButton type="subscript" tooltip="نص سفلي" />
         <MarkButton type="superscript" tooltip="نص علوي" />
-        
+
         <CodeBlockButton />
         <BlockquoteButton />
 
