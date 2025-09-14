@@ -10,11 +10,11 @@ const Layout = () => {
       </div>
 
       <div className="min-h-0 flex-1 overflow-hidden bg-white mobile-content">
-        <SimpleEditor />
+      <SimpleEditor />
       </div>
 
       <footer
-        className="w-screen h-6 bg-yello-bg border-t-2 border-yello-border pt-[2.2px] px-2 sm:px-7 "
+        className="w-screen h-6 bottom-0 z-50 bg-yello-bg border-t-2 border-yello-border pt-[2.2px] px-2 sm:px-7 "
         dir="rtl"
       >
         <Stat />

@@ -298,14 +298,14 @@ export function SimpleEditor() {
         </Toolbar>
         <div
           className={cn(
-            "editor-scroll-area overflow-auto scroll-p-40",
+            "overflow-auto",
             preview ? "bg-[#F4FAFC]" : ""
           )}
           style={{ fontFamily: "Samim" }}
         >
           <EditorContent
             editor={editor}
-            className={cn("simple-editor-content")}
+            className={cn("simple-editor-content overflow-auto")}
             dir="rtl"
           />
         </div>

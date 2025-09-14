@@ -51,7 +51,7 @@
     }
 
     @media (max-width: 768px) {
-      position: absolute;
+      position: sticky;
       top: auto;
       height: calc(var(--tt-toolbar-height) + var(--tt-safe-area-bottom));
       border-top: 1px solid var(--tt-toolbar-border-color);

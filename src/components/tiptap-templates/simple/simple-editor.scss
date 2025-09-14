@@ -75,19 +75,16 @@ body,
 .simple-editor-content {
   max-width: 1000px;
   margin: 0 auto;
-  background: #b8f0f0;
+  
   .tiptap.ProseMirror.simple-editor {
-    // height: 10dvh;
     flex: 1;
     /* padding: block start/end | inline */
-    padding-block: 2rem ;
+    padding: 2rem ;
+    min-height: 80dvh;
     padding-inline: 2rem;
-
     /* Default preview look */
     line-height: 1.8;
     color: var(--tt-theme-text);
-    // background: red;
-
     /* Headings */
     h1,
     h2,
@@ -183,7 +180,7 @@ body,
     }
 
     @media screen and (max-width: 480px) {
-      padding-block: 3rem ;
+      padding-block: 1rem ;
       padding-inline: 1rem;
     }
   }
