@@ -45,6 +45,7 @@
     "markdown-it": "^14.1.0",
     "marked": "^16.2.1",
     "nspell": "^2.1.5",
+    "posthog-js": "^1.266.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hotkeys-hook": "^5.1.0",

@@ -103,7 +103,7 @@ export function FontFamilyDropdown({
         <div dir="rtl">
           <Card>
             <CardBody>
-              <ButtonGroup  dir="rtl" className="space-y-1">
+              <ButtonGroup dir="rtl" className="space-y-1">
                 <DropdownMenuItem
                   asChild
                   className="cursor-pointer"
