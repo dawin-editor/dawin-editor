@@ -61,18 +61,18 @@
   --tt-gray-dark-800: rgba(224, 224, 225, 1);
   --tt-gray-dark-900: rgba(245, 245, 245, 1);
 
-  /* Brand colors */
-  --tt-brand-color-50: rgba(239, 238, 255, 1);
-  --tt-brand-color-100: rgba(222, 219, 255, 1);
-  --tt-brand-color-200: rgba(195, 189, 255, 1);
-  --tt-brand-color-300: rgba(157, 138, 255, 1);
-  --tt-brand-color-400: rgba(122, 82, 255, 1);
-  --tt-brand-color-500: rgba(98, 41, 255, 1);
-  --tt-brand-color-600: rgba(84, 0, 229, 1);
-  --tt-brand-color-700: rgba(75, 0, 204, 1);
-  --tt-brand-color-800: rgba(56, 0, 153, 1);
-  --tt-brand-color-900: rgba(43, 25, 102, 1);
-  --tt-brand-color-950: hsla(257, 100%, 9%, 1);
+  /* Brand colors - Updated to blue palette */
+  --tt-brand-color-50: rgba(239, 246, 255, 1);
+  --tt-brand-color-100: rgba(219, 234, 254, 1);
+  --tt-brand-color-200: rgba(191, 219, 254, 1);
+  --tt-brand-color-300: rgba(147, 197, 253, 1);
+  --tt-brand-color-400: rgba(96, 165, 250, 1);
+  --tt-brand-color-500: rgba(59, 130, 246, 1);
+  --tt-brand-color-600: rgba(37, 99, 235, 1);
+  --tt-brand-color-700: rgba(29, 78, 216, 1);
+  --tt-brand-color-800: rgba(30, 64, 175, 1);
+  --tt-brand-color-900: rgba(30, 58, 138, 1);
+  --tt-brand-color-950: hsla(222, 84%, 11%, 1);
 
   /* Green */
   --tt-color-green-inc-5: hsla(129, 100%, 97%, 1);
@@ -182,7 +182,7 @@
   --tt-sidebar-bg-color: var(--tt-gray-light-100);
   --tt-scrollbar-color: var(--tt-gray-light-a-200);
   --tt-cursor-color: var(--tt-brand-color-500);
-  --tt-selection-color: rgba(157, 138, 255, 0.2);
+  --tt-selection-color: rgba(147, 197, 253, 0.3);
   --tt-card-bg-color: var(--white);
   --tt-card-border-color: var(--tt-gray-light-a-100);
 }
@@ -195,7 +195,7 @@
   --tt-sidebar-bg-color: var(--tt-gray-dark-100);
   --tt-scrollbar-color: var(--tt-gray-dark-a-200);
   --tt-cursor-color: var(--tt-brand-color-400);
-  --tt-selection-color: rgba(122, 82, 255, 0.2);
+  --tt-selection-color: rgba(96, 165, 250, 0.3);
   --tt-card-bg-color: var(--tt-gray-dark-50);
   --tt-card-border-color: var(--tt-gray-dark-a-50);
 

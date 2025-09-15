@@ -29,7 +29,6 @@ const ExportDialog = ({
   const handleDownload = () => {
     if (!content) return;
 
-    // const fileExtension = contentType; // "html" or "md"
     const mimeType = contentType === "HTML" ? "text/html" : "text/markdown";
 
     const blob = new Blob([content], { type: mimeType });
@@ -77,7 +76,7 @@ const ExportDialog = ({
             onClick={handleDownload}
             disabled={!content}
             variant="default"
-            className="bg-main-blue gap-1.5"
+            className="bg-main-blue gap-1.5 hover:bg-[#11324d]"
           >
             <Download className="size-4.5 translate-y-[0.5px]" />
             تنزيل
@@ -86,7 +85,7 @@ const ExportDialog = ({
             onClick={handleCopy}
             disabled={!content}
             variant="default"
-            className="bg-main-blue gap-1.5"
+            className="bg-main-blue gap-1.5 hover:bg-[#11324d]"
           >
             <Copy className="size-4.5 translate-y-[0.5px]" />
             نسخ
