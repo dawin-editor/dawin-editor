@@ -330,3 +330,32 @@ h6 {
 .ProseMirror table th:hover { background-color: #f9fafb; }
 
 
+@keyframes splashPulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+.animate-splash {
+  animation: splashPulse 1.5s ease-in-out infinite;
+}
+
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.bg-gray-900 {
+  background-color: #111827;
+}

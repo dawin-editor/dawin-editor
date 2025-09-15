@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "assets": "pwa-assets-generator"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.16",
@@ -44,7 +45,6 @@
     "lucide-react": "^0.542.0",
     "markdown-it": "^14.1.0",
     "marked": "^16.2.1",
-    "nspell": "^2.1.5",
     "posthog-js": "^1.266.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -62,6 +62,7 @@
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
+    "@vite-pwa/assets-generator": "^1.0.1",
     "@vitejs/plugin-react": "^5.0.0",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",

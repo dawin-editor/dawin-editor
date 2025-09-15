@@ -1,16 +1,18 @@
-import { SimpleEditor } from "./components/tiptap-templates/simple/simple-editor";
 import NavBar from "./components/Editor/NavBar";
 import Stat from "./components/Editor/Stat";
+import { SimpleEditor } from "./components/tiptap-templates/simple/simple-editor";
 
 const Layout = () => {
   return (
-    <div className="flex h-full flex-col bg-gray-50 mobile-layout">
+    <div
+      className="flex h-full flex-col bg-gray-50 mobile-layout transition-opacity duration-500"
+    >
       <div className="sticky top-0 z-50 ">
         <NavBar />
       </div>
 
       <div className="min-h-0 flex-1 overflow-hidden bg-white mobile-content">
-      <SimpleEditor />
+        <SimpleEditor />
       </div>
 
       <footer
