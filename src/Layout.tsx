@@ -16,7 +16,7 @@ const Layout = () => {
       </div>
 
       <footer
-        className="w-screen h-6 bottom-0 z-50 bg-yello-bg border-t-2 border-yello-border pt-[2.2px] px-2 sm:px-8 "
+        className="w-screen h-6 bottom-0  bg-yello-bg border-t-2 border-yello-border pt-[2.2px] px-2 sm:px-8 "
         dir="rtl"
       >
         <Stat />
