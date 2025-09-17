@@ -38,8 +38,8 @@ export default defineConfig({
         dir: "rtl",
         start_url: ".",
         display: "standalone",
-        background_color: "#ffffff",
-        theme_color: "#0f172a",
+        background_color: "#FFFFFF",
+        theme_color: "#2368A1",
         categories: ["productivity", "utilities", "writing"],
         icons: [
           {

@@ -1,0 +1,1 @@
+{"version":3,"file":"use-tiptap-editor.d.ts","sourceRoot":"","sources":["use-tiptap-editor.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,eAAe,CAAA;AAG3C;;;;;;;;;;GAUG;AACH,wBAAgB,eAAe,CAAC,cAAc,CAAC,EAAE,MAAM,GAAG,IAAI,GAAG;IAC/D,MAAM,EAAE,MAAM,GAAG,IAAI,CAAA;IACrB,WAAW,CAAC,EAAE,MAAM,CAAC,OAAO,CAAC,CAAA;IAC7B,UAAU,CAAC,EAAE,MAAM,CAAC,KAAK,CAAC,CAAA;CAC3B,CA2BA"}
