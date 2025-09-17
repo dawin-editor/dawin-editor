@@ -1,6 +1,6 @@
-import NavBar from "./components/Editor/NavBar";
-import Stat from "./components/Editor/Stat";
-import { SimpleEditor } from "./components/tiptap-templates/simple/simple-editor";
+import NavBar from "./components/Editor/navbar/NavBar.tsx";
+import Stat from "./components/Editor/footer/Stat.tsx";
+import { SimpleEditor } from "@/components/Editor/content/tiptap-templates/simple/simple-editor";
 
 const Layout = () => {
   return (
