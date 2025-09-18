@@ -41,7 +41,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
           </button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="end" sideOffset={8} className="py-1 w-45 ">
+        <DropdownMenuContent align="end" sideOffset={8} className="py-1 w-45 " data-cy="export-dropdown-menu">
           <DropdownMenuItem asChild>
             <UploadFile />
           </DropdownMenuItem>
@@ -56,6 +56,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
                   content: editor?.getHTML() || "",
                 })
               }
+              data-cy="export-html"
             >
               <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
                 HTML تصدير
@@ -65,7 +66,9 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <span className="flex items-center justify-end px-3 py-2 cursor-pointer gap-1.5"
+            <span
+              data-cy="export-markdown"
+              className="flex items-center justify-end px-3 py-2 cursor-pointer gap-1.5"
               onClick={() =>
                 setIsOpen({
                   contentType: "Markdown",

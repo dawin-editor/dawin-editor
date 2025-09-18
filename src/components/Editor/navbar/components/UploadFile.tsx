@@ -8,7 +8,7 @@ const UploadFile = () => {
   if (!editor) return null;
 
   return (
-    <>
+    <div className="w-full" data-cy="upload-file">
       <label
         htmlFor="file-upload"
         className="flex items-center justify-end px-3 py-2 cursor-pointer gap-1.5 hover:bg-gray-100 rounded-md"
@@ -27,12 +27,13 @@ const UploadFile = () => {
 
       <input
         id="file-upload"
+        data-cy="upload-file-input"
         type="file"
         accept=".txt,.md,.html,.json"
         className="hidden"
         onChange={(e) => handleUpload(e, editor)}
       />
-    </>
+    </div>
   );
 };
 

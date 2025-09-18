@@ -73,6 +73,7 @@ const ExportDialog = ({
 
         <DialogFooter className="sm:flex-row-reverse sm:justify-start gap-2">
           <Button
+            data-cy="download-button"
             onClick={handleDownload}
             disabled={!content}
             variant="default"

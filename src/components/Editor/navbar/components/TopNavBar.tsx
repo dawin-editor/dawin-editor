@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils.ts";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import MobileSideBar from "./MobileSideBar.tsx";
+
 const TopNavBar = ({ isCollapsed }: { isCollapsed: boolean }) => {
   const [isMobileSideBarOpen, setIsMobileSideBarOpen] = useState(false);
   return (
@@ -41,15 +42,6 @@ const TopNavBar = ({ isCollapsed }: { isCollapsed: boolean }) => {
             حول المحرّر
           </a>
         </div>
-
-        {/* visible on phones, hidden from md (>=768px) */}
-        {/* <EyePen
-          className="size-8  flex md:hidden cursor-pointer hover:bg-transparent"
-          variant="ghost"
-          size="icon"
-          IconsStyle="size-5.5 text-white"
-          IconsStroke={2}
-        /> */}
       </div>
     </nav>
   );

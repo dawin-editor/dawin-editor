@@ -334,6 +334,7 @@ export function SimpleEditor() {
         >
           <EditorContent
             editor={editor}
+            data-cy="editor-content"
             className={cn("simple-editor-content overflow-auto")}
             dir="rtl"
           />
