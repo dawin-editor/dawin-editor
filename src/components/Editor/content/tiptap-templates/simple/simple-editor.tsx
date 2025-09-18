@@ -78,6 +78,7 @@ import { useIsMobile } from "@/hooks/use-mobile.ts";
 
 // --- Lib ---
 import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils.ts";
+import TextDirection from "@/extensions/textDir";
 
 // --- Styles ---
 import "@/components/Editor/content/tiptap-templates/simple/simple-editor.scss";
@@ -228,7 +229,9 @@ export function SimpleEditor() {
           enableClickSelection: true,
         },
       }),
-      // TextDirection,
+      TextDirection.configure({
+        types: ["heading", "paragraph"],
+      }),
       TableKit.configure({
         table: { resizable: false, lastColumnResizable: true },
       }),
