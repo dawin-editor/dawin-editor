@@ -359,3 +359,7 @@ body, html, #root {
 .bg-gray-900 {
   background-color: #111827;
 }
+
+.react-renderer.node-image.ProseMirror-selectednode {
+  direction: ltr;
+}

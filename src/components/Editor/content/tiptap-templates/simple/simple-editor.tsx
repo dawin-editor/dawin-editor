@@ -3,6 +3,7 @@
 import { useEditorStore } from "@/store/EditroStore.ts";
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
 import * as React from "react";
+import { ToolbarProvider } from "@/components/toolbar-provider";
 import { Markdown } from "tiptap-markdown";
 
 // --- Tiptap Core Extensions ---
@@ -17,11 +18,9 @@ import { TextStyleKit } from "@tiptap/extension-text-style";
 import { Typography } from "@tiptap/extension-typography";
 import { CharacterCount, Selection } from "@tiptap/extensions";
 import { StarterKit } from "@tiptap/starter-kit";
-import { TableKit } from '@tiptap/extension-table'
-
+import { TableKit } from "@tiptap/extension-table";
 
 // --- Tiptap Table Extensions ---
-
 
 // --- UI Primitives ---
 import { Button } from "@/components/Editor/content/tiptap-ui-primitive/button";
@@ -39,7 +38,7 @@ import "@/components/Editor/content/tiptap-node/heading-node/heading-node.scss";
 import { HorizontalRule } from "@/components/Editor/content/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension.ts";
 import "@/components/Editor/content/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
 import "@/components/Editor/content/tiptap-node/image-node/image-node.scss";
-import { ImageUploadNode } from "@/components/Editor/content/tiptap-node/image-upload-node/image-upload-node-extension.ts";
+
 import "@/components/Editor/content/tiptap-node/list-node/list-node.scss";
 import "@/components/Editor/content/tiptap-node/paragraph-node/paragraph-node.scss";
 
@@ -54,7 +53,6 @@ import {
 import { FontFamilyDropdown } from "@/components/Editor/content/tiptap-ui/font-family-dropdown";
 import { FontSizeDropdown } from "@/components/Editor/content/tiptap-ui/font-size-dropdown";
 import { HeadingDropdownMenu } from "@/components/Editor/content/tiptap-ui/heading-dropdown-menu";
-import { ImageUploadButton } from "@/components/Editor/content/tiptap-ui/image-upload-button";
 import {
   LinkButton,
   LinkContent,
@@ -64,7 +62,6 @@ import { ListDropdownMenu } from "@/components/Editor/content/tiptap-ui/list-dro
 import { MarkButton } from "@/components/Editor/content/tiptap-ui/mark-button";
 import { TextAlignDropdownMenu } from "@/components/Editor/content/tiptap-ui/text-align-dropdown-menu";
 import { UndoRedoButton } from "@/components/Editor/content/tiptap-ui/undo-redo-button";
-// import TextDirection from "tiptap-text-direction";
 
 // --- Icons ---
 import { ArrowLeftIcon } from "@/components/Editor/content/tiptap-icons/arrow-left-icon.tsx";
@@ -77,7 +74,7 @@ import { useIsMobile } from "@/hooks/use-mobile.ts";
 // --- Components ---
 
 // --- Lib ---
-import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils.ts";
+// import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils.ts";
 import TextDirection from "@/extensions/textDir";
 
 // --- Styles ---
@@ -89,8 +86,12 @@ import PasteButton from "@/components/Editor/content/tiptap-ui/paste-button/past
 import { cn } from "@/lib/tiptap-utils.ts";
 import { usePreviewStore } from "@/store/preview.ts";
 import TableButton from "@/components/Editor/content/tiptap-ui/table-button/table-button.tsx";
-import { Placeholder } from '@tiptap/extensions'; // or: import Placeholder from '@tiptap/extension-placeholder';
+import { Placeholder } from "@tiptap/extensions";
+import OfficePaste from "@intevation/tiptap-extension-office-paste";
 
+import { ImageExtension } from "@/extensions/ImageCN";
+import ImagePlaceholder from "@/extensions/Image-placeholder";
+import { ImagePlaceholderToolbar } from "@/components/image-placeholder-toolbar";
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -142,7 +143,7 @@ const MainToolbarContent = ({
         ) : (
           <ColorHighlightPopoverButton onClick={onHighlighterClick} />
         )}
-        <ImageUploadButton text="صورة" />
+        <ImagePlaceholderToolbar />
       </ToolbarGroup>
       <ToolbarSeparator />
       {/* Group 2: Document structure (Alignment, Lists, Headings) */}
@@ -229,8 +230,9 @@ export function SimpleEditor() {
           enableClickSelection: true,
         },
       }),
+      OfficePaste,
       TextDirection.configure({
-        types: ["heading", "paragraph"],
+        types: ["heading", "paragraph", "image-placeholder"],
       }),
       TableKit.configure({
         table: { resizable: false, lastColumnResizable: true },
@@ -250,6 +252,8 @@ export function SimpleEditor() {
         showOnlyCurrent: false,
       }),
       Markdown,
+      ImageExtension,
+      ImagePlaceholder,
       MarkdownPaste,
       HorizontalRule,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
@@ -261,13 +265,14 @@ export function SimpleEditor() {
       Superscript,
       Subscript,
       Selection,
-      ImageUploadNode.configure({
-        accept: "image/*",
-        maxSize: MAX_FILE_SIZE,
-        limit: 3,
-        upload: handleImageUpload,
-        onError: (error) => console.error("Upload failed:", error),
-      }),
+      // ImageUploadNode.configure({
+      //   accept: "image/*",
+      //   maxSize: MAX_FILE_SIZE,
+      //   limit: 3,
+      //   upload: handleImageUpload,
+      //   onError: (error) => console.error("Upload failed:", error),
+      // }),
+
       TextStyleKit,
     ],
     // **Initialize content from localStorage if available**
@@ -302,46 +307,51 @@ export function SimpleEditor() {
     }
   }, [isMobile, mobileView]);
 
+  if (!editor) return null;
+
   return (
     <div className="simple-editor-wrapper font-dubai-light">
       <EditorContext.Provider value={{ editor }}>
-        <Toolbar
-          ref={toolbarRef}
-          className="sticky top-0 z-20 flex items-start justify-center p-0 "
-          variant="fixed"
-          style={{
-            background: "#F3F4F6",
-            height: "var(--tt-toolbar-height)",
-            ...(preview ? { display: "none" } : {}),
-          }}
-        >
-          {mobileView === "main" ? (
-            <MainToolbarContent
-              onHighlighterClick={() => setMobileView("highlighter")}
-              onLinkClick={() => setMobileView("link")}
-              isMobile={isMobile}
+        <ToolbarProvider editor={editor}>
+          <Toolbar
+            ref={toolbarRef}
+            className="sticky top-0 z-20 flex items-start justify-center p-0 "
+            variant="fixed"
+            style={{
+              background: "#F3F4F6",
+              height: "var(--tt-toolbar-height)",
+              ...(preview ? { display: "none" } : {}),
+            }}
+          >
+            {mobileView === "main" ? (
+              <MainToolbarContent
+                onHighlighterClick={() => setMobileView("highlighter")}
+                onLinkClick={() => setMobileView("link")}
+                isMobile={isMobile}
+              />
+            ) : (
+              <MobileToolbarContent
+                type={mobileView === "highlighter" ? "highlighter" : "link"}
+                onBack={() => setMobileView("main")}
+              />
+            )}
+          </Toolbar>
+          <div
+            className={cn(
+              "overflow-auto flex-1",
+              preview ? "bg-[#F4FAFC]" : ""
+            )}
+            style={{ fontFamily: "Samim" }}
+          >
+            <EditorContent
+              editor={editor}
+              data-cy="editor-content"
+              className={cn("simple-editor-content overflow-auto")}
+              style={{ minHeight: "400px", outline: "none" }}
+              dir="rtl"
             />
-          ) : (
-            <MobileToolbarContent
-              type={mobileView === "highlighter" ? "highlighter" : "link"}
-              onBack={() => setMobileView("main")}
-            />
-          )}
-        </Toolbar>
-        <div
-          className={cn(
-            "overflow-auto flex-1",
-            preview ? "bg-[#F4FAFC]" : ""
-          )}
-          style={{ fontFamily: "Samim" }}
-        >
-          <EditorContent
-            editor={editor}
-            data-cy="editor-content"
-            className={cn("simple-editor-content overflow-auto")}
-            dir="rtl"
-          />
-        </div>
+          </div>
+        </ToolbarProvider>
       </EditorContext.Provider>
     </div>
   );
