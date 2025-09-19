@@ -9,7 +9,6 @@ import { Markdown } from "tiptap-markdown";
 // --- Tiptap Core Extensions ---
 import { MarkdownPaste } from "@/extensions/MarkdownPaste.ts";
 import { Highlight } from "@tiptap/extension-highlight";
-import { Image } from "@tiptap/extension-image";
 import { TaskItem, TaskList } from "@tiptap/extension-list";
 import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
@@ -90,7 +89,7 @@ import { Placeholder } from "@tiptap/extensions";
 import OfficePaste from "@intevation/tiptap-extension-office-paste";
 
 import { ImageExtension } from "@/extensions/ImageCN";
-import ImagePlaceholder from "@/extensions/Image-placeholder";
+import {ImagePlaceholder} from "@/extensions/Image-placeholder";
 import { ImagePlaceholderToolbar } from "@/components/image-placeholder-toolbar";
 
 const MainToolbarContent = ({
@@ -260,7 +259,6 @@ export function SimpleEditor() {
       TaskList,
       TaskItem.configure({ nested: true }),
       Highlight.configure({ multicolor: true }),
-      Image,
       Typography,
       Superscript,
       Subscript,

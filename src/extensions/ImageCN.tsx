@@ -7,34 +7,13 @@ import {
   NodeViewWrapper,
   ReactNodeViewRenderer,
 } from "@tiptap/react";
-import {
-  AlignCenter,
-  AlignLeft,
-  AlignRight,
-  Maximize,
-  MoreVertical,
-  Trash,
-  Edit,
-  ImageIcon,
-  Loader2,
-} from "lucide-react";
+import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import { Input } from "@/components/Editor/content/tiptap-ui-primitive/input";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useImageUpload } from "../hooks/use-image-upload";
-import { Input } from "@/components/Editor/content/tiptap-ui-primitive/input";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 
 export const ImageExtension = Image.extend({
   addAttributes() {
@@ -72,7 +51,7 @@ export const ImageExtension = Image.extend({
 });
 
 function TiptapImage(props: NodeViewProps) {
-  const { node, editor, selected, deleteNode, updateAttributes } = props;
+  const { node, editor, selected, updateAttributes } = props;
   const imageRef = useRef<HTMLImageElement | null>(null);
   const nodeRef = useRef<HTMLDivElement | null>(null);
   const [resizing, setResizing] = useState(false);
@@ -84,26 +63,18 @@ function TiptapImage(props: NodeViewProps) {
   const [editingCaption, setEditingCaption] = useState(false);
   const [caption, setCaption] = useState(node.attrs.caption || "");
   const [openedMore, setOpenedMore] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
-  const [altText, setAltText] = useState(node.attrs.alt || "");
 
-  const {
-    previewUrl,
-    fileInputRef,
-    handleFileChange,
-    handleRemove,
-    uploading,
-    error,
-  } = useImageUpload({
-    onUpload: (imageUrl) => {
-      updateAttributes({
-        src: imageUrl,
-        alt: altText || fileInputRef.current?.files?.[0]?.name,
-      });
-      handleRemove();
-      setOpenedMore(false);
-    },
-  });
+  const { fileInputRef, handleRemove } =
+    useImageUpload({
+      onUpload: (imageUrl) => {
+        updateAttributes({
+          src: imageUrl,
+          alt: fileInputRef.current?.files?.[0]?.name,
+        });
+        handleRemove();
+        setOpenedMore(false);
+      },
+    });
 
   function handleResizingPosition({
     e,
@@ -205,17 +176,7 @@ function TiptapImage(props: NodeViewProps) {
     }
   }
 
-  const handleImageUrlSubmit = () => {
-    if (imageUrl) {
-      updateAttributes({
-        src: imageUrl,
-        alt: altText,
-      });
-      setImageUrl("");
-      setAltText("");
-      setOpenedMore(false);
-    }
-  };
+ 
 
   useEffect(() => {
     window.addEventListener("mousemove", resize);
@@ -294,7 +255,7 @@ function TiptapImage(props: NodeViewProps) {
             onBlur={handleCaptionBlur}
             onKeyDown={handleCaptionKeyDown}
             className="mt-2 text-center text-sm text-muted-foreground focus:ring-0"
-            placeholder="Add a caption..."
+            placeholder="إضافة تفاصيل الصورة"
             autoFocus
           />
         ) : (
@@ -302,7 +263,7 @@ function TiptapImage(props: NodeViewProps) {
             className="mt-2 cursor-text text-center text-sm text-muted-foreground"
             onClick={() => editor?.isEditable && setEditingCaption(true)}
           >
-            {caption || "Add a caption..."}
+            {caption || "إضافة تفاصيل الصورة"}
           </div>
         )}
 
@@ -347,116 +308,6 @@ function TiptapImage(props: NodeViewProps) {
             >
               <AlignRight className="size-4" />
             </Button>
-            <Separator  className="h-[20px]" />
-            <DropdownMenu open={openedMore} onOpenChange={setOpenedMore}>
-              <DropdownMenuTrigger asChild>
-                <Button size="icon" className="size-7" variant="ghost">
-                  <MoreVertical className="size-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="start"
-                alignOffset={-90}
-                className="mt-1 text-sm"
-              >
-                <DropdownMenuItem onClick={() => setEditingCaption(true)}>
-                  <Edit className="mr-2 size-4" /> Edit Caption
-                </DropdownMenuItem>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <ImageIcon className="mr-2 size-4" /> Replace Image
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent className="p-2 w-fit min-w-52">
-                    <div className="space-y-4">
-                      <div>
-                        <p className="mb-2 text-xs font-medium">Upload Image</p>
-                        <input
-                          ref={fileInputRef}
-                          type="file"
-                          accept="image/*"
-                          onChange={handleFileChange}
-                          className="hidden"
-                          id="replace-image-upload"
-                        />
-                        <label
-                          htmlFor="replace-image-upload"
-                          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-dashed p-4 hover:bg-accent"
-                        >
-                          {uploading ? (
-                            <>
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                              <span>Uploading...</span>
-                            </>
-                          ) : (
-                            <>
-                              <ImageIcon className="h-4 w-4" />
-                              <span>Choose Image</span>
-                            </>
-                          )}
-                        </label>
-                        {error && (
-                          <p className="mt-2 text-xs text-destructive">
-                            {error}
-                          </p>
-                        )}
-                      </div>
-
-                      <div>
-                        <p className="mb-2 text-xs font-medium">Or use URL</p>
-                        <div className="space-y-2">
-                          <Input
-                            value={imageUrl}
-                            onChange={(e) => setImageUrl(e.target.value)}
-                            placeholder="Enter image URL..."
-                            className="text-xs"
-                          />
-                          <Button
-                            onClick={handleImageUrlSubmit}
-                            className="w-full"
-                            disabled={!imageUrl}
-                            size="sm"
-                          >
-                            Replace with URL
-                          </Button>
-                        </div>
-                      </div>
-
-                      <div>
-                        <p className="mb-2 text-xs font-medium">Alt Text</p>
-                        <Input
-                          value={altText}
-                          onChange={(e) => setAltText(e.target.value)}
-                          placeholder="Alt text (optional)"
-                          className="text-xs"
-                        />
-                      </div>
-                    </div>
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
-                <DropdownMenuItem
-                  onClick={() => {
-                    const aspectRatio = node.attrs.aspectRatio;
-                    if (aspectRatio) {
-                      const parentWidth =
-                        nodeRef.current?.parentElement?.offsetWidth ?? 0;
-                      updateAttributes({
-                        width: parentWidth,
-                        height: parentWidth / aspectRatio,
-                      });
-                    }
-                  }}
-                >
-                  <Maximize className="mr-2 size-4" /> Full Width
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="text-destructive focus:text-destructive"
-                  onClick={deleteNode}
-                >
-                  <Trash className="mr-2 size-4" /> Delete Image
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
         )}
       </div>
