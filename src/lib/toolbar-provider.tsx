@@ -2,7 +2,7 @@
 
 import type { Editor } from "@tiptap/react";
 import React from "react";
-import { ToolbarContext } from "@/contexts/toolbar-context";
+import { ToolbarContext } from "@/contexts/toolbar-context.ts";
 
 interface ToolbarProviderProps {
 	editor: Editor;

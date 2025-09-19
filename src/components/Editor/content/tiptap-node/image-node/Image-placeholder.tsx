@@ -2,11 +2,11 @@
 /* eslint-disable */
 // @ts-nocheck
 import { Input } from "@/components/Editor/content/tiptap-ui-primitive/input";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useImageUpload } from "@/hooks/use-image-upload";
-import { isAllowedUri } from "@/lib/tiptap-utils";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button.tsx";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs.tsx";
+import { useImageUpload } from "@/hooks/use-image-upload.ts";
+import { isAllowedUri } from "@/lib/tiptap-utils.ts";
+import { cn } from "@/lib/utils.ts";
 import {
   type CommandProps,
   Node,

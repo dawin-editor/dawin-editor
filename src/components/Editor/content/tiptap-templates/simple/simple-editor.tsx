@@ -3,7 +3,7 @@
 import { useEditorStore } from "@/store/EditroStore.ts";
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
 import * as React from "react";
-import { ToolbarProvider } from "@/components/toolbar-provider";
+import { ToolbarProvider } from "@/lib/toolbar-provider.tsx";
 import { Markdown } from "tiptap-markdown";
 
 // --- Tiptap Core Extensions ---
@@ -88,9 +88,9 @@ import TableButton from "@/components/Editor/content/tiptap-ui/table-button/tabl
 import { Placeholder } from "@tiptap/extensions";
 import OfficePaste from "@intevation/tiptap-extension-office-paste";
 
-import { ImageExtension } from "@/extensions/ImageCN";
-import {ImagePlaceholder} from "@/extensions/Image-placeholder";
-import { ImagePlaceholderToolbar } from "@/components/image-placeholder-toolbar";
+import { ImageExtension } from "@/components/Editor/content/tiptap-node/image-node/ImageCN.tsx";
+import {ImagePlaceholder} from "@/components/Editor/content/tiptap-node/image-node/Image-placeholder.tsx";
+import { ImagePlaceholderToolbar } from "@/components/Editor/content/tiptap-node/image-node/image-placeholder-toolbar.tsx";
 
 const MainToolbarContent = ({
   onHighlighterClick,

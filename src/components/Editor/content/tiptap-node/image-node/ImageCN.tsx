@@ -11,9 +11,9 @@ import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { Input } from "@/components/Editor/content/tiptap-ui-primitive/input";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { useImageUpload } from "../hooks/use-image-upload";
+import { Button } from "@/components/ui/button.tsx";
+import { cn } from "@/lib/utils.ts";
+import { useImageUpload } from "../../../../../hooks/use-image-upload.ts";
 
 export const ImageExtension = Image.extend({
   addAttributes() {

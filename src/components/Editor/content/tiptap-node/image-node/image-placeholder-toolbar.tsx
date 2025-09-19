@@ -3,14 +3,14 @@
 import { Image } from "lucide-react";
 import React from "react";
 
-import { Button, type ButtonProps } from "./Editor/content/tiptap-ui-primitive/button";
+import { Button, type ButtonProps } from "../../tiptap-ui-primitive/button";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
-} from "./Editor/content/tiptap-ui-primitive/tooltip";
-import { cn } from "@/lib/utils";
-import { useToolbar } from "@/contexts/toolbar-context";
+} from "../../tiptap-ui-primitive/tooltip";
+import { cn } from "@/lib/utils.ts";
+import { useToolbar } from "@/contexts/toolbar-context.ts";
 
 const ImagePlaceholderToolbar = React.forwardRef<
 	HTMLButtonElement,
