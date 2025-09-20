@@ -120,7 +120,7 @@ function ImagePlaceholderComponent(props: NodeViewProps) {
                 src: imageUrl,
                 alt: alt,
               });
-              
+
               if (imageNode) {
                 // Replace the uploader node with the image node
                 tr.replaceWith(pos, pos + 1, imageNode);
@@ -270,7 +270,7 @@ function ImagePlaceholderComponent(props: NodeViewProps) {
             <TabsList className="flex flex-row-reverse h-10 items-center justify-center gap-2 rounded-md bg-muted p-1 text-muted-foreground w-full">
               <TabsTrigger
                 value="upload"
-                className="flex items-center gap-2 whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                className="flex items-center gap-2 whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm cursor-pointer"
               >
                 <Upload className="h-4 w-4" />
                 <span>رفع</span>
@@ -278,7 +278,7 @@ function ImagePlaceholderComponent(props: NodeViewProps) {
 
               <TabsTrigger
                 value="url"
-                className="flex items-center gap-2 whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                className="flex items-center gap-2 whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:bg-white data-[state=active]:text-foreground data-[state=active]:shadow-sm cursor-pointer"
               >
                 <Link className="h-4 w-4" />
                 <span>رابط</span>
@@ -384,7 +384,10 @@ function ImagePlaceholderComponent(props: NodeViewProps) {
                 <Button
                   onClick={handleInsertEmbed}
                   disabled={!url || urlError}
-                  className="h-9 px-6 bg-main-blue hover:bg-[#11324d]"
+                  className={cn(
+                    "h-9 px-6 bg-main-blue hover:bg-[#11324d] cursor-pointer",
+                    (!url || urlError) && "opacity-50 "
+                  )}
                 >
                   إدراج الصورة
                 </Button>

@@ -50,6 +50,7 @@
     "posthog-js": "^1.266.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hot-toast": "^2.6.0",
     "react-hotkeys-hook": "^5.1.0",
     "react-syntax-highlighter": "^15.6.6",
     "tailwind-merge": "^3.3.1",

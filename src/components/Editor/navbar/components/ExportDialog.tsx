@@ -10,6 +10,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import { Copy, Download } from "lucide-react";
+import toast from "react-hot-toast";
+import Toast from "./Toast";
 
 interface ExportDialogProps {
   contentType: "HTML" | "Markdown" | ""; // allow empty
@@ -17,6 +19,8 @@ interface ExportDialogProps {
   onOpenChange: (open: boolean) => void;
   content: string;
 }
+
+
 
 const ExportDialog = ({
   contentType,
@@ -35,7 +39,9 @@ const ExportDialog = ({
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${documentTitle}.${contentType==="HTML" ? "html" : "md"}`;
+    link.download = `${documentTitle}.${
+      contentType === "HTML" ? "html" : "md"
+    }`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -58,7 +64,6 @@ const ExportDialog = ({
         </DialogHeader>
 
         <div className="mt-1" role="region" aria-label="معاينة المحتوى">
-
           <textarea
             readOnly
             className="w-full min-h-[260px] max-h-[50vh] rounded-md text-consolas-regular border border-[var(--border)] bg-[var(--secondary)]/70 dark:bg-[var(--accent)]/10 p-3 text-[0.92rem] font-mono leading-6 outline-none text-foreground/90 selection:bg-cerulean/25 selection:text-foreground/95 resize-vertical"
@@ -77,13 +82,18 @@ const ExportDialog = ({
             onClick={handleDownload}
             disabled={!content}
             variant="default"
-            className="bg-main-blue gap-1.5 hover:bg-[#11324d]"
+            className="bg-main-blue gap-1.5 hover:bg-[#11324d] cursor-pointer"
           >
             <Download className="size-4.5 translate-y-[0.5px]" />
             تنزيل
           </Button>
           <Button
-            onClick={handleCopy}
+            onClick={() => {
+              handleCopy();
+              toast.success("تم نسخ المحتوى إلى الحافظة!", {
+                style: { zIndex: 9999 },
+              });
+            }}
             disabled={!content}
             variant="default"
             className="bg-main-blue gap-1.5 hover:bg-[#11324d]"
@@ -92,6 +102,7 @@ const ExportDialog = ({
             نسخ
           </Button>
         </DialogFooter>
+        <Toast />
       </DialogContent>
     </Dialog>
   );
