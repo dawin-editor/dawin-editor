@@ -1,19 +1,25 @@
 import TopNavBar from "./components/TopNavBar.tsx";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../../ui/button.tsx";
 import { PanelTopClose, PanelTopOpen, Expand, Shrink } from "lucide-react";
 import EyePen from "./components/EyePen.tsx";
+import { db } from "@/lib/db.ts";
 
 const NavBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
-  const [documentTitle, setDocumentTitle] = useState(
-    localStorage.getItem("docTitle") || "مستند بدون عنوان"
-  );
+  const [documentTitle, setDocumentTitle] = useState('');
+  
+  useEffect(() => {
+    db.blogs.get(1).then((blog) => {
+      if (blog?.title) setDocumentTitle(blog.title);
+    });
+  }, []);
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setDocumentTitle(newTitle);
-    localStorage.setItem("docTitle", newTitle);
+    db.blogs.update(1, { title: newTitle });
   };
 
   return (
@@ -81,7 +87,6 @@ const NavBar = () => {
               />
             )}
           </Button>
-          {/* ********************************************* */}
         </div>
       </div>
     </div>

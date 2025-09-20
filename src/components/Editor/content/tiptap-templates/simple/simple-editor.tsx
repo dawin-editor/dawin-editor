@@ -3,8 +3,8 @@
 import { useEditorStore } from "@/store/EditroStore.ts";
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
 import * as React from "react";
-import { ToolbarProvider } from "@/lib/toolbar-provider.tsx";
 import { Markdown } from "tiptap-markdown";
+import { ToolbarProvider } from "../../tiptap-node/image-node/toolbar-provider";
 
 // --- Tiptap Core Extensions ---
 import { MarkdownPaste } from "@/extensions/MarkdownPaste.ts";
@@ -18,6 +18,7 @@ import { Typography } from "@tiptap/extension-typography";
 import { CharacterCount, Selection } from "@tiptap/extensions";
 import { StarterKit } from "@tiptap/starter-kit";
 import { TableKit } from "@tiptap/extension-table";
+import { db } from "@/lib/db";
 
 // --- Tiptap Table Extensions ---
 
@@ -89,7 +90,7 @@ import { Placeholder } from "@tiptap/extensions";
 import OfficePaste from "@intevation/tiptap-extension-office-paste";
 
 import { ImageExtension } from "@/components/Editor/content/tiptap-node/image-node/ImageCN.tsx";
-import {ImagePlaceholder} from "@/components/Editor/content/tiptap-node/image-node/Image-placeholder.tsx";
+import { ImagePlaceholder } from "@/components/Editor/content/tiptap-node/image-node/Image-placeholder.tsx";
 import { ImagePlaceholderToolbar } from "@/components/Editor/content/tiptap-node/image-node/image-placeholder-toolbar.tsx";
 
 const MainToolbarContent = ({
@@ -263,39 +264,30 @@ export function SimpleEditor() {
       Superscript,
       Subscript,
       Selection,
-      // ImageUploadNode.configure({
-      //   accept: "image/*",
-      //   maxSize: MAX_FILE_SIZE,
-      //   limit: 3,
-      //   upload: handleImageUpload,
-      //   onError: (error) => console.error("Upload failed:", error),
-      // }),
-
       TextStyleKit,
     ],
-    // **Initialize content from localStorage if available**
-    content: (() => {
-      const saved = localStorage.getItem("editorContent");
-      if (saved) {
-        return JSON.parse(saved); // load saved content
-      }
-      return content;
-    })(),
+    // content: (async () => {
+    //   const saved = await db.blogs.get(1);
+    //   if (saved) {
+    //     return JSON.parse(saved?.text);
+    //   }
+    //   return content;
+    // })(),
 
-    onCreate({ editor }) {
+    onCreate: async ({ editor }) => {
       setEditor(editor);
+      const saved = await db.blogs.get(1);
+      if (saved && saved.text) {
+        editor.commands.setContent(JSON.parse(saved.text));
+      }
+      else {
+        editor.commands.setContent(content);
+      }
     },
 
     onUpdate: async ({ editor }) => {
       setEditor(editor);
-      const text = editor.getText().trim();
-
-      if (!text) {
-        localStorage.removeItem("editorContent");
-        return;
-      }
-
-      localStorage.setItem("editorContent", JSON.stringify(editor.getJSON()));
+      db.blogs.update(1, { text: JSON.stringify(editor.getJSON()) });
     },
   });
 

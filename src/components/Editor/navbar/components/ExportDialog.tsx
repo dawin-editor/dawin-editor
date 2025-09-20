@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import {
   Dialog,
@@ -12,6 +13,7 @@ import {
 import { Copy, Download } from "lucide-react";
 import toast from "react-hot-toast";
 import Toast from "./Toast";
+import { db } from "@/lib/db";
 
 interface ExportDialogProps {
   contentType: "HTML" | "Markdown" | ""; // allow empty
@@ -28,7 +30,23 @@ const ExportDialog = ({
   onOpenChange,
   content,
 }: ExportDialogProps) => {
-  const documentTitle = localStorage.getItem("docTitle") || "مستند بدون عنوان";
+  const [documentTitle, setDocumentTitle] = useState("مستند بدون عنوان");
+
+  useEffect(() => {
+    const fetchDocumentTitle = async () => {
+      try {
+        // Assuming we're working with the first blog post for now
+        const blog = await db.blogs.orderBy('id').last();
+        if (blog?.title) {
+          setDocumentTitle(blog.title);
+        }
+      } catch (error) {
+        console.error('Error fetching document title:', error);
+      }
+    };
+
+    fetchDocumentTitle();
+  }, []);
 
   const handleDownload = () => {
     if (!content) return;
