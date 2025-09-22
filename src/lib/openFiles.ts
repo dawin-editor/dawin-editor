@@ -11,8 +11,7 @@ export const openFile = (editor: Editor) => {
       for (const fileHandle of launchParams.files) {
         const file = await fileHandle.getFile();
         const text = await file.text();
-        await db.blogs.put({
-          id: 1,
+        await db.blogs.update(1, {
           title: file.name,
           text,
           updatedAt: new Date(),

@@ -76,12 +76,26 @@ body,
   max-width: 1000px;
   margin: 0 auto;
 
+
   .tiptap.ProseMirror.simple-editor {
     flex: 1;
     /* padding: block start/end | inline */
     padding: 2rem;
     min-height: 80dvh;
     padding-inline: 2rem;
+    
+    /* Placeholder styling */
+    &.is-editor-empty p:first-child::before {
+      content: attr(data-placeholder);
+      float: right;
+      color: #9ca3af;
+      pointer-events: none;
+      height: 0;
+      font-style: italic;
+      width: 100%;
+      position: relative;
+      top: 2px;
+    }
     /* Default preview look */
     line-height: 1.8;
     color: var(--tt-theme-text);

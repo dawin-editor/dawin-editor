@@ -92,7 +92,9 @@ import OfficePaste from "@intevation/tiptap-extension-office-paste";
 import { ImageExtension } from "@/components/Editor/content/tiptap-node/image-node/ImageCN.tsx";
 import { ImagePlaceholder } from "@/components/Editor/content/tiptap-node/image-node/Image-placeholder.tsx";
 import { ImagePlaceholderToolbar } from "@/components/Editor/content/tiptap-node/image-node/image-placeholder-toolbar.tsx";
-
+import { ClipboardCopy } from "lucide-react";
+import toast from "react-hot-toast";
+import Toast from "@/components/Editor/navbar/components/Toast";
 const MainToolbarContent = ({
   onHighlighterClick,
   onLinkClick,
@@ -239,17 +241,16 @@ export function SimpleEditor() {
       }),
       CharacterCount,
       Placeholder.configure({
-        // function returns placeholder per node type
         placeholder: ({ node }) => {
           if (node.type.name === "tableHeader") return "العمود";
           if (node.type.name === "tableCell") return "النص";
-          // you can return other defaults for paragraphs etc.
+          if (node.type.name === "paragraph") return "ابدأ بالكتابة...";
           return " ";
         },
-        // show placeholders also for nested nodes (table cell content is nested)
         includeChildren: true,
-        // show placeholders on all empty nodes (not only the currently selected one)
         showOnlyCurrent: false,
+        // Add this to show placeholder only when editor is empty
+        emptyEditorClass: 'is-editor-empty',
       }),
       Markdown,
       ImageExtension,
@@ -277,11 +278,14 @@ export function SimpleEditor() {
     onCreate: async ({ editor }) => {
       setEditor(editor);
       const saved = await db.blogs.get(1);
-      if (saved && saved.text) {
-        editor.commands.setContent(JSON.parse(saved.text));
-      }
-      else {
+      if (
+        !saved?.text ||
+        saved?.text ===
+          '{"type":"doc","content":[{"type":"paragraph","attrs":{"dir":null,"textAlign":null}}]}'
+      ) {
         editor.commands.setContent(content);
+      } else {
+        editor.commands.setContent(JSON.parse(saved.text));
       }
     },
 
@@ -290,7 +294,6 @@ export function SimpleEditor() {
       db.blogs.update(1, { text: JSON.stringify(editor.getJSON()) });
     },
   });
-
 
   React.useEffect(() => {
     if (!isMobile && mobileView !== "main") {
@@ -330,7 +333,7 @@ export function SimpleEditor() {
           <div
             className={cn(
               "overflow-auto flex-1",
-              preview ? "bg-[#F4FAFC]" : ""
+              preview ? "bg-[#f7fbfb]" : ""
             )}
             style={{ fontFamily: "Samim" }}
           >
@@ -341,6 +344,19 @@ export function SimpleEditor() {
               style={{ minHeight: "400px", outline: "none" }}
               dir="rtl"
             />
+            <div
+              className=" bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover absolute bottom-10 left-8 cursor-pointer hidden sm:block "
+              onClick={() => {
+                navigator.clipboard.writeText(editor.getText());
+                toast.success("تم نسخ المحتوى إلى الحافظة!");
+              }}
+            >
+              <ClipboardCopy
+                className="text-icons-color size-5.5"
+                strokeWidth={2}
+              />
+            </div>
+            <Toast />
           </div>
         </ToolbarProvider>
       </EditorContext.Provider>

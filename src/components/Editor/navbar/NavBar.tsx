@@ -31,14 +31,15 @@ const NavBar = () => {
 
       <div className="bg-white h-20 flex flex-row justify-between items-center px-4 sm:px-8 py-4 border-b-1 w-full">
         <div className="flex flex-col items-start gap-1 min-w-0">
-          <span className="font-dubai-regular text-sm text-[#6B7280]">
+          <span className="font-dubai-regular text-sm opacity-65 text-[#6B7280]">
             عنوان المستند
           </span>
           <input
-            className="font-dubai-regular opacity-90 text-main-blue border-none outline-none w-full max-w-[200px] sm:max-w-none"
-            style={{ fontSize: "1.125rem" }}
+            className="opacity-90 text-main-blue border-none outline-none w-full max-w-[200px] sm:max-w-none"
+            style={{ fontSize: "1.125rem", fontFamily: "Dubai-regular" }}
             value={documentTitle}
             onChange={handleTitleChange}
+            placeholder="مستند بدون عنوان"
           />
         </div>
         <div className="flex flex-row justify-between items-center gap-4 sm:gap-8 *:cursor-pointer flex-shrink-0">
