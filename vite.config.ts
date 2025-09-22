@@ -16,7 +16,7 @@ export default defineConfig({
         globPatterns: [
           "**/*.{js,css,html,ico,png,svg,webp,woff,woff2,ttf,otf}",
         ],
-        
+
         // skipWaiting: true,
         // clientsClaim: true,
         runtimeCaching: [
@@ -34,7 +34,7 @@ export default defineConfig({
       },
       manifest: {
         launch_handler: {
-          client_mode:"auto"
+          client_mode: "auto",
         },
         name: "محرّر دوّن - محرّر نصوص ماركداون",
         short_name: "محرّر دوّن",
@@ -55,7 +55,7 @@ export default defineConfig({
               "text/markdown": [".md", ".markdown"],
               "text/x-markdown": [".md", ".markdown"],
               "text/plain": [".txt"],
-            }
+            },
           },
         ],
         icons: [
