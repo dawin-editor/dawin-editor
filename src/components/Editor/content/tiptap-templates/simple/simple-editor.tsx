@@ -291,6 +291,7 @@ export function SimpleEditor() {
     },
   });
 
+
   React.useEffect(() => {
     if (!isMobile && mobileView !== "main") {
       setMobileView("main");

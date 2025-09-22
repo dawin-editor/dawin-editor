@@ -16,6 +16,9 @@ export default defineConfig({
         globPatterns: [
           "**/*.{js,css,html,ico,png,svg,webp,woff,woff2,ttf,otf}",
         ],
+        
+        // skipWaiting: true,
+        // clientsClaim: true,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -30,17 +33,31 @@ export default defineConfig({
         ],
       },
       manifest: {
+        launch_handler: {
+          client_mode:"auto"
+        },
         name: "محرّر دوّن - محرّر نصوص ماركداون",
         short_name: "محرّر دوّن",
         description:
           "محرّر نصوص ماركداون بسيط وسريع مع واجهة عربية وتجربة كتابة سلسة.",
         lang: "ar",
         dir: "rtl",
-        start_url: ".",
+        start_url: "/?fresh=1",
         display: "standalone",
         background_color: "#FFFFFF",
         theme_color: "#2368A1",
         categories: ["productivity", "utilities", "writing"],
+        file_handlers: [
+          {
+            action: "/openFile",
+            accept: {
+              // Markdown common MIME/type + extensions
+              "text/markdown": [".md", ".markdown"],
+              "text/x-markdown": [".md", ".markdown"],
+              "text/plain": [".txt"],
+            }
+          },
+        ],
         icons: [
           {
             src: "pwa-64x64.png",

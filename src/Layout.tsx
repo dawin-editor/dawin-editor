@@ -3,6 +3,8 @@ import Stat from "./components/Editor/footer/Stat.tsx";
 import { SimpleEditor } from "@/components/Editor/content/tiptap-templates/simple/simple-editor";
 
 const Layout = () => {
+
+
   return (
     <div
       className="flex h-full flex-col bg-gray-50 mobile-layout transition-opacity duration-500"

@@ -2,12 +2,14 @@ import Layout from "./Layout";
 import { useEffect, useState } from "react";
 import "./index.css";
 import { db } from "./lib/db";
-
+import { openFile } from "./lib/openFiles";
+import { useEditorStore } from "./store/EditroStore";
 const App = () => {
+  const { editor } = useEditorStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAndInitializeBlog = async () => {
+    const init = async () => {
       const count = await db.blogs.count();
       if (count === 0) {
         await db.blogs.add({
@@ -19,15 +21,15 @@ const App = () => {
         });
       }
     };
+    init();
 
-    checkAndInitializeBlog();
+    if (editor) {
+      openFile(editor);
+    }
 
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1300); // total loading duration (1200 + 350ms)
-
+    const timer = setTimeout(() => setLoading(false), 1300);
     return () => clearTimeout(timer);
-  }, []);
+  }, [editor]);
 
   if (loading) {
     return (
