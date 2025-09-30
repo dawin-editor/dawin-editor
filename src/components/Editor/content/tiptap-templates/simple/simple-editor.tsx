@@ -340,7 +340,7 @@ export function SimpleEditor() {
             <EditorContent
               editor={editor}
               data-cy="editor-content"
-              className={cn("simple-editor-content overflow-auto")}
+              className="simple-editor-content overflow-auto "
               style={{ minHeight: "400px", outline: "none" }}
               dir="rtl"
             />
