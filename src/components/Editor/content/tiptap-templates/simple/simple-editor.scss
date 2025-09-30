@@ -79,9 +79,10 @@ body,
 
   .tiptap.ProseMirror.simple-editor {
     flex: 1;
+    background-color: var(--tt-bg-color);
     /* padding: block start/end | inline */
     padding: 2rem;
-    min-height: 75dvh;
+    min-height: 60dvh;
     padding-inline: 2rem;
     
     /* Placeholder styling */
