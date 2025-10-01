@@ -22,7 +22,14 @@ interface ExportDialogProps {
   content: string;
 }
 
+const DEFAULT_TITLE = "مستند بدون عنوان";
 
+/** Sanitize file name for most file systems */
+const sanitizeFileName = (name: string) =>
+  (name || "")
+    .replace(/[<>:"/\\|?*\u0000-\u001F]+/g, "_") // forbidden chars + control chars
+    .trim()
+    .slice(0, 240) || DEFAULT_TITLE;
 
 const ExportDialog = ({
   contentType,
@@ -30,43 +37,94 @@ const ExportDialog = ({
   onOpenChange,
   content,
 }: ExportDialogProps) => {
-  const [documentTitle, setDocumentTitle] = useState("مستند بدون عنوان");
+  const [documentTitle, setDocumentTitle] = useState<string>(DEFAULT_TITLE);
 
+  // preload title when dialog opens (best-effort)
   useEffect(() => {
+    if (!isOpen) return;
+
+    let cancelled = false;
     const fetchDocumentTitle = async () => {
       try {
-        // Assuming we're working with the first blog post for now
-        const blog = await db.blogs.orderBy('id').last();
-        if (blog?.title) {
+        // guard: ensure we are in browser environment
+        if (typeof window === "undefined" || !db?.blogs) return;
+        const blog = await db.blogs.orderBy("id").last();
+        if (!cancelled && blog?.title) {
           setDocumentTitle(blog.title);
         }
       } catch (error) {
-        console.error('Error fetching document title:', error);
+        // don't spam console in production, but log for dev
+        console.error("Error fetching document title from IndexedDB:", error);
       }
     };
 
     fetchDocumentTitle();
-  }, []);
 
-  const handleDownload = () => {
-    if (!content) return;
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen]);
 
+  // always fetch the latest title from IndexedDB right before download.
+  const handleDownload = async () => {
+    if (!content) {
+      toast.error("لا يوجد محتوى للتحميل.");
+      return;
+    }
+
+    let titleToUse = documentTitle || DEFAULT_TITLE;
+
+    try {
+      if (typeof window !== "undefined" && db?.blogs) {
+        const blog = await db.blogs.orderBy("id").last();
+        if (blog?.title) {
+          titleToUse = blog.title;
+          setDocumentTitle(blog.title); // update state for next time
+        }
+      }
+    } catch (err) {
+      console.warn("Failed to read title from IndexedDB at download time:", err);
+      // fallback to whatever we already have in state
+    }
+
+    const safeTitle = sanitizeFileName(titleToUse);
+    const ext = contentType === "HTML" ? "html" : "md";
     const mimeType = contentType === "HTML" ? "text/html" : "text/markdown";
 
-    const blob = new Blob([content], { type: mimeType });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${documentTitle}.${
-      contentType === "HTML" ? "html" : "md"
-    }`;
-    link.click();
-    URL.revokeObjectURL(url);
+    try {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${safeTitle}.${ext}`;
+
+      // some browsers require link to be in the DOM
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+
+      toast.success(`تم تنزيل الملف: ${safeTitle}.${ext}`);
+    } catch (err) {
+      console.error("Download failed:", err);
+      toast.error("حدث خطأ أثناء التحميل.");
+    }
   };
 
-  const handleCopy = () => {
-    if (!content) return;
-    navigator.clipboard.writeText(content);
+  const handleCopy = async () => {
+    if (!content) {
+      toast.error("لا يوجد محتوى للنسخ.");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(content);
+      toast.success("تم نسخ المحتوى إلى الحافظة!", {
+        style: { zIndex: 9999 },
+      });
+    } catch (err) {
+      console.error("Clipboard write failed:", err);
+      toast.error("فشل في نسخ المحتوى.");
+    }
   };
 
   return (
@@ -94,6 +152,13 @@ const ExportDialog = ({
           />
         </div>
 
+        <div className="mt-2 text-right text-xs text-muted-foreground">
+          اسم الملف المتوقع عند التنزيل:{" "}
+          <span className="font-mono">
+            {sanitizeFileName(documentTitle)}.{contentType === "HTML" ? "html" : "md"}
+          </span>
+        </div>
+
         <DialogFooter className="sm:flex-row-reverse sm:justify-start gap-2">
           <Button
             data-cy="download-button"
@@ -106,12 +171,7 @@ const ExportDialog = ({
             تنزيل
           </Button>
           <Button
-            onClick={() => {
-              handleCopy();
-              toast.success("تم نسخ المحتوى إلى الحافظة!", {
-                style: { zIndex: 9999 },
-              });
-            }}
+            onClick={handleCopy}
             disabled={!content}
             variant="default"
             className="bg-main-blue gap-1.5 hover:bg-[#11324d] cursor-pointer"
