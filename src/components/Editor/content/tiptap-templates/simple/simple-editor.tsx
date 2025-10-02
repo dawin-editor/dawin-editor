@@ -95,6 +95,11 @@ import { ImagePlaceholderToolbar } from "@/components/Editor/content/tiptap-node
 import { ClipboardCopy } from "lucide-react";
 import toast from "react-hot-toast";
 import Toast from "@/components/Editor/navbar/components/Toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 const MainToolbarContent = ({
   onHighlighterClick,
   onLinkClick,
@@ -250,7 +255,7 @@ export function SimpleEditor() {
         includeChildren: true,
         showOnlyCurrent: false,
         // Add this to show placeholder only when editor is empty
-        emptyEditorClass: 'is-editor-empty',
+        emptyEditorClass: "is-editor-empty",
       }),
       Markdown,
       ImageExtension,
@@ -344,18 +349,22 @@ export function SimpleEditor() {
               style={{ minHeight: "400px", outline: "none" }}
               dir="rtl"
             />
-            <div
-              className=" bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover absolute bottom-10 left-8 cursor-pointer hidden sm:block "
-              onClick={() => {
-                navigator.clipboard.writeText(editor.getText());
-                toast.success("تم نسخ المحتوى إلى الحافظة!");
-              }}
-            >
-              <ClipboardCopy
-                className="text-icons-color size-5.5"
-                strokeWidth={2}
-              />
-            </div>
+            <Tooltip>
+              <TooltipTrigger className=" bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover absolute bottom-10 left-8 cursor-pointer hidden sm:block ">
+                <div
+                  onClick={() => {
+                    navigator.clipboard.writeText(editor.getText());
+                    toast.success("تم نسخ المحتوى إلى الحافظة!");
+                  }}
+                >
+                  <ClipboardCopy
+                    className="text-icons-color size-5.5"
+                    strokeWidth={2}
+                  />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="bg-black">نسخ </TooltipContent>
+            </Tooltip>
             <Toast />
           </div>
         </ToolbarProvider>
