@@ -175,7 +175,7 @@ const ExportDialog = ({
             disabled={!content}
             variant="default"
             className="bg-main-blue gap-1.5 hover:bg-[#11324d] cursor-pointer"
-            tooltip="نسخ"
+            title="نسخ"
           >
             <Copy className="size-4.5 translate-y-[0.5px]" />
             نسخ

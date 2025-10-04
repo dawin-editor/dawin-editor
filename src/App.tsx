@@ -10,15 +10,17 @@ const App = () => {
 
   useEffect(() => {
     const init = async () => {
-      const count = await db.blogs.count();
-      if (count === 0) {
-        await db.blogs.add({
+      try {
+        // Use put instead of add to handle both create and update cases
+        await db.blogs.put({
           id: 1,
           title: "مستند بدون عنوان",
           text: "",
           createdAt: new Date(),
           updatedAt: new Date(),
         });
+      } catch (error) {
+        console.error('Error initializing blog:', error);
       }
     };
     init();
