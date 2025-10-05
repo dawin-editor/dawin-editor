@@ -6,6 +6,6 @@ interface TitleState {
 }
 
 export const useTitleStore = create<TitleState>((set) => ({
-  title: "مستند بدون عنوان",
+  title: "",
   setTitle: (title) => set({ title }),
 }));

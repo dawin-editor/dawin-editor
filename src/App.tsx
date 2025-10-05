@@ -15,7 +15,7 @@ const App = () => {
         try {
           await db.blogs.put({
             id: 1,
-            title: "مستند بدون عنوان",
+            title: "",
             text: "",
             createdAt: new Date(),
             updatedAt: new Date(),

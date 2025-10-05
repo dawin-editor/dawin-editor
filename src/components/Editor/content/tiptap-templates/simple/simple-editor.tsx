@@ -100,6 +100,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useTitleStore } from "@/store/titleStore";
+
+
 const MainToolbarContent = ({
   onHighlighterClick,
   onLinkClick,
@@ -209,6 +212,8 @@ const MobileToolbarContent = ({
 
 export function SimpleEditor() {
   const isMobile = useIsMobile();
+  const { title, setTitle } = useTitleStore();
+  
   const [mobileView, setMobileView] = React.useState<
     "main" | "highlighter" | "link"
   >("main");
@@ -272,13 +277,7 @@ export function SimpleEditor() {
       Selection,
       TextStyleKit,
     ],
-    // content: (async () => {
-    //   const saved = await db.blogs.get(1);
-    //   if (saved) {
-    //     return JSON.parse(saved?.text);
-    //   }
-    //   return content;
-    // })(),
+ 
 
     onCreate: async ({ editor }) => {
       setEditor(editor);
