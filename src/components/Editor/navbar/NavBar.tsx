@@ -4,29 +4,26 @@ import { Button } from "../../ui/button.tsx";
 import { PanelTopClose, PanelTopOpen, Expand, Shrink } from "lucide-react";
 import EyePen from "./components/EyePen.tsx";
 import { db } from "@/lib/db.ts";
+import { useTitleStore } from "@/store/titleStore.ts";
 
 const NavBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
-  const [documentTitle, setDocumentTitle] = useState('');
-  
+  const { title, setTitle } = useTitleStore();
   useEffect(() => {
     db.blogs.get(1).then((blog) => {
-      if (blog?.title) setDocumentTitle(blog.title);
+      if (blog?.title) setTitle(blog.title);
     });
-  }, []);
+  }, [setTitle]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
-    setDocumentTitle(newTitle);
+    setTitle(newTitle);
     db.blogs.update(1, { title: newTitle });
   };
 
   return (
-    <div
-      className="w-full bg-main-blue text-primary-content"
-      dir="rtl"
-    >
+    <div className="w-full bg-main-blue text-primary-content" dir="rtl">
       <TopNavBar isCollapsed={isCollapsed} />
 
       <div className="bg-white h-20 flex flex-row justify-between items-center px-4 sm:px-8 py-4 border-b-1 w-full">
@@ -37,7 +34,7 @@ const NavBar = () => {
           <input
             className="opacity-90 text-main-blue border-none outline-none w-full max-w-[200px] sm:max-w-none"
             style={{ fontSize: "1.125rem", fontFamily: "Dubai-regular" }}
-            value={documentTitle}
+            value={title}
             onChange={handleTitleChange}
             placeholder="مستند بدون عنوان"
           />
