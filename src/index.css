@@ -373,7 +373,8 @@ body, html, #root {
   pointer-events: none;
 }
 
-/* Hide placeholders on all other paragraphs */
-.tiptap.ProseMirror p:not(:first-child)::before {
+/* Hide placeholders on all other paragraphs and in list items */
+.tiptap.ProseMirror p:not(:first-child)::before,
+.tiptap.ProseMirror li p::before {
   display: none !important;
 }
