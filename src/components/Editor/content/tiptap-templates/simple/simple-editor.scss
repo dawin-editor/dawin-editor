@@ -159,6 +159,7 @@ body,
     ol {
       padding-inline: 1.25rem;
       margin-block: 0.75rem;
+      direction: rtl;
     }
     
 
@@ -167,10 +168,7 @@ body,
     }
 
     /* Gray bullets and numbers for lists */
-    ul li::marker,
-    ol li::marker {
-      color: #9ca3af; /* gray-400 */
-    }
+    
 
     code:not(pre code) {
       background: rgba(15, 89, 158, 0.08);

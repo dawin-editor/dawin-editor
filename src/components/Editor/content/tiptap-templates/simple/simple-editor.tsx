@@ -100,7 +100,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useTitleStore } from "@/store/titleStore";
 
 
 const MainToolbarContent = ({
@@ -212,7 +211,6 @@ const MobileToolbarContent = ({
 
 export function SimpleEditor() {
   const isMobile = useIsMobile();
-  const { title, setTitle } = useTitleStore();
   
   const [mobileView, setMobileView] = React.useState<
     "main" | "highlighter" | "link"

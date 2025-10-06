@@ -9,6 +9,7 @@ import { ChevronDown, CodeXml, Download } from "lucide-react";
 import { useState } from "react";
 import ExportDialog from "./ExportDialog.tsx";
 import UploadFile from "./UploadFile.tsx";
+import ExportToPdf from "./ExportToPdf.tsx";
 
 const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
   const [isOpen, setIsOpen] = useState({
@@ -83,6 +84,10 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
               </span>
               <CodeXml className="size-5 translate-y-[0.5px]" opacity={0.6} />
             </span>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem asChild>
+            <ExportToPdf />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
