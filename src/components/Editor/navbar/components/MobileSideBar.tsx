@@ -4,6 +4,9 @@ import { useEditorStore } from "@/store/EditroStore.ts";
 import { Download, Info, MousePointerClick, Upload, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import ExportDialog from "./ExportDialog.tsx";
+import { db } from "@/lib/db";
+import ExportToPDF from "@/lib/ExportToPDF.ts";
+
 
 interface MobileSideBarProps {
   open: boolean;
@@ -17,6 +20,8 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
     isOpen: false,
     content: "",
   });
+  const [documentTitle, setDocumentTitle] = useState("تصدير");
+
 
   // Lock scroll on mobile when sidebar is open
   useEffect(() => {
@@ -28,6 +33,21 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
       };
     }
   }, [open]);
+  useEffect(() => {
+    const fetchTitle = async () => {
+      try {
+        const blog = await db.blogs.get(1);
+        if (blog?.title) {
+          setDocumentTitle(blog.title);
+        }
+      } catch (error) {
+        console.error("Error fetching title from IndexedDB:", error);
+      }
+    };
+
+    fetchTitle();
+  }, []);
+
 
   if (!editor) return null;
   return (
@@ -122,6 +142,22 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               </span>
             </button>
           </li>
+          <li className="group">
+            <button
+              className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
+              aria-label="تصدير كملف PDF"
+              onClick={() => {
+                ExportToPDF(editor!, documentTitle);
+              }}
+             
+            >
+              <Download className="size-6 text-blue-200" />
+              <span className="font-dubai-medium text-lg">
+                تصدير كملف PDF
+              </span>
+            </button>
+          </li>
+
 
           <li className="group">
             <button

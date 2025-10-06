@@ -92,7 +92,7 @@ import OfficePaste from "@intevation/tiptap-extension-office-paste";
 import { ImageExtension } from "@/components/Editor/content/tiptap-node/image-node/ImageCN.tsx";
 import { ImagePlaceholder } from "@/components/Editor/content/tiptap-node/image-node/Image-placeholder.tsx";
 import { ImagePlaceholderToolbar } from "@/components/Editor/content/tiptap-node/image-node/image-placeholder-toolbar.tsx";
-import { ClipboardCopy } from "lucide-react";
+import { ClipboardCopy, MessageCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import Toast from "@/components/Editor/navbar/components/Toast";
 import {
@@ -100,7 +100,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -211,7 +210,8 @@ const MobileToolbarContent = ({
 
 export function SimpleEditor() {
   const isMobile = useIsMobile();
-  
+  const tallyId = import.meta.env.VITE_TALLY_ID;
+
   const [mobileView, setMobileView] = React.useState<
     "main" | "highlighter" | "link"
   >("main");
@@ -275,7 +275,6 @@ export function SimpleEditor() {
       Selection,
       TextStyleKit,
     ],
- 
 
     onCreate: async ({ editor }) => {
       setEditor(editor);
@@ -346,8 +345,27 @@ export function SimpleEditor() {
               style={{ minHeight: "400px", outline: "none" }}
               dir="rtl"
             />
+            <div className="fixed bottom-10 left-8 flex flex-row gap-2">
             <Tooltip>
-              <TooltipTrigger className=" bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover absolute bottom-10 left-8 cursor-pointer hidden sm:block ">
+              <TooltipTrigger
+                className="bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover cursor-pointer hidden sm:block"
+                data-tally-open={tallyId}
+                data-tally-emoji-text="👋"
+                data-tally-emoji-animation="wave"
+                aria-label="Provide feedback"
+                data-tally-layout="modal"
+              >
+                <div>
+                  <MessageCircle
+                    className="text-icons-color size-5.5"
+                    strokeWidth={2}
+                  />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="bg-black">إرسال ملاحظات</TooltipContent>
+            </Tooltip> 
+            <Tooltip>
+              <TooltipTrigger className="bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover cursor-pointer hidden sm:block">
                 <div
                   onClick={() => {
                     navigator.clipboard.writeText(editor.getText());
@@ -360,8 +378,11 @@ export function SimpleEditor() {
                   />
                 </div>
               </TooltipTrigger>
-              <TooltipContent className="bg-black">نسخ </TooltipContent>
+              <TooltipContent className="bg-black">نسخ</TooltipContent>
             </Tooltip>
+           
+            
+            </div>
             <Toast />
           </div>
         </ToolbarProvider>
