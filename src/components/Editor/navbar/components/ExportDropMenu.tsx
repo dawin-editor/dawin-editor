@@ -3,6 +3,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu.tsx";
 import { useEditorStore } from "@/store/EditroStore.ts";
 import { ChevronDown, CodeXml, Download } from "lucide-react";
@@ -21,7 +26,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu dir="rtl">
         <DropdownMenuTrigger asChild>
           <button
             className="md:inline-flex items-center gap-1.5 font-Regular text-cerulean-30 hover:text-white active:text-white focus:outline-none cursor-pointer"
@@ -42,53 +47,86 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
           </button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="end" sideOffset={8} className="py-1 w-45 " data-cy="export-dropdown-menu">
+        <DropdownMenuContent
+          align="end"
+          sideOffset={8}
+          className="py-1 w-45 "
+          data-cy="export-dropdown-menu"
+        >
           <DropdownMenuItem asChild>
             <UploadFile />
           </DropdownMenuItem>
 
-          <DropdownMenuItem asChild>
-            <span
-              className="flex items-center justify-end px-3 py-2 cursor-pointer gap-1.5"
-              onClick={() =>
-                setIsOpen({
-                  contentType: "HTML",
-                  isOpen: true,
-                  content: editor?.getHTML() || "",
-                })
-              }
-              data-cy="export-html"
-            >
-              <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
-                HTML تصدير
-              </span>
-              <CodeXml className="size-5 translate-y-[0.5px]" opacity={0.6} />
-            </span>
-          </DropdownMenuItem>
+          <DropdownMenuSeparator />
 
-          <DropdownMenuItem asChild>
-            <span
-              data-cy="export-markdown"
-              className="flex items-center justify-end px-3 py-2 cursor-pointer gap-1.5"
-              onClick={() =>
-                setIsOpen({
-                  contentType: "Markdown",
-                  isOpen: true,
-                  content:
-                    (editor?.storage as any)?.markdown?.getMarkdown?.() || "",
-                })
-              }
-            >
-              <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
-                Markdown تصدير
+          <DropdownMenuSub >
+            <DropdownMenuSubTrigger className="[&>svg]:rotate-180 justify-between">
+              <span className="flex flex-row-reverse items-center justify-start px-1 py-2 cursor-pointer gap-1.5 hover:bg-gray-100 rounded-md">
+                <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
+                  تصدير
+                </span>
+                <Download
+                  className="size-5 translate-y-[0.5px]"
+                  opacity={0.3}
+                />
               </span>
-              <CodeXml className="size-5 translate-y-[0.5px]" opacity={0.6} />
-            </span>
-          </DropdownMenuItem>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem asChild>
+                  <span
+                    className="flex items-center justify-start px-3 py-2 cursor-pointer gap-1.5"
+                    onClick={() =>
+                      setIsOpen({
+                        contentType: "HTML",
+                        isOpen: true,
+                        content: editor?.getHTML() || "",
+                      })
+                    }
+                    data-cy="export-html"
+                  >
+                    <CodeXml
+                      className="size-5 translate-y-[0.5px]"
+                      opacity={0.6}
+                    />
+                    <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
+                    تصدير HTML
+                    </span>
+                    
+                  </span>
+                </DropdownMenuItem>
 
-          <DropdownMenuItem asChild>
-            <ExportToPdf />
-          </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <span
+                    data-cy="export-markdown"
+                    className="flex items-center justify-start px-3 py-2 cursor-pointer gap-1.5"
+                    onClick={() =>
+                      setIsOpen({
+                        contentType: "Markdown",
+                        isOpen: true,
+                        content:
+                          (editor?.storage as any)?.markdown?.getMarkdown?.() ||
+                          "",
+                      })
+                    }
+                  >
+                    <CodeXml
+                      className="size-5 translate-y-[0.5px]"
+                      opacity={0.6}
+                    />
+                    <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
+                    تصدير Markdown
+                    </span>
+                    
+                  </span>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem asChild>
+                  <ExportToPdf />
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
         </DropdownMenuContent>
       </DropdownMenu>
 

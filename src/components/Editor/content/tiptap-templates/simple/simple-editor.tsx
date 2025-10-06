@@ -94,6 +94,8 @@ import { ImagePlaceholder } from "@/components/Editor/content/tiptap-node/image-
 import { ImagePlaceholderToolbar } from "@/components/Editor/content/tiptap-node/image-node/image-placeholder-toolbar.tsx";
 import { ClipboardCopy, MessageCircle } from "lucide-react";
 import toast from "react-hot-toast";
+import Text from '@tiptap/extension-text'
+
 import Toast from "@/components/Editor/navbar/components/Toast";
 import {
   Tooltip,
@@ -165,7 +167,7 @@ const MainToolbarContent = ({
           types={["bulletList", "orderedList", "taskList"]}
           portal={isMobile}
         />
-        <HeadingDropdownMenu levels={[1, 2, 3, 4]} portal={isMobile} />
+        <HeadingDropdownMenu levels={[1, 2, 3, 4,]} portal={isMobile} />
       </ToolbarGroup>
       <ToolbarSeparator />
       {/* Group 1: Core text formatting (Link, Italic, Bold) */}
