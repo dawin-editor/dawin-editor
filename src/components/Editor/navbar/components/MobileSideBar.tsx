@@ -1,17 +1,41 @@
 import { handleUpload } from "@/lib/upload.ts";
 import { cn } from "@/lib/utils.ts";
 import { useEditorStore } from "@/store/EditroStore.ts";
-import { Download, Info, MousePointerClick, Upload, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import {
+  Download,
+  Info,
+  MousePointerClick,
+  Upload,
+  X,
+  MessageCircle,
+} from "lucide-react";
+import { useEffect, useState, useCallback } from "react";
+
+declare global {
+  interface Window {
+    Tally?: {
+      openPopup: (formId: string, options: {
+        layout: string;
+        emoji: {
+          text: string;
+          animation: string;
+        };
+        onOpen?: () => void;
+        onClose?: () => void;
+      }) => void;
+    };
+  }
+}
 import ExportDialog from "./ExportDialog.tsx";
 import { db } from "@/lib/db";
 import ExportToPDF from "@/lib/ExportToPDF.ts";
-
 
 interface MobileSideBarProps {
   open: boolean;
   setOpen: (open: boolean) => void;
 }
+const tallyId = import.meta.env.VITE_TALLY_ID;
+
 
 const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
   const { editor } = useEditorStore();
@@ -22,6 +46,25 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
   });
   const [documentTitle, setDocumentTitle] = useState("تصدير");
 
+  const handleFeedbackClick = useCallback(() => {
+    if (window.Tally) {
+      window.Tally.openPopup(tallyId, {
+        layout: 'modal',
+        emoji: {
+          text: '👋',
+          animation: 'wave'
+        },
+        onOpen: () => {
+          console.log('Tally feedback form opened');
+        },
+        onClose: () => {
+          console.log('Tally feedback form closed');
+        }
+      });
+    } else {
+      console.error('Tally script not loaded');
+    }
+  }, [tallyId]);
 
   // Lock scroll on mobile when sidebar is open
   useEffect(() => {
@@ -47,7 +90,6 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
 
     fetchTitle();
   }, []);
-
 
   if (!editor) return null;
   return (
@@ -103,6 +145,9 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               }}
             />
           </li>
+          <div className="h-2">
+            <hr className="border-white/10" />
+          </div>
           <li className="group">
             <button
               className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
@@ -149,15 +194,15 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               onClick={() => {
                 ExportToPDF(editor!, documentTitle);
               }}
-             
             >
               <Download className="size-6 text-blue-200" />
-              <span className="font-dubai-medium text-lg">
-                تصدير كملف PDF
-              </span>
+              <span className="font-dubai-medium text-lg">تصدير كملف PDF</span>
             </button>
           </li>
 
+          <div className="h-2">
+            <hr className="border-white/10" />
+          </div>
 
           <li className="group">
             <button
@@ -171,6 +216,16 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               >
                 طريقة الاستخدام
               </a>
+            </button>
+          </li>
+          <li className="group">
+            <button
+             className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
+              aria-label="أرسل ملاحظتك"
+              onClick={handleFeedbackClick}
+            >
+              <MessageCircle className="size-6 text-blue-200" />
+              <span className="font-dubai-medium text-lg">أرسل ملاحظتك</span>
             </button>
           </li>
           <li className="group">

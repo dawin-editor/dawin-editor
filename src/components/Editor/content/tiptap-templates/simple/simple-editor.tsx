@@ -94,7 +94,6 @@ import { ImagePlaceholder } from "@/components/Editor/content/tiptap-node/image-
 import { ImagePlaceholderToolbar } from "@/components/Editor/content/tiptap-node/image-node/image-placeholder-toolbar.tsx";
 import { ClipboardCopy, MessageCircle } from "lucide-react";
 import toast from "react-hot-toast";
-import Text from '@tiptap/extension-text'
 
 import Toast from "@/components/Editor/navbar/components/Toast";
 import {
