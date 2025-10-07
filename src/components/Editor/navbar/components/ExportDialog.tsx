@@ -14,7 +14,6 @@ import { Copy, Download } from "lucide-react";
 import toast from "react-hot-toast";
 import Toast from "./Toast";
 import { db } from "@/lib/db";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 
 interface ExportDialogProps {
