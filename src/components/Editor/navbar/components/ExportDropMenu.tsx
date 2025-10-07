@@ -24,6 +24,62 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
   });
   const { editor } = useEditorStore();
 
+  const handleExport = (type: "HTML" | "Markdown") => {
+    let html = "";
+    if (type === "HTML") {
+      html = `
+        <html>
+          <head>
+            <title>محرر دوّن</title>
+            <link rel="stylesheet" href="https://unpkg.com/holiday.css">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            
+           <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Naskh+Arabic:wght@400..700&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+            <style>
+            body {
+              font-family: 'Tajawal', sans-serif;
+            }
+            ul,
+            ol {
+              direction: rtl;
+            }
+            img {
+              max-width: 300px;
+              align-self: center;
+            }
+            table {
+              margin: 1rem 0;
+              border-collapse: collapse;
+              width: auto !important;
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
+            }
+            </style>
+          </head>
+          <body style="font-family: 'Tajawal', sans-serif;">
+            ${editor?.getHTML() || ""}
+          </body>
+        </html>
+      `;
+      setIsOpen({
+        contentType: "HTML",
+        isOpen: true,
+        content: html,
+      });
+    } else if (type === "Markdown") {
+      setIsOpen({
+        contentType: "Markdown",
+        isOpen: true,
+        content:
+          (editor?.storage as any)?.markdown?.getMarkdown?.() ||
+          "",
+      })
+    }
+  };
+
   return (
     <>
       <DropdownMenu dir="rtl">
@@ -77,11 +133,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
                   <span
                     className="flex items-center justify-start px-3 py-2 cursor-pointer gap-1.5"
                     onClick={() =>
-                      setIsOpen({
-                        contentType: "HTML",
-                        isOpen: true,
-                        content: editor?.getHTML() || "",
-                      })
+                      handleExport("HTML")
                     }
                     data-cy="export-html"
                   >
@@ -101,13 +153,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
                     data-cy="export-markdown"
                     className="flex items-center justify-start px-3 py-2 cursor-pointer gap-1.5"
                     onClick={() =>
-                      setIsOpen({
-                        contentType: "Markdown",
-                        isOpen: true,
-                        content:
-                          (editor?.storage as any)?.markdown?.getMarkdown?.() ||
-                          "",
-                      })
+                      handleExport("Markdown")
                     }
                   >
                     <CodeXml

@@ -14,6 +14,8 @@ import { Copy, Download } from "lucide-react";
 import toast from "react-hot-toast";
 import Toast from "./Toast";
 import { db } from "@/lib/db";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 
 interface ExportDialogProps {
   contentType: "HTML" | "Markdown" | ""; // allow empty
@@ -140,8 +142,10 @@ const ExportDialog = ({
         </DialogHeader>
 
         <div className="mt-1" role="region" aria-label="معاينة المحتوى">
+            
           <textarea
             readOnly
+            dir="ltr"
             className="w-full min-h-[260px] max-h-[50vh] rounded-md text-consolas-regular border border-[var(--border)] bg-[var(--secondary)]/70 dark:bg-[var(--accent)]/10 p-3 text-[0.92rem] font-mono leading-6 outline-none text-foreground/90 selection:bg-cerulean/25 selection:text-foreground/95 resize-vertical"
             style={{
               fontFamily:
