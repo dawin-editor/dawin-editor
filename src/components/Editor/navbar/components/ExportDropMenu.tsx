@@ -74,7 +74,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
         contentType: "Markdown",
         isOpen: true,
         content:
-          (editor?.storage as any)?.markdown?.getMarkdown?.() ||
+          (editor?.storage as { markdown?: { getMarkdown: () => string } })?.markdown?.getMarkdown?.() ||
           "",
       })
     }
@@ -113,11 +113,11 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
             <UploadFile />
           </DropdownMenuItem>
 
-          <DropdownMenuSeparator />
+          <DropdownMenuSeparator/>
 
           <DropdownMenuSub >
             <DropdownMenuSubTrigger className="[&>svg]:rotate-180 justify-between">
-              <span className="flex flex-row-reverse items-center justify-start px-1 py-2 cursor-pointer gap-1.5 hover:bg-gray-100 rounded-md">
+              <span className="flex flex-row-reverse items-center justify-start px-1 py-1 cursor-pointer gap-1.5 hover:bg-gray-100 rounded-md">
                 <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
                   تصدير
                 </span>
