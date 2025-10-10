@@ -28,7 +28,7 @@ declare global {
 }
 import ExportDialog from "./ExportDialog.tsx";
 import { db } from "@/lib/db";
-import ExportToPDF from "@/lib/ExportToPDF.ts";
+import { ExportToPDF } from "@/lib/ExportToPDF.ts";
 
 interface MobileSideBarProps {
   open: boolean;

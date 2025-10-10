@@ -45,10 +45,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
             ol {
               direction: rtl;
             }
-            img {
-              max-width: 300px;
-              align-self: center;
-            }
+            
             table {
               margin: 1rem 0;
               border-collapse: collapse;
