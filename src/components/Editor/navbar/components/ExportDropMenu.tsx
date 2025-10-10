@@ -31,29 +31,84 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
         <html>
           <head>
             <title>محرر دوّن</title>
-            <link rel="stylesheet" href="https://unpkg.com/holiday.css">
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
             
-           <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Naskh+Arabic:wght@400..700&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+          
+
+          <link href="https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Graphik%20Arabic%20SemiBold.ttf" rel="stylesheet">
+          <link href="https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Samim.ttf" rel="stylesheet">
+
+
 
             <style>
+            pre {
+              overflow: visible !important;
+              white-space: pre-wrap;
+              word-wrap: break-word;
+              direction: ltr;
+            }
+
+            pre code {
+              background: none !important;
+              padding: 0;
+              margin: 0;
+              display: block;
+              direction: ltr;
+            }
+
+            
+            @font-face {
+              font-family: 'Graphik Arabic';
+              src: url('https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Graphik%20Arabic%20SemiBold.ttf') format('truetype');
+              font-weight: 600;
+              font-style: normal;
+            }
+            
+            @font-face {
+              font-family: 'Samim';
+              src: url('https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Samim.ttf') format('truetype');
+              font-weight: normal;
+              font-style: normal;
+            }
+            
             body {
-              font-family: 'Tajawal', sans-serif;
+              font-family: 'Samim', sans-serif;
+              direction: rtl;
+            }
+            h1,h2,h3,h4,h5,h6 {
+              font-family: 'Graphik Arabic', sans-serif;
+            }
+            p{
+              font-family: 'Samim', sans-serif;
             }
             ul,
             ol {
               direction: rtl;
             }
-            
             table {
-              margin: 1rem 0;
               border-collapse: collapse;
-              width: auto !important;
-              display: block;
-              margin-left: auto;
-              margin-right: auto;
+              width: 100%;            /* size to content */
+              table-layout: auto;    /* natural column sizing */
+              margin: 1em 0;      /* center horizontally */
+              background: transparent;
+              display: table;        /* ensure it's treated like a table */
             }
+
+            table th,
+            table td {
+              border: none;
+              padding: 8px 12px;
+              text-align: right;     /* keep RTL cell alignment */
+              vertical-align: middle;
+            }   
+                     
+           
+            
             </style>
           </head>
           <body style="font-family: 'Tajawal', sans-serif;">
