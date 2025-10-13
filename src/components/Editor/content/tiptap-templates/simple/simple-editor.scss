@@ -59,14 +59,13 @@ body,
   display: flex;
   flex-direction: column;
   min-width: 50%;
-
+  height: 100%;
+  overflow: auto;
   
-  
-  
-  // @media (max-width: 768px) {
-  //   height: 100%;
-  //   overflow: hidden;
-  // }
+  @media (max-width: 768px) {
+    min-width: 100%;
+    padding: 0;
+  }
 }
 
 .simple-editor-content {
@@ -78,10 +77,15 @@ body,
   
   .tiptap.ProseMirror.simple-editor {
     flex: 1;
-    max-width:1000px;
-    padding: 2rem;
+    width: 100%;
+    max-width: 1000px;
+    padding: 1.5rem;
     min-height: 60dvh;
-    padding-inline: 2rem;
+    
+    @media (max-width: 768px) {
+      padding: 1rem;
+      min-height: calc(100dvh - var(--tt-toolbar-height) - 2rem);
+    }
     
     /* Placeholder styling */
     &.is-editor-empty p:first-child::before {
@@ -113,15 +117,27 @@ body,
 
     h1 {
       font-size: 2.25rem;
+      @media (max-width: 768px) {
+        font-size: 1.75rem;
+      }
     }
     h2 {
       font-size: 1.6rem;
+      @media (max-width: 768px) {
+        font-size: 1.4rem;
+      }
     }
     h3 {
       font-size: 1.35rem;
+      @media (max-width: 768px) {
+        font-size: 1.2rem;
+      }
     }
     h4 {
       font-size: 1.2rem;
+      @media (max-width: 768px) {
+        font-size: 1.1rem;
+      }
     }
     h5 {
       font-size: 1.05rem;
@@ -141,15 +157,17 @@ body,
     }
 
     blockquote {
-      border-inline-start: 3px solid #618ee7; /* RTL/LTR friendly */
+      border-inline-start: 3px solid #618ee7;
       background: rgb(243, 244, 246);
       color: #5a5a5a;
-      padding-top: 20;
-      padding-bottom: 20;
-      padding-right: 10px;
-
-      // padding: 0.85rem 0.5rem;
-      // margin-block: 1rem;
+      padding: 1.25rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+      
+      @media (max-width: 768px) {
+        padding: 1rem;
+        margin-inline: 0.5rem;
+      }
     }
     blockquote::before {
       display: none;
@@ -160,6 +178,10 @@ body,
       padding-inline: 1.25rem;
       margin-block: 0.75rem;
       direction: rtl;
+      
+      @media (max-width: 768px) {
+        padding-inline: 1rem;
+      }
     }
     
 

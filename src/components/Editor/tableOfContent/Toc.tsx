@@ -15,7 +15,8 @@ const Toc: React.FC<TocProps> = () => {
   const isMobile = useIsMobile();
 
   const handleScroll = useCallback(
-    (id: string) => {
+    (id?: string) => {
+      if (!id) return;
       const element = document.getElementById(id);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -46,84 +47,36 @@ const Toc: React.FC<TocProps> = () => {
     }
   }, [isMobile, isOpen]);
 
-  // Helper for heading level styles
+  // Helper for heading level styles with enhanced typography
   const getLevelStyle = (level: number) => {
+    const baseStyles = "transition-colors duration-200 hover:text-primary hover:opacity-100";
+
     switch (level) {
       case 1:
-        return "text-base font-bold";
+        return `
+          text-[1.1rem] font-bold leading-snug 
+          tracking-tight text-foreground
+          ${baseStyles}
+        `;
       case 2:
-        return "text-[15px] font-medium opacity-90";
+        return `
+          text-[0.95rem] font-medium leading-relaxed 
+          tracking-normal text-foreground/90 
+          pl-4 ${baseStyles}
+        `;
       case 3:
-        return "text-[12px] font-medium opacity-80";
+        return `
+          text-[0.85rem] font-medium leading-relaxed 
+          tracking-normal text-foreground/80 
+          pl-8 ${baseStyles}
+        `;
       default:
-        return "text-[12px] opacity-70";
+        return `
+          text-[0.85rem] font-medium leading-relaxed 
+          tracking-normal text-foreground/80 
+          pl-8 ${baseStyles}
+        `;
     }
-  };
-
-  // Check if this is the last item at its level
-  const isLastAtLevel = (index: number, level: number) => {
-    for (let i = index + 1; i < anchors.length; i++) {
-      if (anchors[i].level <= level) {
-        return anchors[i].level < level;
-      }
-    }
-    return true;
-  };
-
-  // Get tree structure indicators
-  const getTreeIndicators = (index: number, level: number) => {
-    const indicators = [];
-    
-    // Add vertical lines for parent levels
-    for (let l = 1; l < level; l++) {
-      let hasMoreSiblings = false;
-      
-      // Check if there are more siblings at this level
-      for (let i = index + 1; i < anchors.length; i++) {
-        if (anchors[i].level < l) break;
-        if (anchors[i].level === l) {
-          hasMoreSiblings = true;
-          break;
-        }
-      }
-      
-      indicators.push(
-        <span
-          key={`line-${l}`}
-          className={cn(
-            "absolute w-px bg-gray-300 dark:bg-gray-600",
-            hasMoreSiblings ? "h-full" : "h-0"
-          )}
-          style={{ right: `${l * 20 - 10}px`, top: 0 }}
-        />
-      );
-    }
-    
-    return indicators;
-  };
-
-  const renderTreeBranch = (level: number, index: number) => {
-    if (level === 1) return null;
-    
-    const isLast = isLastAtLevel(index, level);
-    
-    return (
-      <div className="absolute top-0 bottom-0 flex items-center" style={{ right: `${level * 20 - 10}px` }}>
-        {/* Vertical line */}
-        <div 
-          className={cn(
-            "absolute w-px bg-gray-300 dark:bg-gray-600",
-            isLast ? "h-1/2" : "h-full"
-          )}
-          style={{ top: 0, right: 0 }}
-        />
-        {/* Horizontal line */}
-        <div 
-          className="absolute w-3 h-px bg-gray-300 dark:bg-gray-600"
-          style={{ right: 0, top: "50%" }}
-        />
-      </div>
-    );
   };
 
   return (
@@ -169,8 +122,8 @@ const Toc: React.FC<TocProps> = () => {
                   لا يوجد محتويات
                 </p>
               ) : (
-                <ul className="space-y-0">
-                  {anchors.map((anchor, index) => (
+                <ul className="space-y-1">
+                  {anchors.map((anchor) => (
                     <li
                       key={anchor.id}
                       onClick={() => handleScroll(anchor.id)}
@@ -186,11 +139,10 @@ const Toc: React.FC<TocProps> = () => {
                           : "hover:bg-gray-200/60 dark:hover:bg-gray-800/60 text-gray-800 dark:text-gray-300"
                       )}
                       style={{
-                        paddingRight: `${anchor.level * 20 + 12}px`,
+                        // simple indentation based on heading level; no lines
+                        paddingRight: `${anchor.level * 20}px`,
                       }}
                     >
-                      {getTreeIndicators(index, anchor.level)}
-                      {renderTreeBranch(anchor.level, index)}
                       <span className="relative z-10">{anchor.textContent}</span>
                     </li>
                   ))}
@@ -232,12 +184,10 @@ const Toc: React.FC<TocProps> = () => {
             )}
           >
             {anchors.length === 0 ? (
-              <p className="text-gray-500 text-xs italic p-2">
-                لا يوجد محتويات
-              </p>
+              <p className="text-gray-500 text-xs italic p-2">لا يوجد محتويات</p>
             ) : (
-              <ul className="space-y-0">
-                {anchors.map((anchor, index) => (
+              <ul className="space-y-1 px-2">
+                {anchors.map((anchor) => (
                   <li
                     key={anchor.id}
                     onClick={() => handleScroll(anchor.id)}
@@ -246,18 +196,17 @@ const Toc: React.FC<TocProps> = () => {
                     role="button"
                     aria-label={`Jump to ${anchor.textContent}`}
                     className={cn(
-                      "relative cursor-pointer select-none rounded-md transition-colors duration-200 py-2 pl-1 ",
+                      "relative cursor-pointer select-none rounded-md transition-colors duration-200 py-2",
                       getLevelStyle(anchor.level),
                       anchor.isActive
                         ? "text-blue-600 font-medium dark:text-blue-400 bg-blue-100/10"
                         : "text-gray-700 dark:text-gray-300 hover:bg-gray-200/40 dark:hover:bg-gray-800/40"
                     )}
                     style={{
+                      // simple indentation based on heading level; no lines
                       paddingRight: `${anchor.level * 20 + 8}px`,
                     }}
                   >
-                    {getTreeIndicators(index, anchor.level)}
-                    {renderTreeBranch(anchor.level, index)}
                     <span className="relative z-10">{anchor.textContent}</span>
                   </li>
                 ))}
