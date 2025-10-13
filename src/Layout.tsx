@@ -4,7 +4,6 @@ import { SimpleEditor } from "@/components/Editor/content/tiptap-templates/simpl
 
 const Layout = () => {
 
-
   return (
     <div
       className="flex h-full flex-col bg-gray-50 mobile-layout transition-opacity duration-500"
@@ -13,7 +12,7 @@ const Layout = () => {
         <NavBar />
       </div>
 
-      <div className="min-h-0 flex-1 overflow-hidden bg-white mobile-content">
+      <div className="min-h-0 flex-1 overflow-hidden bg-white mobile-content flex flex-row">
         <SimpleEditor />
       </div>
 

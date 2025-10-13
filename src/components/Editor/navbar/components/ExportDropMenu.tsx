@@ -35,13 +35,18 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
             <meta name="viewport" content="width=device-width, initial-scale=1">
             
             <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
           
 
-          <link href="https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Graphik%20Arabic%20SemiBold.ttf" rel="stylesheet">
-          <link href="https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Samim.ttf" rel="stylesheet">
+           <link href="https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Graphik%20Arabic%20SemiBold.ttf" rel="stylesheet">
+           <link href="https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Samim.ttf" rel="stylesheet">
+
+           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+           <script>hljs.highlightAll();</script>
+
 
 
 

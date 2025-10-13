@@ -92,15 +92,11 @@ import OfficePaste from "@intevation/tiptap-extension-office-paste";
 import { ImageExtension } from "@/components/Editor/content/tiptap-node/image-node/ImageCN.tsx";
 import { ImagePlaceholder } from "@/components/Editor/content/tiptap-node/image-node/Image-placeholder.tsx";
 import { ImagePlaceholderToolbar } from "@/components/Editor/content/tiptap-node/image-node/image-placeholder-toolbar.tsx";
-import { ClipboardCopy, MessageCircle } from "lucide-react";
-import toast from "react-hot-toast";
 
-import Toast from "@/components/Editor/navbar/components/Toast";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { TableOfContents } from "@tiptap/extension-table-of-contents";
+import { useTocStore } from "@/store/TocStore";
+import Toc from "@/components/Editor/tableOfContent/Toc";
+import ButtomActions from "../../ButtomActions";
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -166,7 +162,7 @@ const MainToolbarContent = ({
           types={["bulletList", "orderedList", "taskList"]}
           portal={isMobile}
         />
-        <HeadingDropdownMenu levels={[1, 2, 3, 4,]} portal={isMobile} />
+        <HeadingDropdownMenu levels={[1, 2, 3, 4]} portal={isMobile} />
       </ToolbarGroup>
       <ToolbarSeparator />
       {/* Group 1: Core text formatting (Link, Italic, Bold) */}
@@ -211,11 +207,11 @@ const MobileToolbarContent = ({
 
 export function SimpleEditor() {
   const isMobile = useIsMobile();
-  const tallyId = import.meta.env.VITE_TALLY_ID;
-
   const [mobileView, setMobileView] = React.useState<
     "main" | "highlighter" | "link"
   >("main");
+  const { setAnchors } = useTocStore();
+
   const toolbarRef = React.useRef<HTMLDivElement>(null);
 
   const { setEditor } = useEditorStore();
@@ -239,6 +235,11 @@ export function SimpleEditor() {
         link: {
           openOnClick: false,
           enableClickSelection: true,
+        },
+      }),
+      TableOfContents.configure({
+        onUpdate: (anchors) => {
+          setAnchors(anchors);
         },
       }),
       OfficePaste,
@@ -304,90 +305,57 @@ export function SimpleEditor() {
   }, [isMobile, mobileView]);
 
   if (!editor) return null;
+  // const headings = JSON.parse(localStorage.getItem("headings") || "[]");
 
   return (
-    <div className="simple-editor-wrapper font-dubai-light">
-      <EditorContext.Provider value={{ editor }}>
-        <ToolbarProvider editor={editor}>
-          <Toolbar
-            ref={toolbarRef}
-            className="sticky top-0 z-20 flex items-start justify-center p-0 "
-            variant="fixed"
-            style={{
-              background: "#F3F4F6",
-              height: "var(--tt-toolbar-height)",
-              ...(preview ? { display: "none" } : {}),
-            }}
-          >
-            {mobileView === "main" ? (
-              <MainToolbarContent
-                onHighlighterClick={() => setMobileView("highlighter")}
-                onLinkClick={() => setMobileView("link")}
-                isMobile={isMobile}
-              />
-            ) : (
-              <MobileToolbarContent
-                type={mobileView === "highlighter" ? "highlighter" : "link"}
-                onBack={() => setMobileView("main")}
-              />
-            )}
-          </Toolbar>
-          <div
-            className={cn(
-              "overflow-auto flex-1",
-              preview ? "bg-[#f7fbfb]" : ""
-            )}
-            style={{ fontFamily: "Samim" }}
-          >
+    <>
+
+      <div className="simple-editor-wrapper font-dubai-light flex flex-col flex-1">
+        <EditorContext.Provider value={{ editor }}>
+          <ToolbarProvider editor={editor}>
+            <Toolbar
+              ref={toolbarRef}
+              className="sticky top-0 z-20 flex items-start justify-center p-0 "
+              variant="fixed"
+              style={{
+                background: "#F3F4F6",
+                height: "var(--tt-toolbar-height)",
+                ...(preview ? { display: "none" } : {}),
+              }}
+            >
+              {mobileView === "main" ? (
+                <MainToolbarContent
+                  onHighlighterClick={() => setMobileView("highlighter")}
+                  onLinkClick={() => setMobileView("link")}
+                  isMobile={isMobile}
+                />
+              ) : (
+                <MobileToolbarContent
+                  type={mobileView === "highlighter" ? "highlighter" : "link"}
+                  onBack={() => setMobileView("main")}
+                />
+              )}
+            </Toolbar>
             <EditorContent
               editor={editor}
               data-cy="editor-content"
-              className="simple-editor-content overflow-auto "
-              style={{ minHeight: "400px", outline: "none" }}
+              className={cn(
+                "simple-editor-content overflow-auto",
+                preview ? "bg-[#f7fbfb]" : ""
+              )}
+              style={{
+                minHeight: "400px",
+                outline: "none",
+                fontFamily: "Samim",
+              }}
               dir="rtl"
             />
-            <div className="fixed bottom-10 left-8 flex flex-row gap-2">
-            <Tooltip>
-              <TooltipTrigger
-                className="bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover cursor-pointer hidden sm:block"
-                data-tally-open={tallyId}
-                data-tally-emoji-text="👋"
-                data-tally-emoji-animation="wave"
-                aria-label="Provide feedback"
-                data-tally-layout="modal"
-              >
-                <div>
-                  <MessageCircle
-                    className="text-icons-color size-5.5"
-                    strokeWidth={2}
-                  />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent className="bg-black">إرسال ملاحظات</TooltipContent>
-            </Tooltip> 
-            <Tooltip>
-              <TooltipTrigger className="bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover cursor-pointer hidden sm:block">
-                <div
-                  onClick={() => {
-                    navigator.clipboard.writeText(editor.getText());
-                    toast.success("تم نسخ المحتوى إلى الحافظة!");
-                  }}
-                >
-                  <ClipboardCopy
-                    className="text-icons-color size-5.5"
-                    strokeWidth={2}
-                  />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent className="bg-black">نسخ</TooltipContent>
-            </Tooltip>
-           
-            
-            </div>
-            <Toast />
-          </div>
-        </ToolbarProvider>
-      </EditorContext.Provider>
-    </div>
+            <ButtomActions />
+          </ToolbarProvider>
+        </EditorContext.Provider>
+      </div>
+      <Toc />
+      
+    </>
   );
 }

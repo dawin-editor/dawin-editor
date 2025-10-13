@@ -1,12 +1,20 @@
 import TopNavBar from "./components/TopNavBar.tsx";
 import React, { useState, useEffect } from "react";
 import { Button } from "../../ui/button.tsx";
-import { PanelTopClose, PanelTopOpen, Expand, Shrink } from "lucide-react";
+import {
+  PanelTopClose,
+  PanelTopOpen,
+  Expand,
+  Shrink,
+  TableOfContents,
+} from "lucide-react";
 import EyePen from "./components/EyePen.tsx";
 import { db } from "@/lib/db.ts";
 import { useTitleStore } from "@/store/titleStore.ts";
+import { useTocStore } from "@/store/TocStore";
 
 const NavBar = () => {
+  const { isOpen, setIsOpen } = useTocStore();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
   const { title, setTitle } = useTitleStore();
@@ -40,6 +48,17 @@ const NavBar = () => {
           />
         </div>
         <div className="flex flex-row justify-between items-center gap-4 sm:gap-8 *:cursor-pointer flex-shrink-0">
+          <Button
+            variant="secondary"
+            onClick={() => setIsOpen(!isOpen)}
+            size="icon"
+            className="size-8 bg-icons-bg hover:bg-icons-color-hover rounded-0.5 flex md:hidden"
+          >
+            <TableOfContents
+              className="size-5.5 text-icons-color"
+              strokeWidth={2}
+            />
+          </Button>
           <EyePen
             className="size-8 bg-icons-bg hover:bg-icons-color-hover "
             variant="secondary"
