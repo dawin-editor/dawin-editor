@@ -159,7 +159,7 @@ const Toc: React.FC<TocProps> = () => {
           aria-label="Table of contents"
           className={cn(
             "bg-gray-100 border-l border-gray-200 dark:border-gray-700 dark:bg-gray-900/40 text-sm text-right flex flex-col h-full transition-all duration-500 ease-in-out overflow-hidden",
-            isOpen ? "w-auto max-w-[400px] min-w-[300px] opacity-100" : "w-0 opacity-0"
+            isOpen ? "w-auto max-w-[400px] min-w-[200px] opacity-100" : "w-0 opacity-0"
           )}
         >
           {/* Header */}
