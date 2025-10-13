@@ -1,9 +1,9 @@
 "use client";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTocStore } from "@/store/TocStore";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { X } from "lucide-react";
+import { GripVertical, X } from "lucide-react";
 
 interface TocProps {
   className?: string;
@@ -13,6 +13,53 @@ interface TocProps {
 const Toc: React.FC<TocProps> = () => {
   const { anchors, isOpen, setIsOpen } = useTocStore();
   const isMobile = useIsMobile();
+  const [width, setWidth] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedWidth = localStorage.getItem('toc-width');
+      return savedWidth ? parseInt(savedWidth, 10) : 280;
+    }
+    return 280;
+  });
+  const isResizing = useRef(false);
+  const startX = useRef(0);
+  const startWidth = useRef(0);
+  const resizerRef = useRef<HTMLDivElement>(null);
+  
+  // Memoize the RTL check
+  const isRTL = useCallback(() => {
+    if (typeof document !== 'undefined') {
+      return document.documentElement.dir === 'rtl';
+    }
+    return false;
+  }, []);
+  
+  // Handle mouse move for resizing
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isResizing.current) return;
+    const delta = startX.current - e.clientX;
+    const newWidth = Math.min(Math.max(200, startWidth.current + (isRTL() ? -delta : delta)), 500);
+    setWidth(newWidth);
+  }, [isRTL]);
+  
+  // Stop resizing
+  const stopResizing = useCallback(() => {
+    isResizing.current = false;
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', stopResizing);
+  }, [handleMouseMove]);
+  
+  // Start resizing
+  const startResizing = useCallback((e: React.MouseEvent) => {
+    isResizing.current = true;
+    startX.current = e.clientX;
+    startWidth.current = width;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', stopResizing, { once: true });
+  }, [width, handleMouseMove, stopResizing]);
 
   const handleScroll = useCallback(
     (id?: string) => {
@@ -35,6 +82,13 @@ const Toc: React.FC<TocProps> = () => {
     },
     [handleScroll]
   );
+
+  // Save width to localStorage when it changes
+  useEffect(() => {
+    if (!isMobile && isOpen) {
+      localStorage.setItem('toc-width', width.toString());
+    }
+  }, [width, isOpen, isMobile]);
 
   // Lock scroll on mobile when TOC is open
   useEffect(() => {
@@ -158,10 +212,22 @@ const Toc: React.FC<TocProps> = () => {
         <nav
           aria-label="Table of contents"
           className={cn(
-            "bg-gray-100 border-l border-gray-200 dark:border-gray-700 dark:bg-gray-900/40 text-sm text-right flex flex-col h-full transition-all duration-500 ease-in-out overflow-hidden",
-            isOpen ? "w-auto max-w-[400px] min-w-[200px] opacity-100" : "w-0 opacity-0"
+            "bg-gray-100 border-l border-gray-200 dark:border-gray-700 dark:bg-gray-900/40 text-sm text-right flex flex-col h-full transition-all duration-300 ease-in-out overflow-hidden relative",
+            isOpen ? "opacity-100" : "w-0 opacity-0"
           )}
+          style={isOpen ? { width: `${width}px`, minWidth: `${width}px` } : { width: 0 }}
         >
+          {/* Resize handle */}
+          <div
+            ref={resizerRef}
+            className="absolute top-0 bottom-0 left-0 w-2 cursor-col-resize hover:bg-blue-500/20 active:bg-blue-500/30 transition-colors duration-200 z-20"
+            onMouseDown={startResizing}
+            title="اسحب لتغيير العرض"
+          >
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-30 hover:opacity-100">
+              <GripVertical className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+            </div>
+          </div>
           {/* Header */}
           <div
             className={cn(
@@ -215,6 +281,18 @@ const Toc: React.FC<TocProps> = () => {
           </div>
         </nav>
       )}
+
+      {/* Global styles for resizing */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .resizing * {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+          }
+        `
+      }} />
     </>
   );
 };
