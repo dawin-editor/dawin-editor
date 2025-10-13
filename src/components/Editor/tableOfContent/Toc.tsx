@@ -52,11 +52,11 @@ const Toc: React.FC<TocProps> = () => {
       case 1:
         return "text-base font-bold";
       case 2:
-        return "text-[15px] font-semibold opacity-90";
+        return "text-[15px] font-medium opacity-90";
       case 3:
-        return "text-sm font-medium opacity-80";
+        return "text-[12px] font-medium opacity-80";
       default:
-        return "text-sm opacity-70";
+        return "text-[12px] opacity-70";
     }
   };
 
@@ -207,7 +207,7 @@ const Toc: React.FC<TocProps> = () => {
           aria-label="Table of contents"
           className={cn(
             "bg-gray-100 border-l border-gray-200 dark:border-gray-700 dark:bg-gray-900/40 text-sm text-right flex flex-col h-full transition-all duration-500 ease-in-out overflow-hidden",
-            isOpen ? "w-auto max-w-[400px] min-w-[200px] opacity-100" : "w-0 opacity-0"
+            isOpen ? "w-auto max-w-[400px] min-w-[300px] opacity-100" : "w-0 opacity-0"
           )}
         >
           {/* Header */}
