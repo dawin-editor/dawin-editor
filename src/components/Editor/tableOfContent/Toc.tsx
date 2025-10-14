@@ -24,7 +24,7 @@ const Toc: React.FC<TocProps> = () => {
   const startX = useRef(0);
   const startWidth = useRef(0);
   const resizerRef = useRef<HTMLDivElement>(null);
-  
+
   // Memoize the RTL check
   const isRTL = useCallback(() => {
     if (typeof document !== 'undefined') {
@@ -32,7 +32,7 @@ const Toc: React.FC<TocProps> = () => {
     }
     return false;
   }, []);
-  
+
   // Handle mouse move for resizing
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isResizing.current) return;
@@ -40,7 +40,7 @@ const Toc: React.FC<TocProps> = () => {
     const newWidth = Math.min(Math.max(200, startWidth.current + (isRTL() ? -delta : delta)), 500);
     setWidth(newWidth);
   }, [isRTL]);
-  
+
   // Stop resizing
   const stopResizing = useCallback(() => {
     isResizing.current = false;
@@ -49,7 +49,7 @@ const Toc: React.FC<TocProps> = () => {
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', stopResizing);
   }, [handleMouseMove]);
-  
+
   // Start resizing
   const startResizing = useCallback((e: React.MouseEvent) => {
     isResizing.current = true;
@@ -104,34 +104,39 @@ const Toc: React.FC<TocProps> = () => {
   // Helper for heading level styles with enhanced typography
   const getLevelStyle = (level: number) => {
     const baseStyles = "transition-colors duration-200 hover:text-primary hover:opacity-100";
-
-    switch (level) {
-      case 1:
-        return `
-          text-[1.1rem] font-bold leading-snug 
-          tracking-tight text-foreground
-          ${baseStyles}
-        `;
-      case 2:
-        return `
-          text-[0.95rem] font-medium leading-relaxed 
-          tracking-normal text-foreground/90 
-          pl-4 ${baseStyles}
-        `;
-      case 3:
-        return `
-          text-[0.85rem] font-medium leading-relaxed 
-          tracking-normal text-foreground/80 
-          pl-8 ${baseStyles}
-        `;
-      default:
-        return `
-          text-[0.85rem] font-medium leading-relaxed 
-          tracking-normal text-foreground/80 
-          pl-8 ${baseStyles}
-        `;
-    }
+    const basePadding = 1; // Base padding in rem (16px)
+    const paddingPerLevel = 1.5; // Additional padding per level in rem
+    const paddingLeft = level > 1 ? `${basePadding + (level - 1) * paddingPerLevel}rem` : `${basePadding}rem`;
+    
+    return `
+      text-[0.85rem] font-medium leading-relaxed 
+      tracking-normal text-foreground/80 
+      pl-[${paddingLeft}] ${baseStyles}
+    `;
   };
+
+  // --- NUMBERING
+  const generateNumbering = (anchorsList: any[]) => {
+    const counters: Record<number, number> = {};
+    return anchorsList.map((anchor) => {
+      const level = anchor.level ?? 1;
+      counters[level] = (counters[level] || 0) + 1;
+      // reset deeper levels
+      Object.keys(counters)
+        .map(Number)
+        .filter((l) => l > level)
+        .forEach((l) => delete counters[l]);
+
+      const number = Object.keys(counters)
+        .sort((a, b) => Number(a) - Number(b))
+        .map((l) => counters[Number(l)])
+        .join(".");
+
+      return { ...anchor, number };
+    });
+  };
+
+  const numberedAnchors = generateNumbering(anchors);
 
   return (
     <>
@@ -169,15 +174,15 @@ const Toc: React.FC<TocProps> = () => {
               />
             </div>
 
-            {/* Content */}
-            <div className="p-4 h-[calc(100%-60px)] overflow-y-auto md:hidden">
-              {anchors.length === 0 ? (
+            {/* Content: set dir="ltr" so scrollbar appears on the RIGHT; keep inner list dir="rtl" */}
+            <div dir="ltr" className="p-4 h-[calc(100%-60px)] overflow-y-auto md:hidden">
+              {numberedAnchors.length === 0 ? (
                 <p className="text-gray-500 dark:text-gray-400 text-sm italic text-center py-8">
                   لا يوجد محتويات
                 </p>
               ) : (
-                <ul className="space-y-1">
-                  {anchors.map((anchor) => (
+                <ul className="space-y-1" dir="rtl">
+                  {numberedAnchors.map((anchor) => (
                     <li
                       key={anchor.id}
                       onClick={() => handleScroll(anchor.id)}
@@ -193,11 +198,13 @@ const Toc: React.FC<TocProps> = () => {
                           : "hover:bg-gray-200/60 dark:hover:bg-gray-800/60 text-gray-800 dark:text-gray-300"
                       )}
                       style={{
-                        // simple indentation based on heading level; no lines
-                        paddingRight: `${anchor.level * 20}px`,
+                        // keep your original paddingRight indentation
+                        paddingRight: `${(anchor.level ?? 1) * 20}px`,
                       }}
                     >
-                      <span className="relative z-10">{anchor.textContent}</span>
+                      <span className="relative z-10 select-none">
+                        {anchor.number}. {anchor.textContent}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -210,6 +217,7 @@ const Toc: React.FC<TocProps> = () => {
       {/* Desktop sidebar */}
       {!isMobile && (
         <nav
+          dir="rtl"
           aria-label="Table of contents"
           className={cn(
             "bg-gray-100 border-l border-gray-200 dark:border-gray-700 dark:bg-gray-900/40 text-sm text-right flex flex-col h-full transition-all duration-300 ease-in-out overflow-hidden relative",
@@ -217,7 +225,7 @@ const Toc: React.FC<TocProps> = () => {
           )}
           style={isOpen ? { width: `${width}px`, minWidth: `${width}px` } : { width: 0 }}
         >
-          {/* Resize handle */}
+          {/* Resize handle (kept where you had it) */}
           <div
             ref={resizerRef}
             className="absolute top-0 bottom-0 left-0 w-2 cursor-col-resize hover:bg-blue-500/20 active:bg-blue-500/30 transition-colors duration-200 z-20"
@@ -228,6 +236,7 @@ const Toc: React.FC<TocProps> = () => {
               <GripVertical className="h-4 w-4 text-gray-500 dark:text-gray-400" />
             </div>
           </div>
+
           {/* Header */}
           <div
             className={cn(
@@ -242,18 +251,16 @@ const Toc: React.FC<TocProps> = () => {
             </h2>
           </div>
 
-          {/* Content */}
-          <div
-            className={cn(
+          {/* Content: same trick — scroll container dir="ltr", list dir="rtl" */}
+          <div dir="ltr" className={cn(
               "flex-1 overflow-y-auto overflow-x-hidden py-2 transition-opacity duration-500",
               isOpen ? "opacity-100" : "opacity-0"
-            )}
-          >
-            {anchors.length === 0 ? (
+            )}>
+            {numberedAnchors.length === 0 ? (
               <p className="text-gray-500 text-xs italic p-2">لا يوجد محتويات</p>
             ) : (
-              <ul className="space-y-1 px-2">
-                {anchors.map((anchor) => (
+              <ul className="space-y-1 px-2" dir="rtl">
+                {numberedAnchors.map((anchor) => (
                   <li
                     key={anchor.id}
                     onClick={() => handleScroll(anchor.id)}
@@ -269,11 +276,13 @@ const Toc: React.FC<TocProps> = () => {
                         : "text-gray-700 dark:text-gray-300 hover:bg-gray-200/40 dark:hover:bg-gray-800/40"
                     )}
                     style={{
-                      // simple indentation based on heading level; no lines
-                      paddingRight: `${anchor.level * 20 + 8}px`,
+                      // kept your original paddingRight formula
+                      paddingRight: `${(anchor.level ?? 1) * 20 + 8}px`,
                     }}
                   >
-                    <span className="relative z-10">{anchor.textContent}</span>
+                    <span className="relative z-10 select-none">
+                      {anchor.number}. {anchor.textContent}
+                    </span>
                   </li>
                 ))}
               </ul>
