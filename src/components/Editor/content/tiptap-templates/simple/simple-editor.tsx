@@ -343,8 +343,7 @@ export function SimpleEditor() {
                 "simple-editor-content overflow-auto",
                 preview ? "bg-[#f7fbfb]" : ""
               )}
-              style={{
-                minHeight: "400px",
+              style={{                
                 outline: "none",
                 fontFamily: "Samim",
               }}

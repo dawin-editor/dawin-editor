@@ -17,7 +17,7 @@ import { db } from "@/lib/db";
 
 
 interface ExportDialogProps {
-  contentType: "HTML" | "Markdown" | ""; // allow empty
+  contentType: "HTML" | "Markdown" | ""; 
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   content: string;
@@ -25,10 +25,9 @@ interface ExportDialogProps {
 
 const DEFAULT_TITLE = "مستند بدون عنوان";
 
-/** Sanitize file name for most file systems */
 const sanitizeFileName = (name: string) =>
   (name || "")
-    .replace(/[<>:"/\\|?*\u0000-\u001F]+/g, "_") // forbidden chars + control chars
+    .replace(/[<>:"/\\|?*\u0000-\u001F]+/g, "_") 
     .trim()
     .slice(0, 240) || DEFAULT_TITLE;
 
