@@ -15,6 +15,7 @@ import { useState } from "react";
 import ExportDialog from "./ExportDialog.tsx";
 import UploadFile from "./UploadFile.tsx";
 import ExportToPdf from "./ExportToPdf.tsx";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
   const [isOpen, setIsOpen] = useState({
@@ -23,14 +24,14 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
     content: "",
   });
   const { editor } = useEditorStore();
-
+  const documentTitle = useDocumentTitle();
   const handleExport = (type: "HTML" | "Markdown") => {
     let html = "";
     if (type === "HTML") {
       html = `
         <html>
           <head>
-            <title>محرر دوّن</title>
+            <title>${documentTitle}</title>
             <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             

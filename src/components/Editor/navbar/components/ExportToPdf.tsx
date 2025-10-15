@@ -1,29 +1,11 @@
 import { CodeXml } from "lucide-react";
 import { useEditorStore } from "@/store/EditroStore";
-import { useEffect, useState } from "react";
-import { db } from "@/lib/db";
-import {ExportToPDF} from "@/lib/ExportToPDF";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { ExportToPDF } from "@/lib/ExportToPDF";
 
 const ExportToPdf = () => {
   const { editor } = useEditorStore();
-  const [documentTitle, setDocumentTitle] = useState("تصدير");
-
-  useEffect(() => {
-    const fetchTitle = async () => {
-      try {
-        const blog = await db.blogs.get(1);
-        if (blog?.title) {
-          setDocumentTitle(blog.title);
-        }
-      } catch (error) {
-        console.error("Error fetching title from IndexedDB:", error);
-      }
-    };
-
-    fetchTitle();
-  }, []);
-
-  
+  const documentTitle = useDocumentTitle();
 
   return (
     <span
