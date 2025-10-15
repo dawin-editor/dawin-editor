@@ -32,9 +32,11 @@ export const ExportToPDF = (editor: Editor | null, documentTitle: string) => {
         direction: rtl;
       }
      img {
-      max-width: 700px;
-      display: block;
-      margin: 0 auto;
+        display: block;
+        max-width: fit-content;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
       }
       blockquote {
         border-inline-end: 3px solid #618ee7; /* RTL/LTR friendly */

@@ -17,6 +17,8 @@ import UploadFile from "./UploadFile.tsx";
 import ExportToPdf from "./ExportToPdf.tsx";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
+
+
 const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
   const [isOpen, setIsOpen] = useState({
     contentType: "",
@@ -112,7 +114,14 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
               text-align: right;     /* keep RTL cell alignment */
               vertical-align: middle;
             }   
-                     
+            img {
+              display: block;
+              max-width: fit-content;
+              height: auto;
+              margin-left: auto;
+              margin-right: auto;
+            }
+       
            
             
             </style>
