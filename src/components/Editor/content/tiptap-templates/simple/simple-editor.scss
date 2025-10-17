@@ -165,9 +165,8 @@ body,
       border-inline-start: 3px solid #618ee7;
       background: rgb(243, 244, 246);
       color: #5a5a5a;
-      padding: 1.25rem;
+      padding-right: 1rem;
       margin: 1rem 0;
-      border-radius: 4px;
       
       @media (max-width: 768px) {
         padding: 1rem;
@@ -195,6 +194,19 @@ body,
     }
 
     /* Gray bullets and numbers for lists */
+    ul {
+      list-style-type: disc;
+      li::marker {
+        color: #969595b6; /* gray-500 */
+      }
+    }
+
+    ol {
+      list-style-type: decimal;
+      li::marker {
+        color: #969595b6; /* gray-500 */
+      }
+    }
     
 
     code:not(pre code) {

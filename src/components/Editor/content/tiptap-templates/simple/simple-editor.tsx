@@ -98,6 +98,7 @@ import { useTocStore } from "@/store/TocStore";
 import Toc from "@/components/Editor/tableOfContent/Toc";
 import ButtomActions from "../../ButtomActions";
 
+
 const MainToolbarContent = ({
   onHighlighterClick,
   onLinkClick,
@@ -230,13 +231,8 @@ export function SimpleEditor() {
       },
     },
     extensions: [
-      StarterKit.configure({
-        horizontalRule: false,
-        link: {
-          openOnClick: false,
-          enableClickSelection: true,
-        },
-      }),
+      StarterKit,
+      TextStyleKit,
       TableOfContents.configure({
         onUpdate: (anchors) => {
           setAnchors(anchors);

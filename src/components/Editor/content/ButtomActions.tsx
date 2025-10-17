@@ -1,7 +1,7 @@
 import { Tooltip } from "@/components/ui/tooltip";
 import { TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipContent } from "@/components/ui/tooltip";
-import { MessageCircle , ClipboardCopy, TableOfContents} from "lucide-react";
+import { MessageCircle, ClipboardCopy, TableOfContents } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useEditorStore } from "@/store/EditroStore.ts";
 import Toast from "../navbar/components/Toast";
@@ -34,7 +34,13 @@ const ButtomActions = () => {
         <TooltipTrigger className="bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover cursor-pointer hidden md:block">
           <div
             onClick={() => {
-              navigator.clipboard.writeText(editor?.getText() || "");
+              navigator.clipboard.writeText(
+                (
+                  editor?.storage as {
+                    markdown?: { getMarkdown: () => string };
+                  }
+                )?.markdown?.getMarkdown?.() || ""
+              );
               toast.success("تم نسخ المحتوى إلى الحافظة!");
             }}
           >
