@@ -1,6 +1,5 @@
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
-import { marked } from 'marked'
 
 export const MarkdownPaste = Extension.create({
     name: 'markdownPaste',
@@ -14,9 +13,7 @@ export const MarkdownPaste = Extension.create({
                         const clipboardText = event.clipboardData?.getData('text/plain')
 
                         if (clipboardText) {
-                            const html = marked(clipboardText)
-                            this.editor.commands.insertContent(html)
-
+                            this.editor.commands.insertContent(clipboardText , {contentType: 'markdown'})
                             return true
                         }
 

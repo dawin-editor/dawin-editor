@@ -7,7 +7,6 @@ import { Markdown } from "tiptap-markdown";
 import { ToolbarProvider } from "../../tiptap-node/image-node/toolbar-provider";
 
 // --- Tiptap Core Extensions ---
-import { MarkdownPaste } from "@/extensions/MarkdownPaste.ts";
 import { Highlight } from "@tiptap/extension-highlight";
 import { TaskItem, TaskList } from "@tiptap/extension-list";
 import { Subscript } from "@tiptap/extension-subscript";
@@ -35,7 +34,8 @@ import {
 import "@/components/Editor/content/tiptap-node/blockquote-node/blockquote-node.scss";
 import "@/components/Editor/content/tiptap-node/code-block-node/code-block-node.scss";
 import "@/components/Editor/content/tiptap-node/heading-node/heading-node.scss";
-import { HorizontalRule } from "@/components/Editor/content/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension.ts";
+// import { HorizontalRule } from "@/components/Editor/content/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension.ts";
+
 import "@/components/Editor/content/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
 import "@/components/Editor/content/tiptap-node/image-node/image-node.scss";
 
@@ -97,6 +97,7 @@ import { TableOfContents } from "@tiptap/extension-table-of-contents";
 import { useTocStore } from "@/store/TocStore";
 import Toc from "@/components/Editor/tableOfContent/Toc";
 import ButtomActions from "../../ButtomActions";
+import { MarkdownPaste } from "@/extensions/MarkdownPaste";
 
 
 const MainToolbarContent = ({
@@ -231,8 +232,13 @@ export function SimpleEditor() {
       },
     },
     extensions: [
+      Markdown.configure({
+        linkify: true,              // Create links from "https://..." text
+        breaks: true,               // New lines (\n) in markdown input are converted to <br>
+        transformPastedText: true,  // Allow to paste markdown text in the editor
+        transformCopiedText: false,  // Copied text is transformed to markdown
+      }),
       StarterKit,
-      TextStyleKit,
       TableOfContents.configure({
         onUpdate: (anchors) => {
           setAnchors(anchors);
@@ -258,11 +264,10 @@ export function SimpleEditor() {
         // Add this to show placeholder only when editor is empty
         emptyEditorClass: "is-editor-empty",
       }),
-      Markdown,
+      // MarkdownPaste,
+    
       ImageExtension,
       ImagePlaceholder,
-      MarkdownPaste,
-      HorizontalRule,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
       TaskItem.configure({ nested: true }),
