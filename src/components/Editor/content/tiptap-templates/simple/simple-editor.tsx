@@ -97,7 +97,6 @@ import { TableOfContents } from "@tiptap/extension-table-of-contents";
 import { useTocStore } from "@/store/TocStore";
 import Toc from "@/components/Editor/tableOfContent/Toc";
 import ButtomActions from "../../ButtomActions";
-import { MarkdownPaste } from "@/extensions/MarkdownPaste";
 
 
 const MainToolbarContent = ({

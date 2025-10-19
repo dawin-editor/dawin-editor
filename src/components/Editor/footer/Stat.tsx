@@ -26,15 +26,15 @@ const Stat = () => {
   }, [editor]);
 
   return (
-    <div className="flex flex-row  items-baseline justify-between font-dubai-regular ">
+    <div className="flex flex-row  items-baseline justify-between font-dubai-regular  ">
       <span className="text-[#c3920a] text-[0.8rem]">إحصائيات</span>
       <ul className="flex items-end gap-4 text-[0.8rem] ">
         <li>
-          <span className="text-[#8c6d20] ">عدد الحروف: </span>
+          <span className="text-[#8c6d20] ">الحروف: </span>
           <span className="text-[#5c4813]">{characters}</span>
         </li>
         <li>
-          <span className="text-[#8c6d20] ">عدد الكلمات: </span>
+          <span className="text-[#8c6d20] ">الكلمات: </span>
           <span className="text-[#5c4813]">{words}</span>
         </li>
         <li>

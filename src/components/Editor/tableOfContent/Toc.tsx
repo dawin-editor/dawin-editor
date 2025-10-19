@@ -4,6 +4,7 @@ import { useTocStore } from "@/store/TocStore";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { X } from "lucide-react";
+import type { TableOfContentDataItem } from "@tiptap/extension-table-of-contents";
 
 const Toc = () => {
   const { anchors, isOpen, setIsOpen } = useTocStore();
@@ -97,7 +98,7 @@ const Toc = () => {
     `;
   };
 
-  const generateNumbering = (anchorsList: any[]) => {
+  const generateNumbering = (anchorsList: TableOfContentDataItem[]) => {
     const counters: Record<number, number> = {};
     return anchorsList.map((anchor) => {
       const level = anchor.level ?? 1;
@@ -138,7 +139,9 @@ const Toc = () => {
             aria-modal="true"
             onClick={(e) => e.stopPropagation()}
             className={cn(
-              "fixed top-0 right-0 h-full w-96 bg-gray-100 dark:bg-gray-900/40 border-l border-gray-200 dark:border-gray-700 shadow-xl transition-transform duration-300 ease-in-out md:hidden flex flex-col",
+              "fixed top-0 right-0 h-full bg-gray-100 dark:bg-gray-900/40 border-l border-gray-200 dark:border-gray-700 shadow-xl transition-transform duration-300 ease-in-out md:hidden flex flex-col",
+              // responsive width
+              "w-[85vw] sm:w-[70vw] md:w-[60vw] lg:w-[50vw] max-w-[400px]",
               isOpen ? "translate-x-0" : "translate-x-full"
             )}
           >
@@ -203,8 +206,9 @@ const Toc = () => {
           <div
             onMouseDown={startResizing}
             className={cn(
-              "absolute left-0 top-0 bottom-0 w-1 cursor-ew-resize hover:bg-blue-500/50 transition-colors z-10",
-              isResizing && "bg-blue-500"
+              "absolute left-0 top-0 bottom-0 w-1.5 cursor-ew-resize transition-colors z-10",
+              "hover:bg-gray-300/50 dark:hover:bg-gray-600/50",
+              isResizing && "hover:bg-gray-300/50 dark:hover:bg-gray-600/50"
             )}
           />
 
