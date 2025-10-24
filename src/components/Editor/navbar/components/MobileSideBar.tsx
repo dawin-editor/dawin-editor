@@ -310,7 +310,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
               aria-label="تصدير كملف PDF"
               onClick={() => {
-                ExportToPDF(editor!, documentTitle);
+                ExportToPDF(editor!);
               }}
             >
               <Download className="size-6 text-blue-200" />
