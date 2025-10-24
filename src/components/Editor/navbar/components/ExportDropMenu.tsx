@@ -15,7 +15,7 @@ import { useState } from "react";
 import ExportDialog from "./ExportDialog.tsx";
 import UploadFile from "./UploadFile.tsx";
 import ExportToPdf from "./ExportToPdf.tsx";
-import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { db } from "@/lib/db";
 
 
 
@@ -26,8 +26,12 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
     content: "",
   });
   const { editor } = useEditorStore();
-  const documentTitle = useDocumentTitle();
-  const handleExport = (type: "HTML" | "Markdown") => {
+  const fetchDocumentTitle = async () => {
+    const title = await db.blogs.get(1);
+    return title?.title;
+  };
+  const handleExport = async (type: "HTML" | "Markdown") => {
+    const documentTitle = await fetchDocumentTitle();
     let html = "";
     if (type === "HTML") {
       html = `
@@ -180,7 +184,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
             <UploadFile />
           </DropdownMenuItem>
 
-          <DropdownMenuSeparator/>
+          <DropdownMenuSeparator />
 
           <DropdownMenuSub >
             <DropdownMenuSubTrigger className="[&>svg]:rotate-180 justify-between">
@@ -209,9 +213,9 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
                       opacity={0.6}
                     />
                     <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
-                    تصدير HTML
+                      تصدير HTML
                     </span>
-                    
+
                   </span>
                 </DropdownMenuItem>
 
@@ -228,9 +232,9 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
                       opacity={0.6}
                     />
                     <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
-                    تصدير Markdown
+                      تصدير Markdown
                     </span>
-                    
+
                   </span>
                 </DropdownMenuItem>
 

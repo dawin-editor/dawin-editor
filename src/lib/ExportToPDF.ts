@@ -1,7 +1,7 @@
 import { Editor } from "@tiptap/react";
 import printJS from "print-js";
 
-export const ExportToPDF = (editor: Editor | null, documentTitle: string) => {
+export const ExportToPDF = (editor: Editor ) => {
   if (!editor) return;
 
   const html = editor.getHTML();
@@ -10,7 +10,6 @@ export const ExportToPDF = (editor: Editor | null, documentTitle: string) => {
   printJS({
     printable: html,
     type: "raw-html",
-    documentTitle,
     scanStyles: false,
     showModal: true,
     modalMessage: 'جاري إعداد التدوينة للطباعة',   
