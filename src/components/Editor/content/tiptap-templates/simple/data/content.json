@@ -126,7 +126,7 @@
     {
       "type": "image",
       "attrs": {
-        "src": "https://app.dawin.io/example.png",
+        "src": "https://old.dawin.io/example.png",
         "alt": "نص الصورة",
         "title": "نص الصورة"
       }
