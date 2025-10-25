@@ -9,39 +9,98 @@
     <title>محرّر دَوّن - محرر نصوص ماركداون عربي أونلاين</title>
     <meta
       name="description"
-      content="اكتب وحرّر نصوص ماركداون (Markdown) أونلاين بسهولة مع محرّر دَوِّن. واجهة عربية أنيقة، تجربة كتابة سلسة، ومعاينة فورية للنصوص."
+      content="محرّر دوّن - محرر نصوص ماركداون عربي أونلاين"
     />
-
+    <meta name="keywords" content="محرّر دوّن - محرر نصوص ماركداون عربي أونلاين" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="author" content="فريق دوّن" />
+    <link rel="canonical" href="https://app.dawin.io" />
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    
     <!-- ✅ Enhanced SEO (Open Graph & Twitter) -->
     <meta property="og:locale" content="ar_AR" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="محرّر دَوِّن – Dawin Editor" />
-    <meta property="og:title" content="محرّر دَوِّن – محرّر ماركداون عربي أونلاين" />
+    <meta property="og:title" content="محرّر دوّن - محرر نصوص ماركداون عربي أونلاين" />
     <meta
       property="og:description"
-      content="محرّر ماركداون عربي حديث وسهل الاستخدام بواجهة أنيقة وسريعة."
+      content="محرّر دوّن - محرر نصوص ماركداون عربي أونلاين"
     />
-    <meta property="og:url" content="https://dawin.app/" />
-    <meta property="og:image" content="https://dawin.app/cover-lg.png" />
-    <meta property="og:image:alt" content="لقطة شاشة لمحرّر دَوِّن العربي" />
+    <meta property="og:url" content="https://app.dawin.io/" />
+    <meta property="og:image" content=https://i.suar.me/lpq8A/ />
+    <meta property="og:image:alt" content="محرّر دوّن - محرر نصوص ماركداون عربي أونلاين" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="محرّر دَوِّن – محرّر ماركداون عربي أونلاين" />
+    <meta name="twitter:title" content="محرّر دوّن - محرر نصوص ماركداون عربي أونلاين" />
     <meta
       name="twitter:description"
-      content="اكتب وحرّر نصوص ماركداون (Markdown) بسهولة مع محرّر دَوِّن. تجربة كتابة عربية مريحة وسريعة."
+      content="محرّر دوّن - محرر نصوص ماركداون عربي أونلاين"
     />
-    <meta name="twitter:image" content="https://dawin.app/cover-lg.png" />
-
-    <!-- ✅ Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XLP2RFML9P"></script>
+    <meta name="twitter:image" content=https://i.suar.me/lpq8A/ />
+    <meta name="twitter:image:alt" content="محرّر دوّن - محرر نصوص ماركداون عربي أونلاين" />
+    <meta property="twitter:domain" content="app.dawin.io" />
+    <meta property="twitter:url" content="https://app.dawin.io" />
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "محرّر دوّن",
+        "url": "https://app.dawin.io/",
+        "description": "محرّر دوّن - محرر نصوص ماركداون عربي أونلاين",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "All",
+        "inLanguage": "ar",
+        "image": "https://i.suar.me/lpq8A/",
+        "screenshot": "https://i.suar.me/lpq8A/",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "creator": {
+          "@type": "Person",
+          "name": "فريق دوّن"
+        },
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "dateModified": "2025-10-25"
+      }
+    </script>
+    
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+          "@type": "ListItem",
+          "position": 1,
+          "name": "الرئيسية",
+          "item": "https://app.dawin.io"
+        }]
+      }
+    </script>
+    
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_ID%"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', import.meta.env.VITE_GA_ID);
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "%VITE_GA_ID%");
     </script>
-    <!-- ✅ End Google Analytics -->
-
+    
     <!-- Favicon & PWA icons -->
     <link rel="icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="16x16" href="/pwa-16x16.png" />
@@ -55,12 +114,12 @@
     />
     <meta name="theme-color" content="#2368A1" />
     <link rel="manifest" href="manifest.webmanifest" />
-
+    
     <!-- Web App Capable -->
     <meta name="apple-mobile-web-app-title" content="محرّر دوّن" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -68,9 +127,8 @@
       href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Almarai:wght@300;400;700;800&family=Cairo:wght@200;300;400;500;600;700;800;900&family=Changa:wght@200;300;400;500;600;700;800&family=Harmattan:wght@400;700&family=Noto+Kufi+Arabic:wght@200;300;400;500;600;700;800;900&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
       rel="stylesheet"
     />
-
     <script async src="https://tally.so/widgets/embed.js"></script>
-
+    
     <!-- Preload assets -->
     <link
       href="/src/assets/fonts/Dubai-Regular.woff"
@@ -79,7 +137,6 @@
       crossorigin
     />
   </head>
-
   <body style="overflow: hidden">
     <div id="root"></div>
     <div id="toast" dir="rtl"></div>
