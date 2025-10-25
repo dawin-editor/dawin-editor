@@ -128,7 +128,7 @@ const Toc = () => {
         <div
           onClick={() => setIsOpen(false)}
           className={cn(
-            "fixed inset-0 z-50 transition-all duration-300 ease-in-out md:hidden",
+            "fixed inset-0 z-50 font-dubai-regular transition-all duration-300 ease-in-out md:hidden",
             isOpen ? "bg-black/50 backdrop-blur-sm" : "pointer-events-none bg-transparent"
           )}
         >
@@ -198,7 +198,7 @@ const Toc = () => {
           dir="rtl"
           style={{ width: isOpen ? `${width}px` : "0px" }}
           className={cn(
-            "bg-gray-100 border-l border-gray-200 dark:border-gray-700 dark:bg-gray-900/40 text-sm text-right flex flex-col h-full overflow-hidden relative transition-all duration-300 ease-in-out",
+            "bg-gray-100 font-dubai-regular border-l border-gray-200 dark:border-gray-700 dark:bg-gray-900/40 text-sm text-right flex flex-col h-full overflow-hidden relative transition-all duration-300 ease-in-out",
             isOpen ? "opacity-100" : "opacity-0"
           )}
         >

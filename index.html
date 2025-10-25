@@ -2,12 +2,45 @@
 <html lang="ar">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=overlays-content" />
-    <title>محرّر دوّن - محرّر نصوص ماركداون</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, interactive-widget=overlays-content"
+    />
+    <title>محرّر دَوّن - محرر نصوص ماركداون عربي أونلاين</title>
     <meta
       name="description"
-      content="محرّر نصوص ماركداون بسيط وسريع مع واجهة عربية وتجربة كتابة سلسة."
+      content="اكتب وحرّر نصوص ماركداون (Markdown) أونلاين بسهولة مع محرّر دَوِّن. واجهة عربية أنيقة، تجربة كتابة سلسة، ومعاينة فورية للنصوص."
     />
+
+    <!-- ✅ Enhanced SEO (Open Graph & Twitter) -->
+    <meta property="og:locale" content="ar_AR" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="محرّر دَوِّن – Dawin Editor" />
+    <meta property="og:title" content="محرّر دَوِّن – محرّر ماركداون عربي أونلاين" />
+    <meta
+      property="og:description"
+      content="محرّر ماركداون عربي حديث وسهل الاستخدام بواجهة أنيقة وسريعة."
+    />
+    <meta property="og:url" content="https://dawin.app/" />
+    <meta property="og:image" content="https://dawin.app/cover-lg.png" />
+    <meta property="og:image:alt" content="لقطة شاشة لمحرّر دَوِّن العربي" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="محرّر دَوِّن – محرّر ماركداون عربي أونلاين" />
+    <meta
+      name="twitter:description"
+      content="اكتب وحرّر نصوص ماركداون (Markdown) بسهولة مع محرّر دَوِّن. تجربة كتابة عربية مريحة وسريعة."
+    />
+    <meta name="twitter:image" content="https://dawin.app/cover-lg.png" />
+
+    <!-- ✅ Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XLP2RFML9P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XLP2RFML9P');
+    </script>
+    <!-- ✅ End Google Analytics -->
 
     <!-- Favicon & PWA icons -->
     <link rel="icon" href="/favicon.ico" />
@@ -22,6 +55,7 @@
     />
     <meta name="theme-color" content="#2368A1" />
     <link rel="manifest" href="manifest.webmanifest" />
+
     <!-- Web App Capable -->
     <meta name="apple-mobile-web-app-title" content="محرّر دوّن" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -35,9 +69,6 @@
       rel="stylesheet"
     />
 
-
-
-
     <script async src="https://tally.so/widgets/embed.js"></script>
 
     <!-- Preload assets -->
@@ -47,10 +78,9 @@
       type="font/woff"
       crossorigin
     />
-
   </head>
 
-  <body style="overflow: hidden" >
+  <body style="overflow: hidden">
     <div id="root"></div>
     <div id="toast" dir="rtl"></div>
     <script type="module" src="/src/main.tsx"></script>
