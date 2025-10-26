@@ -139,13 +139,14 @@ const Toc = () => {
             aria-modal="true"
             onClick={(e) => e.stopPropagation()}
             className={cn(
-              "fixed top-0 right-0 h-full bg-gray-100 dark:bg-gray-900/40 border-l border-gray-200 dark:border-gray-700 shadow-xl transition-transform duration-300 ease-in-out md:hidden flex flex-col",
+              "fixed top-0 right-0 h-full bg-gray-100 dark:bg-gray-900/40 border-l border-gray-200 dark:border-gray-700 shadow-xl transition-transform duration-300 ease-in-out md:hidden",
               // responsive width
               "w-[85vw] sm:w-[70vw] md:w-[60vw] lg:w-[50vw] max-w-[400px]",
               isOpen ? "translate-x-0" : "translate-x-full"
             )}
           >
-            <div className="sticky top-0 h-15 border-b flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+            <div className="fixed top-0 right-0 h-15 border-b flex items-center justify-center bg-gray-100 dark:bg-gray-900 z-10"
+                 style={{ width: 'inherit' }}>
               <h2 className="text-gray-800 dark:text-gray-100 font-semibold text-xl">
                 جدول المحتويات
               </h2>
@@ -156,8 +157,8 @@ const Toc = () => {
                 aria-label="إغلاق جدول المحتويات"
               />
             </div>
-
-            <div dir="ltr" className="flex-1 overflow-y-auto py-2">
+      
+            <div dir="ltr" className="h-full overflow-y-auto pt-15 pb-2">
               {numberedAnchors.length === 0 ? (
                 <p className="text-gray-500 text-xs italic p-2">
                   لا يوجد محتويات
