@@ -62,6 +62,7 @@ import { ListDropdownMenu } from "@/components/Editor/content/tiptap-ui/list-dro
 import { MarkButton } from "@/components/Editor/content/tiptap-ui/mark-button";
 import { TextAlignDropdownMenu } from "@/components/Editor/content/tiptap-ui/text-align-dropdown-menu";
 import { UndoRedoButton } from "@/components/Editor/content/tiptap-ui/undo-redo-button";
+import { TextDirectionDropdownMenu } from "@/components/Editor/content/tiptap-ui/text-direction-dropdown-menu";
 
 // --- Icons ---
 import { ArrowLeftIcon } from "@/components/Editor/content/tiptap-icons/arrow-left-icon.tsx";
@@ -70,12 +71,6 @@ import { LinkIcon } from "@/components/Editor/content/tiptap-icons/link-icon.tsx
 
 // --- Hooks ---
 import { useIsMobile } from "@/hooks/use-mobile.ts";
-
-// --- Components ---
-
-// --- Lib ---
-// import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils.ts";
-import TextDirection from "@/extensions/textDir";
 
 // --- Styles ---
 import "@/components/Editor/content/tiptap-templates/simple/simple-editor.scss";
@@ -97,7 +92,6 @@ import { TableOfContents } from "@tiptap/extension-table-of-contents";
 import { useTocStore } from "@/store/TocStore";
 import Toc from "@/components/Editor/tableOfContent/Toc";
 import ButtomActions from "../../ButtomActions";
-
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -155,6 +149,7 @@ const MainToolbarContent = ({
       {/* Group 2: Document structure (Alignment, Lists, Headings) */}
 
       <ToolbarGroup>
+        <TextDirectionDropdownMenu portal={isMobile} />
         <TextAlignDropdownMenu
           aligns={["right", "center", "left", "justify"]}
           portal={isMobile}
@@ -219,6 +214,7 @@ export function SimpleEditor() {
   const { preview } = usePreviewStore();
 
   const editor = useEditor({
+    textDirection: "rtl",
     immediatelyRender: false,
     shouldRerenderOnTransaction: false,
     editorProps: {
@@ -232,10 +228,10 @@ export function SimpleEditor() {
     },
     extensions: [
       Markdown.configure({
-        linkify: true,              // Create links from "https://..." text
-        breaks: true,               // New lines (\n) in markdown input are converted to <br>
-        transformPastedText: true,  // Allow to paste markdown text in the editor
-        transformCopiedText: false,  // Copied text is transformed to markdown
+        linkify: true, // Create links from "https://..." text
+        breaks: true, // New lines (\n) in markdown input are converted to <br>
+        transformPastedText: true, // Allow to paste markdown text in the editor
+        transformCopiedText: false, // Copied text is transformed to markdown
       }),
       StarterKit,
       TableOfContents.configure({
@@ -244,9 +240,6 @@ export function SimpleEditor() {
         },
       }),
       OfficePaste,
-      TextDirection.configure({
-        types: ["heading", "paragraph", "image-placeholder"],
-      }),
       TableKit.configure({
         table: { resizable: false, lastColumnResizable: true },
       }),
@@ -264,7 +257,7 @@ export function SimpleEditor() {
         emptyEditorClass: "is-editor-empty",
       }),
       // MarkdownPaste,
-    
+
       ImageExtension,
       ImagePlaceholder,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
@@ -309,7 +302,6 @@ export function SimpleEditor() {
 
   return (
     <>
-
       <div className="simple-editor-wrapper font-dubai-light flex flex-col flex-1">
         <EditorContext.Provider value={{ editor }}>
           <ToolbarProvider editor={editor}>
@@ -341,20 +333,19 @@ export function SimpleEditor() {
               data-cy="editor-content"
               className={cn(
                 "simple-editor-content overflow-auto",
-                preview ? "bg-[#f7fbfb]" : ""
+                preview ? "bg-[#f7fbfb]" : "",
               )}
-              style={{                
+              style={{
                 outline: "none",
                 fontFamily: "Samim",
               }}
-              dir="rtl"
+              // dir="rtl"
             />
             <ButtomActions />
           </ToolbarProvider>
         </EditorContext.Provider>
       </div>
       <Toc />
-      
     </>
   );
 }
