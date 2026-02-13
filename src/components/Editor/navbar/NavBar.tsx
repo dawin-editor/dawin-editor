@@ -12,12 +12,20 @@ import EyePen from "./components/EyePen.tsx";
 import { db } from "@/lib/db.ts";
 import { useTitleStore } from "@/store/titleStore.ts";
 import { useTocStore } from "@/store/TocStore";
+import { Share2 } from "lucide-react";
+import { useEditorStore } from "@/store/EditroStore";
+import { shareContent } from "@/lib/share";
+import { toast } from "react-hot-toast";
+import Toast from "./components/Toast";
 
 const NavBar = () => {
   const { isOpen, setIsOpen } = useTocStore();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
   const { title, setTitle } = useTitleStore();
+  const { editor } = useEditorStore();
+  const [isSharing, setIsSharing] = useState(false);
+
   useEffect(() => {
     db.blogs.get(1).then((blog) => {
       if (blog?.title) setTitle(blog.title);
@@ -28,6 +36,36 @@ const NavBar = () => {
     const newTitle = e.target.value;
     setTitle(newTitle);
     db.blogs.update(1, { title: newTitle });
+  };
+
+  const handleShare = async () => {
+    const content = (
+      editor?.storage as {
+        markdown?: { getMarkdown: () => string };
+      }
+    )?.markdown?.getMarkdown?.() || "";
+
+    if (!content) {
+      toast.error("لا يوجد محتوى للمشاركة!");
+      return;
+    }
+
+    setIsSharing(true);
+    try {
+      const jsonContent = editor?.getJSON();
+      if (!jsonContent) {
+        toast.error("لا يوجد محتوى للمشاركة!");
+        return;
+      }
+      const url = await shareContent(jsonContent);
+      await navigator.clipboard.writeText(url);
+      toast.success("تم إنشاء الرابط ونسخه!");
+    } catch (error) {
+      toast.error("فشل في المشاركة.");
+      console.error(error);
+    } finally {
+      setIsSharing(false);
+    }
   };
 
   return (
@@ -59,6 +97,8 @@ const NavBar = () => {
               strokeWidth={2}
             />
           </Button>
+
+
           <EyePen
             className="size-8 bg-icons-bg hover:bg-icons-color-hover "
             variant="secondary"
@@ -104,8 +144,20 @@ const NavBar = () => {
               />
             )}
           </Button>
+          <Button
+            variant="secondary"
+            onClick={handleShare}
+            size="icon"
+            className={`size-8 bg-icons-bg hover:bg-icons-color-hover rounded-0.5 flex md:hidden ${isSharing ? "opacity-50 pointer-events-none" : ""}`}
+          >
+            <Share2
+              className={`size-5.5 text-icons-color ${isSharing ? "animate-pulse" : ""}`}
+              strokeWidth={2}
+            />
+          </Button>
         </div>
       </div>
+      <Toast />
     </div>
   );
 };
