@@ -4,9 +4,13 @@ import "./index.css";
 import { db } from "./lib/db";
 import { openFile } from "./lib/openFiles";
 import { useEditorStore } from "./store/EditroStore";
+import { useClipImport } from "./hooks/useClipImport";
+
 const App = () => {
   const { editor } = useEditorStore();
   const [loading, setLoading] = useState(true);
+
+  useClipImport(editor);
 
   useEffect(() => {
     const init = async () => {
@@ -21,10 +25,11 @@ const App = () => {
             updatedAt: new Date(),
           });
         } catch (error) {
-          console.error("Error initializing blog:", error);
+          console.error("Error initializing blank blog:", error);
         }
       }
     };
+
     init();
 
     if (editor) {
@@ -37,7 +42,7 @@ const App = () => {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center ">
+      <div className="fixed inset-0 flex items-center justify-center">
         <img
           src="logo.svg"
           alt="Loading..."

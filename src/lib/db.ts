@@ -4,6 +4,7 @@ interface Blog {
   id: number;
   title: string;
   text: string;
+  sourceUrl?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,7 +18,7 @@ const db = new Dexie("DawinDB") as Dexie & {
 
 // Schema declaration:
 db.version(1).stores({
-  blogs: "++id, title, text, createdAt, updatedAt", // primary key "id" (for the runtime!)
+  blogs: "++id, title, text, sourceUrl, createdAt, updatedAt", // primary key "id" (for the runtime!)
 });
 
 export type { Blog };
