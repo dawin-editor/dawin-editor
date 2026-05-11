@@ -1,6 +1,7 @@
 import { handleUpload } from "@/lib/upload.ts";
 import { cn } from "@/lib/utils.ts";
 import { useEditorStore } from "@/store/EditroStore.ts";
+import { isAndroidWebView, androidBridge } from "@/lib/androidBridge";
 import {
   Download,
   Info,
@@ -49,6 +50,13 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
   const [documentTitle, setDocumentTitle] = useState("تصدير");
 
   const handleFeedbackClick = useCallback(() => {
+    const formUrl = tallyId
+      ? `https://tally.so/r/${tallyId}`
+      : "https://tally.so";
+    if (isAndroidWebView) {
+      androidBridge.openUrl(formUrl);
+      return;
+    }
     if (window.Tally) {
       window.Tally.openPopup(tallyId, {
         layout: "modal",
@@ -259,7 +267,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
             <input
               id="file-upload"
               type="file"
-              accept=".txt,.md,.html,.json"
+              accept=".txt,.md,.html,.json,text/plain,text/markdown,text/html,application/json"
               className="hidden"
               onChange={(e) => {
                 handleUpload(e, editor);

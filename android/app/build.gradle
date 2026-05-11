@@ -1,0 +1,70 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+tasks.register('buildWebApp', Exec) {
+    workingDir file('../../')
+    def isWindows = System.getProperty('os.name').toLowerCase().contains('win')
+    if (isWindows) {
+        commandLine 'cmd', '/c', 'npm', 'run', 'build'
+    } else {
+        commandLine 'sh', '-c', 'npm run build'
+    }
+}
+
+tasks.named('preBuild') {
+    dependsOn('buildWebApp')
+    doLast {
+        def assetsDir = file('src/main/assets')
+        delete assetsDir
+        copy {
+            from '../../dist'
+            into assetsDir
+        }
+        def indexHtml = file('src/main/assets/index.html')
+        if (!indexHtml.exists()) {
+            throw new GradleException('Missing assets/index.html after buildWebApp task')
+        }
+    }
+}
+
+android {
+    namespace 'app.dawin.editor'
+    compileSdk 34
+    defaultConfig {
+        applicationId "app.dawin.editor"
+        minSdk 30
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+        vectorDrawables.useSupportLibrary true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            versionNameSuffix "-debug"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions { jvmTarget = '17' }
+    buildFeatures { viewBinding true }
+    androidResources { ignoreAssetsPattern '!.gitkeep' }
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'androidx.core:core-splashscreen:1.0.0'
+    implementation 'androidx.activity:activity-ktx:1.9.0'
+}
