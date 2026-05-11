@@ -14,6 +14,7 @@ import { Copy, Download } from "lucide-react";
 import toast from "react-hot-toast";
 import Toast from "./Toast";
 import { db } from "@/lib/db";
+import { isAndroidWebView, androidBridge } from "@/lib/androidBridge";
 
 
 interface ExportDialogProps {
@@ -90,6 +91,17 @@ const ExportDialog = ({
     const safeTitle = sanitizeFileName(titleToUse);
     const ext = contentType === "HTML" ? "html" : "md";
     const mimeType = contentType === "HTML" ? "text/html" : "text/markdown";
+
+    if (isAndroidWebView) {
+      try {
+        await androidBridge.saveFile(content, `${safeTitle}.${ext}`, mimeType);
+        toast.success(`تم تنزيل الملف: ${safeTitle}.${ext}`);
+      } catch (err) {
+        console.error("AndroidBridge saveFile failed:", err);
+        toast.error("حدث خطأ أثناء التحميل.");
+      }
+      return;
+    }
 
     try {
       const blob = new Blob([content], { type: mimeType });

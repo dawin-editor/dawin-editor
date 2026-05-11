@@ -29,7 +29,7 @@ const UploadFile = () => {
         id="file-upload"
         data-cy="upload-file-input"
         type="file"
-        accept=".txt,.md,.html,.json"
+        accept=".txt,.md,.html,.json,text/plain,text/markdown,text/html,application/json"
         className="hidden"
         onChange={(e) => handleUpload(e, editor)}
       />

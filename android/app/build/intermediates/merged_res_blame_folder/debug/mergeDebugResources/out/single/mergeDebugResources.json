@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "app.dawin.editor.app-debug-37:/xml_network_security_config.xml.flat",
+        "source": "app.dawin.editor.app-main-39:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "app.dawin.editor.app-debug-37:/layout_activity_main.xml.flat",
+        "source": "app.dawin.editor.app-main-39:/layout/activity_main.xml"
+    }
+]
