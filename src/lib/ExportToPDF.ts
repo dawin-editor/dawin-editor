@@ -25,36 +25,45 @@ export const ExportToPDF = (editor: Editor ) => {
       }
       body {
         font-family: 'Tajawal', sans-serif;
-      }
-      ul,
-      ol {
+        /* Default to RTL matching the editor's configured default.
+           Elements with an explicit dir attribute override this. */
         direction: rtl;
       }
-     img {
+      [dir="rtl"] {
+        direction: rtl;
+        text-align: right;
+      }
+      [dir="ltr"] {
+        direction: ltr;
+        text-align: left;
+      }
+      img {
         display: block;
         max-width: fit-content;
         height: auto;
-        margin-left: auto;
-        margin-right: auto;
+        margin-inline: auto;
       }
       blockquote {
-        border-inline-end: 3px solid #618ee7; /* RTL/LTR friendly */
-        border-inline-start: none;
+        /* border-inline-start = left in LTR, right in RTL — no hardcoding needed */
+        border-inline-start: 3px solid #618ee7;
+        border-inline-end: none;
         background: rgb(243, 244, 246);
         color: #5a5a5a;
-        padding-top: 20;
-        padding-bottom: 20;
-        padding-right: 10px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        /* padding-inline-start flips automatically with dir */
+        padding-inline-start: 10px;
       }
 
       /* Center tables on the page, keep them responsive */
       table {
         border-collapse: collapse;
-        width: 90%;            /* size to content */
-        table-layout: auto;    /* natural column sizing */
-        margin: 1em 0;      /* center horizontally */
+        width: 90%;
+        table-layout: auto;
+        margin-block: 1em;
+        margin-inline: auto; /* centers the table regardless of direction */
         background: transparent;
-        display: table;        /* ensure it's treated like a table */
+        display: table;
       }
 
       table th,
@@ -62,7 +71,7 @@ export const ExportToPDF = (editor: Editor ) => {
         border: none;
         border-bottom: 1px solid #e5e7eb;
         padding: 8px 12px;
-        text-align: right;     /* keep RTL cell alignment */
+        /* inherits text-align from [dir] rules above */
         vertical-align: middle;
       }
 
