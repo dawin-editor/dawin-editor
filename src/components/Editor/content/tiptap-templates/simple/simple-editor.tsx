@@ -209,6 +209,7 @@ export function SimpleEditor() {
   const { setAnchors } = useTocStore();
 
   const toolbarRef = React.useRef<HTMLDivElement>(null);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const { setEditor } = useEditorStore();
   const { preview } = usePreviewStore();
@@ -235,6 +236,8 @@ export function SimpleEditor() {
       }),
       StarterKit,
       TableOfContents.configure({
+        // ponytail: editor scrolls inside .simple-editor-wrapper, not window
+        scrollParent: () => scrollRef.current ?? window,
         onUpdate: (anchors) => {
           setAnchors(anchors);
         },
@@ -302,7 +305,7 @@ export function SimpleEditor() {
 
   return (
     <>
-      <div className="simple-editor-wrapper font-dubai-light flex flex-col flex-1">
+      <div ref={scrollRef} className="simple-editor-wrapper font-dubai-light flex flex-col flex-1">
         <EditorContext.Provider value={{ editor }}>
           <ToolbarProvider editor={editor}>
             <Toolbar

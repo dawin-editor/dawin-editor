@@ -6,6 +6,41 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { X } from "lucide-react";
 import type { TableOfContentDataItem } from "@tiptap/extension-table-of-contents";
 
+interface NumberedAnchor extends TableOfContentDataItem {
+  number: string;
+}
+
+const TocList = ({ anchors, handleScroll, handleKeyDown }: {
+  anchors: NumberedAnchor[];
+  handleScroll: (id: string) => void;
+  handleKeyDown: (e: React.KeyboardEvent, id: string) => void;
+}) => (
+  anchors.length === 0 ? (
+    <p className="text-gray-500 text-xs italic p-2">لا يوجد محتويات</p>
+  ) : (
+    <ul className="space-y-1 pl-2" dir="rtl">
+      {anchors.map((anchor) => (
+        <li
+          key={anchor.id}
+          onClick={() => handleScroll(anchor.id)}
+          onKeyDown={(e) => handleKeyDown(e, anchor.id)}
+          tabIndex={0}
+          role="button"
+          className={cn(
+            "cursor-pointer select-none rounded-md py-2 text-[0.85rem] font-medium leading-relaxed tracking-normal text-foreground/80 transition-colors duration-200",
+            anchor.isActive
+              ? "text-blue-600 font-medium dark:text-blue-400 bg-blue-100/10"
+              : "text-gray-700 dark:text-gray-300 hover:bg-gray-200/40 dark:hover:bg-gray-800/40"
+          )}
+          style={{ paddingRight: `${(anchor.level ?? 1) * 12 + 4}px` }}
+        >
+          {anchor.number}. {anchor.textContent}
+        </li>
+      ))}
+    </ul>
+  )
+);
+
 const Toc = () => {
   const { anchors, isOpen, setIsOpen } = useTocStore();
   const isMobile = useIsMobile();
@@ -57,8 +92,9 @@ const Toc = () => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isResizing) return;
-      
-      const newWidth = document.body.clientWidth - e.clientX;
+      if (!resizeRef.current) return;
+      const rect = resizeRef.current.getBoundingClientRect();
+      const newWidth = rect.right - e.clientX + rect.width;
       if (newWidth >= MIN_WIDTH && newWidth <= MAX_WIDTH) {
         setWidth(newWidth);
       }
@@ -83,22 +119,7 @@ const Toc = () => {
     };
   }, [isResizing]);
 
-  const getLevelStyle = (level: number) => {
-    const basePadding = 0.5; // 8px
-    const paddingPerLevel = 1; // 16px per level
-    const paddingLeft =
-      level > 1
-        ? `${basePadding + (level - 1) * paddingPerLevel}rem`
-        : `${basePadding}rem`;
-
-    return `
-      text-[0.85rem] font-medium leading-relaxed 
-      tracking-normal text-foreground/80 
-      pl-[${paddingLeft}] pr-2 transition-colors duration-200
-    `;
-  };
-
-  const generateNumbering = (anchorsList: TableOfContentDataItem[]) => {
+  const generateNumbering = (anchorsList: TableOfContentDataItem[]): NumberedAnchor[] => {
     const counters: Record<number, number> = {};
     return anchorsList.map((anchor) => {
       const level = anchor.level ?? 1;
@@ -123,7 +144,6 @@ const Toc = () => {
 
   return (
     <>
-      {/* Overlay for mobile */}
       {isMobile && (
         <div
           onClick={() => setIsOpen(false)}
@@ -132,7 +152,6 @@ const Toc = () => {
             isOpen ? "bg-black/50 backdrop-blur-sm" : "pointer-events-none bg-transparent"
           )}
         >
-          {/* Sidebar container */}
           <nav
             dir="rtl"
             role="dialog"
@@ -140,13 +159,11 @@ const Toc = () => {
             onClick={(e) => e.stopPropagation()}
             className={cn(
               "fixed top-0 right-0 h-full bg-gray-100 dark:bg-gray-900/40 border-l border-gray-200 dark:border-gray-700 shadow-xl transition-transform duration-300 ease-in-out md:hidden",
-              // responsive width
               "w-[85vw] sm:w-[70vw] md:w-[60vw] lg:w-[50vw] max-w-[400px]",
               isOpen ? "translate-x-0" : "translate-x-full"
             )}
           >
-            <div className="fixed top-0 right-0 h-15 border-b flex items-center justify-center bg-gray-100 dark:bg-gray-900 z-10"
-                 style={{ width: 'inherit' }}>
+            <div className="sticky top-0 h-15 border-b flex items-center justify-center bg-gray-100 dark:bg-gray-900 z-10">
               <h2 className="text-gray-800 dark:text-gray-100 font-semibold text-xl">
                 جدول المحتويات
               </h2>
@@ -157,37 +174,8 @@ const Toc = () => {
                 aria-label="إغلاق جدول المحتويات"
               />
             </div>
-      
             <div dir="ltr" className="h-full overflow-y-auto pt-15 pb-2">
-              {numberedAnchors.length === 0 ? (
-                <p className="text-gray-500 text-xs italic p-2">
-                  لا يوجد محتويات
-                </p>
-              ) : (
-                <ul className="space-y-1 pl-2" dir="rtl">
-                  {numberedAnchors.map((anchor) => (
-                    <li
-                      key={anchor.id}
-                      onClick={() => handleScroll(anchor.id)}
-                      onKeyDown={(e) => handleKeyDown(e, anchor.id)}
-                      tabIndex={0}
-                      role="button"
-                      className={cn(
-                        "cursor-pointer select-none rounded-md py-2",
-                        getLevelStyle(anchor.level),
-                        anchor.isActive
-                          ? "text-blue-600 font-medium dark:text-blue-400 bg-blue-100/10"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-200/40 dark:hover:bg-gray-800/40"
-                      )}
-                      style={{
-                        paddingRight: `${(anchor.level ?? 1) * 12 + 4}px`,
-                      }}
-                    >
-                      {anchor.number}. {anchor.textContent}
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <TocList anchors={numberedAnchors} handleScroll={handleScroll} handleKeyDown={handleKeyDown} />
             </div>
           </nav>
         </div>
@@ -203,7 +191,6 @@ const Toc = () => {
             isOpen ? "opacity-100" : "opacity-0"
           )}
         >
-          {/* Resize Handle */}
           <div
             onMouseDown={startResizing}
             className={cn(
@@ -220,35 +207,7 @@ const Toc = () => {
           </div>
 
           <div dir="ltr" className="flex-1 overflow-y-auto py-2">
-            {numberedAnchors.length === 0 ? (
-              <p className="text-gray-500 text-xs italic p-2">
-                لا يوجد محتويات
-              </p>
-            ) : (
-              <ul className="space-y-1 pl-2" dir="rtl">
-                {numberedAnchors.map((anchor) => (
-                  <li
-                    key={anchor.id}
-                    onClick={() => handleScroll(anchor.id)}
-                    onKeyDown={(e) => handleKeyDown(e, anchor.id)}
-                    tabIndex={0}
-                    role="button"
-                    className={cn(
-                      "cursor-pointer select-none rounded-md py-2",
-                      getLevelStyle(anchor.level),
-                      anchor.isActive
-                        ? "text-blue-600 font-medium dark:text-blue-400 bg-blue-100/10"
-                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-200/40 dark:hover:bg-gray-800/40"
-                    )}
-                    style={{
-                      paddingRight: `${(anchor.level ?? 1) * 12 + 4}px`,
-                    }}
-                  >
-                    {anchor.number}. {anchor.textContent}
-                  </li>
-                ))}
-              </ul>
-            )}
+            <TocList anchors={numberedAnchors} handleScroll={handleScroll} handleKeyDown={handleKeyDown} />
           </div>
         </nav>
       )}
