@@ -1,25 +1,21 @@
 import type { ChangeEvent } from "react";
 import type { Editor } from "@tiptap/react";
-import { db } from "./db";
-import { useTitleStore } from "../store/titleStore";
+import { importFile } from "./importFile";
 
 export const handleUpload = (
   e: ChangeEvent<HTMLInputElement>,
   editor: Editor
 ) => {
   const file = e.target.files?.[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.readAsText(file);
-    reader.onload = (e) => {
-      
-      const content = e.target?.result as string;
-      const title = file.name.replace(/\.[^/.]+$/, "");
+  if (!file) return;
 
-      editor.commands.setContent(content);
-      useTitleStore.setState({ title });
+  const reader = new FileReader();
+  reader.readAsText(file);
+  reader.onload = (ev) => {
+    const content = ev.target?.result as string;
+    importFile(editor, content, file.name);
+  };
 
-      db.blogs.update(1, { title });
-    };
-  }
+  // Reset input so re-importing the same file triggers onChange
+  e.target.value = "";
 };

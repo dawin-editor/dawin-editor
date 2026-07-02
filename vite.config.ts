@@ -10,29 +10,19 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
+      srcDir: "public",
+      filename: "sw.js",
+      strategies: "injectManifest",
       includeAssets: ["**/*"],
 
-      workbox: {
+      injectManifest: {
         globPatterns: [
           "**/*.{js,css,html,ico,png,svg,webp,woff,woff2,ttf,otf}",
         ],
-
-        // skipWaiting: true,
-        // clientsClaim: true,
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "google-fonts-cache",
-              expiration: {
-                maxEntries: 10,
-              },
-            },
-          },
-        ],
       },
       manifest: {
+        id: "/",
+        scope: "/",
         launch_handler: {
           client_mode: "auto",
         },
@@ -42,53 +32,93 @@ export default defineConfig({
           "محرّر نصوص ماركداون بسيط وسريع مع واجهة عربية وتجربة كتابة سلسة.",
         lang: "ar",
         dir: "rtl",
-        start_url: "/?fresh=1",
+        start_url: "/",
         display: "standalone",
         background_color: "#FFFFFF",
         theme_color: "#2368A1",
         categories: ["productivity", "utilities", "writing"],
+        shortcuts: [
+          {
+            name: "مستند جديد",
+            short_name: "جديد",
+            url: "/?fresh=1",
+            icons: [
+              {
+                src: "/pwa-192x192.png",
+                sizes: "192x192",
+                type: "image/png",
+              },
+            ],
+          },
+        ],
+        share_target: {
+          action: "/",
+          method: "POST",
+          enctype: "multipart/form-data",
+          params: {
+            title: "title",
+            text: "text",
+            url: "url",
+            files: [
+              {
+                name: "shared-files",
+                accept: [
+                  "text/markdown",
+                  "text/x-markdown",
+                  "text/plain",
+                  "text/html",
+                  ".md",
+                  ".markdown",
+                  ".txt",
+                  ".html",
+                ],
+              },
+            ],
+          },
+        },
         file_handlers: [
           {
             action: "/openFile",
             accept: {
-              // Markdown common MIME/type + extensions
               "text/markdown": [".md", ".markdown"],
               "text/x-markdown": [".md", ".markdown"],
               "text/plain": [".txt"],
+              "text/html": [".html"],
+              "application/json": [".json"],
             },
           },
         ],
         icons: [
           {
-            src: "pwa-64x64.png",
+            src: "/pwa-64x64.png",
             sizes: "64x64",
             type: "image/png",
           },
           {
-            src: "pwa-192x192.png",
+            src: "/pwa-192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "pwa-512x512.png",
+            src: "/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any",
           },
           {
-            src: "maskable_icon_x512.png",
+            src: "/maskable_icon_x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
           },
           {
-            src: "maskable_icon_x384.png",
+            src: "/maskable_icon_x384.png",
             sizes: "384x384",
             type: "image/png",
             purpose: "maskable",
           },
           {
-            src: "maskable_icon_x192.png",
+            src: "/maskable_icon_x192.png",
             sizes: "192x192",
             type: "image/png",
             purpose: "maskable",
@@ -96,10 +126,18 @@ export default defineConfig({
         ],
         screenshots: [
           {
-            src: "screenshot.png",
-            sizes: "1280x720",
+            src: "/screenshot.png",
+            sizes: "1200x584",
             type: "image/png",
             form_factor: "wide",
+            label: "محرّر دوّن على سطح المكتب",
+          },
+          {
+            src: "/screenshot-narrow.png",
+            sizes: "390x844",
+            type: "image/png",
+            form_factor: "narrow",
+            label: "محرّر دوّن على الهاتف",
           },
         ],
       },
