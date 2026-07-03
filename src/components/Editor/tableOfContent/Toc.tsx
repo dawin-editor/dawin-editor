@@ -14,14 +14,23 @@ const TocList = ({ anchors, handleScroll, handleKeyDown }: {
   anchors: NumberedAnchor[];
   handleScroll: (id: string) => void;
   handleKeyDown: (e: React.KeyboardEvent, id: string) => void;
-}) => (
-  anchors.length === 0 ? (
+}) => {
+  const activeRef = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    if (activeRef.current) {
+      activeRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [anchors]);
+
+  return anchors.length === 0 ? (
     <p className="text-gray-500 text-xs italic p-2">لا يوجد محتويات</p>
   ) : (
     <ul className="space-y-1 pl-2" dir="rtl">
       {anchors.map((anchor) => (
         <li
           key={anchor.id}
+          ref={anchor.isActive ? activeRef : null}
           onClick={() => handleScroll(anchor.id)}
           onKeyDown={(e) => handleKeyDown(e, anchor.id)}
           tabIndex={0}
@@ -38,8 +47,8 @@ const TocList = ({ anchors, handleScroll, handleKeyDown }: {
         </li>
       ))}
     </ul>
-  )
-);
+  );
+};
 
 const Toc = () => {
   const { anchors, isOpen, setIsOpen } = useTocStore();

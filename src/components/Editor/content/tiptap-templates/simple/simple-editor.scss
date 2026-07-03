@@ -62,7 +62,14 @@ body,
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  transition: all 0.2s ease-in-out;
   
+  &.drag-over {
+    outline: 2px dashed #2368A1;
+    outline-offset: -4px;
+    background: rgba(35, 104, 161, 0.04);
+  }
+
   @media (max-width: 768px) {
     padding: 0;
   }
@@ -74,6 +81,7 @@ body,
   display: flex;
   justify-content: center;
   height: fit-content;
+  padding-bottom: var(--keyboard-offset, 0px);
   
   .tiptap.ProseMirror.simple-editor {
     flex: 1;

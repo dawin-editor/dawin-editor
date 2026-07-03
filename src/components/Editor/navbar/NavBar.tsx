@@ -1,5 +1,5 @@
 import TopNavBar from "./components/TopNavBar.tsx";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "../../ui/button.tsx";
 import {
   PanelTopClose,
@@ -24,11 +24,23 @@ const NavBar = () => {
     });
   }, [setTitle]);
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const handleTitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setTitle(newTitle);
-    db.blogs.update(1, { title: newTitle });
-  };
+
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+    
+    debounceTimer.current = setTimeout(() => {
+      db.blogs.update(1, { 
+        title: newTitle,
+        updatedAt: new Date()
+      });
+    }, 300);
+  }, [setTitle]);
 
   return (
     <div className="w-full bg-main-blue text-primary-content" dir="rtl">

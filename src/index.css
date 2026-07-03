@@ -378,3 +378,24 @@ body, html, #root {
 .tiptap.ProseMirror li p::before {
   display: none !important;
 }
+
+/* Custom Scrollbar for TOC */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+}
+.dark .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: #475569;
+}

@@ -45,9 +45,10 @@ function TextDirectionPlugin({ types }: { types: string[] }) {
 
       newState.doc.descendants((node, pos) => {
         if (types.includes(node.type.name)) {
-          if (node.attrs.dir !== null && node.textContent.length > 0) {
-            return;
-          }
+          if (node.textContent.length === 0) return;
+
+          const detected = getTextDirection(node.textContent);
+          if (node.attrs.dir === detected) return;
           const marks = tr.storedMarks || [];
           tr.setNodeAttribute(pos, "dir", getTextDirection(node.textContent));
           // `tr.setNodeAttribute` resets the stored marks so we'll restore them

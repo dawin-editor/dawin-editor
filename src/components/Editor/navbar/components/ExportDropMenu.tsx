@@ -16,6 +16,7 @@ import ExportDialog from "./ExportDialog.tsx";
 import UploadFile from "./UploadFile.tsx";
 import ExportToPdf from "./ExportToPdf.tsx";
 import { db } from "@/lib/db";
+import { buildHtmlExport } from "@/lib/exportHtml";
 
 
 
@@ -31,114 +32,13 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
     return title?.title;
   };
   const handleExport = async (type: "HTML" | "Markdown") => {
-    const documentTitle = await fetchDocumentTitle();
-    let html = "";
+    if (!editor) return;
     if (type === "HTML") {
-      html = `
-        <html>
-          <head>
-            <title>${documentTitle}</title>
-            <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-
-          
-
-           <link href="https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Graphik%20Arabic%20SemiBold.ttf" rel="stylesheet">
-           <link href="https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Samim.ttf" rel="stylesheet">
-
-           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-           <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-           <script>hljs.highlightAll();</script>
-
-
-
-
-            <style>
-            pre {
-              overflow: visible !important;
-              white-space: pre-wrap;
-              word-wrap: break-word;
-              direction: ltr;
-            }
-
-            pre code {
-              background: none !important;
-              padding: 0;
-              margin: 0;
-              display: block;
-              direction: ltr;
-            }
-
-            
-            @font-face {
-              font-family: 'Graphik Arabic';
-              src: url('https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Graphik%20Arabic%20SemiBold.ttf') format('truetype');
-              font-weight: 600;
-              font-style: normal;
-            }
-            
-            @font-face {
-              font-family: 'Samim';
-              src: url('https://raw.githubusercontent.com/benotsman-youssuf/quranJson/main/Samim.ttf') format('truetype');
-              font-weight: normal;
-              font-style: normal;
-            }
-            
-            body {
-              font-family: 'Samim', sans-serif;
-              direction: rtl;
-            }
-            h1,h2,h3,h4,h5,h6 {
-              font-family: 'Graphik Arabic', sans-serif;
-            }
-            p{
-              font-family: 'Samim', sans-serif;
-            }
-            ul,
-            ol {
-              direction: rtl;
-            }
-            table {
-              border-collapse: collapse;
-              width: 100%;            /* size to content */
-              table-layout: auto;    /* natural column sizing */
-              margin: 1em 0;      /* center horizontally */
-              background: transparent;
-              display: table;        /* ensure it's treated like a table */
-            }
-
-            table th,
-            table td {
-              border: none;
-              padding: 8px 12px;
-              text-align: right;     /* keep RTL cell alignment */
-              vertical-align: middle;
-            }   
-            img {
-              display: block;
-              max-width: fit-content;
-              height: auto;
-              margin-left: auto;
-              margin-right: auto;
-            }
-       
-           
-            
-            </style>
-          </head>
-          <body style="font-family: 'Tajawal', sans-serif;">
-            ${editor?.getHTML() || ""}
-          </body>
-        </html>
-      `;
+      const documentTitle = (await fetchDocumentTitle()) ?? "مستند بدون عنوان";
       setIsOpen({
         contentType: "HTML",
         isOpen: true,
-        content: html,
+        content: buildHtmlExport(editor, documentTitle),
       });
     } else if (type === "Markdown") {
       setIsOpen({
@@ -147,7 +47,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
         content:
           (editor?.storage as { markdown?: { getMarkdown: () => string } })?.markdown?.getMarkdown?.() ||
           "",
-      })
+      });
     }
   };
 
