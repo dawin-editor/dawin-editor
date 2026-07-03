@@ -270,7 +270,7 @@ export function SimpleEditor() {
       ImageExtension,
       ImagePlaceholder,
       TextDirection.configure({
-        types: ["heading", "paragraph", "listItem"],
+        types: ["heading", "paragraph", "listItem", "tableCell", "tableHeader"],
         defaultDirection: "rtl",
       }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),

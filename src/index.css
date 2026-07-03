@@ -319,7 +319,7 @@ h6 {
   border: none;
   border-bottom: 1px solid #e5e7eb;
   padding: 8px 12px;
-  text-align: right;
+  text-align: start;
   position: relative;
 }
 .ProseMirror table th { font-weight: 600; color: #374151; }
