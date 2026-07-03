@@ -11,7 +11,7 @@ const ButtomActions = () => {
   const { editor } = useEditorStore();
   const { isOpen, setIsOpen } = useTocStore();
   return (
-    <div className="fixed bottom-10 left-8 flex flex-row gap-2">
+    <div className="fixed bottom-16 md:bottom-10 left-6 md:left-8 flex flex-row gap-2 z-40">
       <Tooltip>
         <TooltipTrigger
           className="bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover cursor-pointer hidden md:block"
@@ -31,7 +31,7 @@ const ButtomActions = () => {
         <TooltipContent className="bg-black">إرسال ملاحظات</TooltipContent>
       </Tooltip>
       <Tooltip>
-        <TooltipTrigger className="bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover cursor-pointer hidden md:block">
+        <TooltipTrigger className="bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover cursor-pointer block">
           <div
             onClick={() => {
               navigator.clipboard.writeText(

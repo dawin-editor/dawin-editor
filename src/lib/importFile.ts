@@ -82,6 +82,3 @@ export async function importFile(
   }
 }
 
-export function detectFileTypeFromName(filename: string): FileType {
-  return detectFileType(filename);
-}

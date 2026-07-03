@@ -2,6 +2,7 @@ import type { Editor } from "@tiptap/react";
 import { db } from "./db";
 import { clipUrl, clipUrlFallback } from "./clipper";
 import { importFile } from "./importFile";
+import { useTitleStore } from "../store/titleStore";
 import toast from "react-hot-toast";
 
 const SHARED_DB_NAME = "DawinDB";
@@ -22,6 +23,7 @@ function openSharedDB(): Promise<IDBDatabase> {
 }
 
 async function loadSharedFiles(editor: Editor): Promise<boolean> {
+  toast.loading("جارٍ تحميل الملف المشترك...", { id: "share-file" });
   try {
     const idb = await openSharedDB();
     const tx = idb.transaction(SHARED_STORE, "readonly");
@@ -33,11 +35,13 @@ async function loadSharedFiles(editor: Editor): Promise<boolean> {
     });
 
     if (files.length === 0) {
+      toast.dismiss("share-file");
       idb.close();
       return false;
     }
 
     const file = files[0];
+    toast.dismiss("share-file"); // importFile will show its own success toast
     const success = await importFile(editor, file.text, file.name);
 
     // Clear the shared files store after loading
@@ -52,7 +56,7 @@ async function loadSharedFiles(editor: Editor): Promise<boolean> {
     return success;
   } catch (err) {
     console.error("Failed to load shared files:", err);
-    toast.error("فشل تحميل الملف المشترك.");
+    toast.error("فشل تحميل الملف المشترك.", { id: "share-file" });
     return false;
   }
 }
@@ -76,6 +80,9 @@ async function loadSharedUrl(
     sourceUrl: clipResult.url,
     updatedAt: new Date(),
   });
+
+  // Sync title to the editor header store
+  useTitleStore.setState({ title: clipResult.title });
 
   toast.success(
     result ? "تم استيراد المحتوى بنجاح" : "تم إنشاء رابط (تعذر استخراج المحتوى)",

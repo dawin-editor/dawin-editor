@@ -71,6 +71,7 @@ import { LinkIcon } from "@/components/Editor/content/tiptap-icons/link-icon.tsx
 
 // --- Hooks ---
 import { useIsMobile } from "@/hooks/use-mobile.ts";
+import { useVisualViewport } from "@/hooks/use-visual-viewport.ts";
 
 // --- Styles ---
 import "@/components/Editor/content/tiptap-templates/simple/simple-editor.scss";
@@ -84,6 +85,8 @@ import TableButton from "@/components/Editor/content/tiptap-ui/table-button/tabl
 import { Placeholder } from "@tiptap/extensions";
 import OfficePaste from "@intevation/tiptap-extension-office-paste";
 
+import { TextDirection } from "@/extensions/textDir.ts";
+
 import { ImageExtension } from "@/components/Editor/content/tiptap-node/image-node/ImageCN.tsx";
 import { ImagePlaceholder } from "@/components/Editor/content/tiptap-node/image-node/Image-placeholder.tsx";
 import { ImagePlaceholderToolbar } from "@/components/Editor/content/tiptap-node/image-node/image-placeholder-toolbar.tsx";
@@ -92,6 +95,7 @@ import { TableOfContents } from "@tiptap/extension-table-of-contents";
 import { useTocStore } from "@/store/TocStore";
 import Toc from "@/components/Editor/tableOfContent/Toc";
 import ButtomActions from "../../ButtomActions";
+import { handleUpload } from "@/lib/upload";
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -203,10 +207,12 @@ const MobileToolbarContent = ({
 
 export function SimpleEditor() {
   const isMobile = useIsMobile();
+  const keyboardOffset = useVisualViewport();
   const [mobileView, setMobileView] = React.useState<
     "main" | "highlighter" | "link"
   >("main");
   const { setAnchors } = useTocStore();
+  const [isDragging, setIsDragging] = React.useState(false);
 
   const toolbarRef = React.useRef<HTMLDivElement>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -263,6 +269,10 @@ export function SimpleEditor() {
 
       ImageExtension,
       ImagePlaceholder,
+      TextDirection.configure({
+        types: ["heading", "paragraph", "listItem"],
+        defaultDirection: "rtl",
+      }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
       TaskItem.configure({ nested: true }),
@@ -277,14 +287,18 @@ export function SimpleEditor() {
     onCreate: async ({ editor }) => {
       setEditor(editor);
       const saved = await db.blogs.get(1);
-      if (
-        !saved?.text ||
-        saved?.text ===
-          '{"type":"doc","content":[{"type":"paragraph","attrs":{"dir":null,"textAlign":null}}]}'
-      ) {
+      if (!saved?.text) {
         editor.commands.setContent(content);
       } else {
-        editor.commands.setContent(JSON.parse(saved.text));
+        const parsed = JSON.parse(saved.text);
+        const hasText = parsed.content?.some((node: any) =>
+          node.content?.some((n: any) => n.text?.trim())
+        );
+        if (hasText) {
+          editor.commands.setContent(parsed);
+        } else {
+          editor.commands.setContent(content);
+        }
       }
     },
 
@@ -303,9 +317,40 @@ export function SimpleEditor() {
   if (!editor) return null;
   // const headings = JSON.parse(localStorage.getItem("headings") || "[]");
 
+  const onDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const onDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      // Mock synthetic event to pass to handleUpload which expects a change event
+      const mockEvent = {
+        target: { files: e.dataTransfer.files }
+      } as unknown as React.ChangeEvent<HTMLInputElement>;
+      
+      handleUpload(mockEvent, editor);
+    }
+  };
+
   return (
     <>
-      <div ref={scrollRef} className="simple-editor-wrapper font-dubai-light flex flex-col flex-1">
+      <div 
+        ref={scrollRef} 
+        className={cn("simple-editor-wrapper font-dubai-light flex flex-col flex-1", isDragging && "drag-over")}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
+        style={{ "--keyboard-offset": isMobile ? `${keyboardOffset}px` : "0px" } as React.CSSProperties}
+      >
         <EditorContext.Provider value={{ editor }}>
           <ToolbarProvider editor={editor}>
             <Toolbar
