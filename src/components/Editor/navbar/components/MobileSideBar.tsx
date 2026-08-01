@@ -128,7 +128,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
         )}
       >
         {/* Header */}
-        <div className="h-15 flex items-center justify-between bg-[#2C83CB] p-4 md:hidden">
+        <div className="h-15 flex items-center justify-between bg-lapis-lazuli p-4 md:hidden">
           <h1 className="font-dubai-medium text-xl text-white">محرّر دَوّن</h1>
           <X
             className="size-6 cursor-pointer text-white "
@@ -147,7 +147,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               className="w-full flex items-center gap-4 p-4 rounded-lg transition-colors duration-200 hover:bg-white/10 cursor-pointer"
               aria-label="استيراد ملف"
             >
-              <Upload className="size-6 text-blue-200" />
+              <Upload className="size-6 text-blue-200 dark:text-icons-color" />
               <span className="font-dubai-medium text-lg">استيراد ملف</span>
             </label>
             <input
@@ -172,7 +172,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
                 handleExport("HTML")
               }
             >
-              <Download className="size-6 text-blue-200" />
+              <Download className="size-6 text-blue-200 dark:text-icons-color" />
               <span className="font-dubai-medium text-lg">تصدير كملف HTML</span>
             </button>
           </li>
@@ -193,7 +193,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
                 });
               }}
             >
-              <Download className="size-6 text-blue-200" />
+              <Download className="size-6 text-blue-200 dark:text-icons-color" />
               <span className="font-dubai-medium text-lg">
                 تصدير كملف Markdown
               </span>
@@ -207,7 +207,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
                 ExportToPDF(editor!);
               }}
             >
-              <Download className="size-6 text-blue-200" />
+              <Download className="size-6 text-blue-200 dark:text-icons-color" />
               <span className="font-dubai-medium text-lg">تصدير كملف PDF</span>
             </button>
           </li>
@@ -222,7 +222,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               aria-label="طريقة الاستخدام"
               onClick={() => setOpen(false)}
             >
-              <Info className="size-6 text-blue-200" />
+              <Info className="size-6 text-blue-200 dark:text-icons-color" />
               <a
                 href="https://guide.dawin.io/"
                 className="font-dubai-medium text-lg w-full text-right"
@@ -237,7 +237,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               aria-label="أرسل ملاحظتك"
               onClick={handleFeedbackClick}
             >
-              <MessageCircle className="size-6 text-blue-200" />
+              <MessageCircle className="size-6 text-blue-200 dark:text-icons-color" />
               <span className="font-dubai-medium text-lg">أرسل ملاحظتك</span>
             </button>
           </li>
@@ -247,7 +247,7 @@ const MobileSideBar = ({ open, setOpen }: MobileSideBarProps) => {
               aria-label="حول المحرّر"
               onClick={() => setOpen(false)}
             >
-              <MousePointerClick className="size-6 text-blue-200" />
+              <MousePointerClick className="size-6 text-blue-200 dark:text-icons-color" />
               <a
                 href="https://www.dawin.io/about"
                 className="font-dubai-medium text-lg w-full text-right"

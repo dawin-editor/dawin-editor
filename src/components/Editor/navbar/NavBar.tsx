@@ -9,6 +9,7 @@ import {
   TableOfContents,
 } from "lucide-react";
 import EyePen from "./components/EyePen.tsx";
+import ThemeToggle from "./components/ThemeToggle.tsx";
 import { db } from "@/lib/db.ts";
 import { useTitleStore } from "@/store/titleStore.ts";
 import { useTocStore } from "@/store/TocStore";
@@ -43,16 +44,16 @@ const NavBar = () => {
   }, [setTitle]);
 
   return (
-    <div className="w-full bg-main-blue text-primary-content" dir="rtl">
+    <div className="w-full bg-main-blue text-white" dir="rtl">
       <TopNavBar isCollapsed={isCollapsed} />
 
-      <div className="bg-white h-20 flex flex-row justify-between items-center px-4 sm:px-8 py-4 border-b-1 w-full">
+      <div className="bg-background h-20 flex flex-row justify-between items-center px-4 sm:px-8 py-4 border-b border-border w-full">
         <div className="flex flex-col items-start gap-1 min-w-0">
-          <span className="font-dubai-regular text-sm opacity-65 text-[#6B7280]">
+          <span className="font-dubai-regular text-sm text-muted-foreground">
             عنوان المستند
           </span>
           <input
-            className="opacity-90 text-main-blue border-none outline-none w-full max-w-[200px] sm:max-w-none"
+                className="opacity-90 bg-transparent text-foreground border-none outline-none w-full max-w-[200px] sm:max-w-none"
             style={{ fontSize: "1.125rem", fontFamily: "Dubai-regular" }}
             value={title}
             onChange={handleTitleChange}
@@ -97,6 +98,7 @@ const NavBar = () => {
               <Expand className="size-5.5 text-icons-color" strokeWidth={2} />
             )}
           </Button>
+          <ThemeToggle />
           {/* ******************************************* */}
           <Button
             variant="secondary"

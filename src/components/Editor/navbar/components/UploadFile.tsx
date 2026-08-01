@@ -11,7 +11,7 @@ const UploadFile = () => {
     <div className="w-full" data-cy="upload-file">
       <label
         htmlFor="file-upload"
-        className="flex flex-row-reverse items-center justify-end px-3 py-2 cursor-pointer gap-1.5 hover:bg-gray-100 rounded-md"
+        className="flex flex-row-reverse items-center justify-end px-3 py-2 cursor-pointer gap-1.5 hover:bg-accent rounded-md"
         onClick={() => {
           // Close dropdown by simulating escape key
           setTimeout(() => {
@@ -19,7 +19,7 @@ const UploadFile = () => {
           }, 50);
         }}
       >
-        <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
+        <span className="font-dubai-regular text-[0.95rem] leading-none text-muted-foreground">
           استيراد 
         </span>
         <Upload className="size-5 translate-y-[0.5px]" opacity={0.3} />

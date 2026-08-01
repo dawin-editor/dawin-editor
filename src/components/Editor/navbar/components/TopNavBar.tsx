@@ -31,7 +31,7 @@ const TopNavBar = ({ isCollapsed }: { isCollapsed: boolean }) => {
           <h1 className="font-dubai-medium text-xl">محرّر دَوّن</h1>
         </div>
         {/* hidden on phones, visible from md (>=768px) */}
-        <div className="hidden md:flex font-dubai-regular text-cerulean text-medium opacity-85">
+        <div className="hidden md:flex font-dubai-regular text-cerulean">
           <span className="pl-10">
             <ExportDropMenu isMobile={false} />
           </span>

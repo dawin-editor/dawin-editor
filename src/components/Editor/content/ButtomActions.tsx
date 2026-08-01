@@ -28,7 +28,7 @@ const ButtomActions = () => {
             />
           </div>
         </TooltipTrigger>
-        <TooltipContent className="bg-black">إرسال ملاحظات</TooltipContent>
+        <TooltipContent>إرسال ملاحظات</TooltipContent>
       </Tooltip>
       <Tooltip>
         <TooltipTrigger className="bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover cursor-pointer block">
@@ -50,7 +50,7 @@ const ButtomActions = () => {
             />
           </div>
         </TooltipTrigger>
-        <TooltipContent className="bg-black">نسخ</TooltipContent>
+        <TooltipContent>نسخ</TooltipContent>
       </Tooltip>
       <Tooltip>
         <TooltipTrigger className="bg-icons-bg p-1.5 rounded-sm hover:bg-icons-color-hover cursor-pointer hidden md:block">
@@ -62,7 +62,7 @@ const ButtomActions = () => {
             />
           </div>
         </TooltipTrigger>
-        <TooltipContent className="bg-black">جدول المحتويات</TooltipContent>
+        <TooltipContent>جدول المحتويات</TooltipContent>
       </Tooltip>
       <Toast />
     </div>

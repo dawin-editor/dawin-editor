@@ -113,7 +113,17 @@
       sizes="180x180"
       href="/apple-touch-icon-180x180.png"
     />
-    <meta name="theme-color" content="#2368A1" />
+    <meta name="theme-color" content="#2368A1" id="theme-color-meta" />
+    <script>
+      (function() {
+        var theme = localStorage.getItem('dawin-theme');
+        var isDark = theme === 'dark' || (theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+          document.getElementById('theme-color-meta')?.setAttribute('content', '#0d1117');
+        }
+      })();
+    </script>
     
     <!-- Web App Capable -->
     <meta name="apple-mobile-web-app-title" content="محرّر دوّن" />

@@ -26,20 +26,20 @@ const Stat = () => {
   }, [editor]);
 
   return (
-    <div className="flex flex-row  items-baseline justify-between font-dubai-regular  ">
-      <span className="text-[#c3920a] text-[0.8rem]">إحصائيات</span>
-      <ul className="flex items-end gap-4 text-[0.8rem] ">
+    <div className="flex flex-row items-baseline justify-between font-dubai-regular">
+      <span className="text-jasmine dark:text-cornsilk text-[0.8rem]">إحصائيات</span>
+      <ul className="flex items-end gap-4 text-[0.8rem]">
         <li>
-          <span className="text-[#8c6d20] ">الحروف: </span>
-          <span className="text-[#5c4813]">{characters}</span>
+          <span className="text-jasmine/80 dark:text-cornsilk/80">الحروف: </span>
+          <span className="text-jasmine dark:text-cornsilk">{characters}</span>
         </li>
         <li>
-          <span className="text-[#8c6d20] ">الكلمات: </span>
-          <span className="text-[#5c4813]">{words}</span>
+          <span className="text-jasmine/80 dark:text-cornsilk/80">الكلمات: </span>
+          <span className="text-jasmine dark:text-cornsilk">{words}</span>
         </li>
         <li>
-          <span className="text-[#8c6d20] ">معدل القراءة: </span>
-          <span className="text-[#5c4813]">{Math.ceil(words / 200)}د</span>
+          <span className="text-jasmine/80 dark:text-cornsilk/80">معدل القراءة: </span>
+          <span className="text-jasmine dark:text-cornsilk">{Math.ceil(words / 200)}د</span>
         </li>
       </ul>
     </div>

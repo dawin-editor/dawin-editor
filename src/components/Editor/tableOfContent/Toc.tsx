@@ -24,7 +24,7 @@ const TocList = ({ anchors, handleScroll, handleKeyDown }: {
   }, [anchors]);
 
   return anchors.length === 0 ? (
-    <p className="text-gray-500 text-xs italic p-2">لا يوجد محتويات</p>
+    <p className="text-muted-foreground text-xs italic p-2">لا يوجد محتويات</p>
   ) : (
     <ul className="space-y-1 pl-2" dir="rtl">
       {anchors.map((anchor) => (
@@ -39,7 +39,7 @@ const TocList = ({ anchors, handleScroll, handleKeyDown }: {
             "cursor-pointer select-none rounded-md py-2 text-[0.85rem] font-medium leading-relaxed tracking-normal text-foreground/80 transition-colors duration-200",
             anchor.isActive
               ? "text-blue-600 font-medium dark:text-blue-400 bg-blue-100/10"
-              : "text-gray-700 dark:text-gray-300 hover:bg-gray-200/40 dark:hover:bg-gray-800/40"
+              : "text-muted-foreground hover:bg-muted/50"
           )}
           style={{ paddingRight: `${(anchor.level ?? 1) * 12 + 4}px` }}
         >
@@ -167,17 +167,17 @@ const Toc = () => {
             aria-modal="true"
             onClick={(e) => e.stopPropagation()}
             className={cn(
-              "fixed top-0 right-0 h-full bg-gray-100 dark:bg-gray-900/40 border-l border-gray-200 dark:border-gray-700 shadow-xl transition-transform duration-300 ease-in-out md:hidden",
+              "fixed top-0 right-0 h-full bg-background border-l border-border shadow-xl transition-transform duration-300 ease-in-out md:hidden",
               "w-[85vw] sm:w-[70vw] md:w-[60vw] lg:w-[50vw] max-w-[400px]",
               isOpen ? "translate-x-0" : "translate-x-full"
             )}
           >
-            <div className="sticky top-0 h-15 border-b flex items-center justify-center bg-gray-100 dark:bg-gray-900 z-10">
-              <h2 className="text-gray-800 dark:text-gray-100 font-semibold text-xl">
+            <div className="sticky top-0 h-15 border-b flex items-center justify-center bg-background z-10">
+              <h2 className="text-foreground font-semibold text-xl">
                 جدول المحتويات
               </h2>
               <X
-                className="absolute left-3 size-5 cursor-pointer text-gray-700 dark:text-gray-300"
+                className="absolute left-3 size-5 cursor-pointer text-muted-foreground"
                 onClick={() => setIsOpen(false)}
                 role="button"
                 aria-label="إغلاق جدول المحتويات"
@@ -196,21 +196,19 @@ const Toc = () => {
           dir="rtl"
           style={{ width: isOpen ? `${width}px` : "0px" }}
           className={cn(
-            "bg-gray-100 font-dubai-regular border-l border-gray-200 dark:border-gray-700 dark:bg-gray-900/40 text-sm text-right flex flex-col h-full overflow-hidden relative transition-all duration-300 ease-in-out",
+            "bg-background font-dubai-regular border-l border-border text-sm text-right flex flex-col h-full overflow-hidden relative transition-all duration-300 ease-in-out",
             isOpen ? "opacity-100" : "opacity-0"
           )}
         >
           <div
             onMouseDown={startResizing}
             className={cn(
-              "absolute left-0 top-0 bottom-0 w-1.5 cursor-ew-resize transition-colors z-10",
-              "hover:bg-gray-300/50 dark:hover:bg-gray-600/50",
-              isResizing && "hover:bg-gray-300/50 dark:hover:bg-gray-600/50"
+              "absolute left-0 top-0 bottom-0 w-1.5 cursor-ew-resize transition-colors z-10 hover:bg-muted"
             )}
           />
 
-          <div className="sticky top-0 h-11 border-b flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-            <h2 className="text-gray-800 dark:text-gray-100 font-semibold text-base">
+          <div className="sticky top-0 h-11 border-b flex items-center justify-center bg-background">
+            <h2 className="text-foreground font-semibold text-base">
               جدول المحتويات
             </h2>
           </div>

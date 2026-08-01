@@ -10,9 +10,10 @@
     --tt-inline-code-bg-color: var(--tt-gray-dark-a-100);
     --tt-inline-code-text-color: var(--tt-gray-dark-a-700);
     --tt-inline-code-border-color: var(--tt-gray-dark-a-200);
-    --tt-codeblock-bg: var(--tt-gray-dark-a-50);
+    /* slate block that stands out against the near-black editor bg */
+    --tt-codeblock-bg: #1e293b;
     --tt-codeblock-text: var(--tt-gray-dark-a-800);
-    --tt-codeblock-border: var(--tt-gray-dark-a-200);
+    --tt-codeblock-border: rgba(255, 255, 255, 0.15);
   }
 }
 

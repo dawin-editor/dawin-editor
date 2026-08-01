@@ -129,8 +129,8 @@ const TableButton = () => {
               insertTableWithPlaceholders();
             }
           }}
-          className={`p-2 rounded-md transition-all duration-200 hover:bg-gray-100 active:scale-95 ${
-            isInTable ? "bg-gray-200 text-icons-color" : "text-gray-700"
+          className={`p-2 rounded-md transition-all duration-200 hover:bg-accent active:scale-95 ${
+            isInTable ? "bg-accent text-icons-color" : "text-muted-foreground"
           }`}
           title={isInTable ? "تحرير الجدول" : "إدراج جدول"}
         >
@@ -139,7 +139,7 @@ const TableButton = () => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="w-52 rounded-lg border shadow-lg bg-white/95 backdrop-blur-sm p-1"
+        className="w-52 rounded-lg border shadow-lg bg-popover/95 backdrop-blur-sm p-1"
         align="start"
         sideOffset={8}
       >
@@ -148,7 +148,7 @@ const TableButton = () => {
             key={cmd.label}
             onClick={cmd.command}
             disabled={cmd.disabled}
-            className="cursor-pointer px-3 py-2 text-sm rounded-md transition-colors hover:bg-blue-50  disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="cursor-pointer px-3 py-2 text-sm rounded-md transition-colors hover:bg-accent  disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             <cmd.icon className="w-4 h-4" />
             {cmd.label}
@@ -159,7 +159,7 @@ const TableButton = () => {
           <>
             <DropdownMenuSeparator className="my-1" />
 
-            <div className="px-2 py-1 text-xs font-medium text-gray-500 uppercase tracking-wide">
+            <div className="px-2 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wide">
               الأعمدة
             </div>
             {columnCommands.map((cmd) => (
@@ -167,7 +167,7 @@ const TableButton = () => {
                 key={cmd.label}
                 onClick={cmd.command}
                 disabled={cmd.disabled}
-                className="cursor-pointer px-3 py-2 text-sm rounded-md transition-colors hover:bg-blue-50 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="cursor-pointer px-3 py-2 text-sm rounded-md transition-colors hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <cmd.icon className="w-4 h-4" />
                 {cmd.label}
@@ -176,7 +176,7 @@ const TableButton = () => {
 
             <DropdownMenuSeparator className="my-1" />
 
-            <div className="px-2 py-1 text-xs font-medium text-gray-500 uppercase tracking-wide">
+            <div className="px-2 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wide">
               الصفوف
             </div>
             {rowCommands.map((cmd) => (
@@ -184,7 +184,7 @@ const TableButton = () => {
                 key={cmd.label}
                 onClick={cmd.command}
                 disabled={cmd.disabled}
-                className="cursor-pointer px-3 py-2 text-sm rounded-md transition-colors hover:bg-blue-50 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="cursor-pointer px-3 py-2 text-sm rounded-md transition-colors hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <cmd.icon className="w-4 h-4" />
                 {cmd.label}
@@ -198,7 +198,7 @@ const TableButton = () => {
                 key={cmd.label}
                 onClick={cmd.command}
                 disabled={cmd.disabled}
-                className="cursor-pointer px-3 py-2 text-sm rounded-md transition-colors hover:bg-red-50 hover:text-red-600 text-red-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="cursor-pointer px-3 py-2 text-sm rounded-md transition-colors hover:bg-destructive/10 hover:text-destructive text-destructive disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <cmd.icon className="w-4 h-4" />
                 {cmd.label}

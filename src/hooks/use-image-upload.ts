@@ -16,9 +16,8 @@ export function useImageUpload({ onUpload }: UseImageUploadProps = {}) {
   // Create an abort controller for the upload
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const handleProgress = useCallback((event: { progress: number }) => {
-    // You can use this to show upload progress if needed
-    console.log(`Upload progress: ${event.progress}%`);
+  const handleProgress = useCallback((_event: { progress: number }) => {
+    // Upload progress handler (for future UI feedback)
   }, []);
 
   const handleThumbnailClick = useCallback(() => {

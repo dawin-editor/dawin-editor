@@ -34,9 +34,6 @@ import {
 import "@/components/Editor/content/tiptap-node/blockquote-node/blockquote-node.scss";
 import "@/components/Editor/content/tiptap-node/code-block-node/code-block-node.scss";
 import "@/components/Editor/content/tiptap-node/heading-node/heading-node.scss";
-// import { HorizontalRule } from "@/components/Editor/content/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension.ts";
-
-import "@/components/Editor/content/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
 import "@/components/Editor/content/tiptap-node/image-node/image-node.scss";
 
 import "@/components/Editor/content/tiptap-node/list-node/list-node.scss";
@@ -265,8 +262,6 @@ export function SimpleEditor() {
         // Add this to show placeholder only when editor is empty
         emptyEditorClass: "is-editor-empty",
       }),
-      // MarkdownPaste,
-
       ImageExtension,
       ImagePlaceholder,
       TextDirection.configure({
@@ -315,7 +310,6 @@ export function SimpleEditor() {
   }, [isMobile, mobileView]);
 
   if (!editor) return null;
-  // const headings = JSON.parse(localStorage.getItem("headings") || "[]");
 
   const onDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -358,7 +352,7 @@ export function SimpleEditor() {
               className="sticky top-0 z-20 flex items-start justify-center p-0 "
               variant="fixed"
               style={{
-                background: "#F3F4F6",
+                background: "var(--tt-toolbar-bg-color)",
                 height: "var(--tt-toolbar-height)",
                 ...(preview ? { display: "none" } : {}),
               }}
@@ -381,7 +375,7 @@ export function SimpleEditor() {
               data-cy="editor-content"
               className={cn(
                 "simple-editor-content overflow-auto",
-                preview ? "bg-[#f7fbfb]" : "",
+                preview ? "bg-background" : "",
               )}
               style={{
                 outline: "none",

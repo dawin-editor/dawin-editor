@@ -5,8 +5,10 @@ import { db } from "./lib/db";
 import { openFile } from "./lib/openFiles";
 import { useEditorStore } from "./store/EditroStore";
 import { useClipImport } from "./hooks/useClipImport";
+import { useThemeStore } from "./store/themeStore";
 
 const App = () => {
+  useThemeStore();
   const { editor } = useEditorStore();
   const [loading, setLoading] = useState(true);
 

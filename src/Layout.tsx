@@ -6,13 +6,13 @@ const Layout = () => {
 
   return (
     <div
-      className="flex h-full flex-col bg-gray-50 mobile-layout transition-opacity duration-500"
+      className="flex h-full flex-col bg-background mobile-layout transition-colors duration-300"
     >
-      <div className="sticky top-0 z-50 ">
+      <div className="sticky top-0 z-50">
         <NavBar />
       </div>
 
-      <div className="min-h-0 flex-1 overflow-hidden bg-white mobile-content flex flex-row">
+      <div className="min-h-0 flex-1 overflow-hidden bg-background mobile-content flex flex-row">
         <SimpleEditor />
       </div>
 

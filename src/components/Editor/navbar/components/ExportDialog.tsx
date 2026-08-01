@@ -144,7 +144,7 @@ const ExportDialog = ({
           <textarea
             readOnly
             dir="ltr"
-            className="w-full min-h-[260px] max-h-[50vh] rounded-md text-consolas-regular border border-[var(--border)] bg-[var(--secondary)]/70 dark:bg-[var(--accent)]/10 p-3 text-[0.92rem] font-mono leading-6 outline-none text-foreground/90 selection:bg-cerulean/25 selection:text-foreground/95 resize-vertical"
+            className="w-full min-h-[260px] max-h-[50vh] rounded-md border border-[var(--border)] bg-secondary/70 dark:bg-secondary p-3 text-[0.92rem] font-mono leading-6 outline-none text-foreground/90 selection:bg-cerulean/25 selection:text-foreground/95 resize-vertical"
             style={{
               fontFamily:
                 "'ConsolasCustom', Consolas, 'Liberation Mono', 'Courier New', monospace",
@@ -167,7 +167,7 @@ const ExportDialog = ({
             onClick={handleDownload}
             disabled={!content}
             variant="default"
-            className="bg-main-blue gap-1.5 hover:bg-[#11324d] cursor-pointer"
+            className="bg-main-blue text-white dark:bg-lapis-lazuli gap-1.5 hover:bg-main-blue/90! dark:hover:bg-lapis-lazuli/90! cursor-pointer"
           >
             <Download className="size-4.5 translate-y-[0.5px]" />
             تنزيل
@@ -176,7 +176,7 @@ const ExportDialog = ({
             onClick={handleCopy}
             disabled={!content}
             variant="default"
-            className="bg-main-blue gap-1.5 hover:bg-[#11324d] cursor-pointer"
+            className="bg-main-blue text-white dark:bg-lapis-lazuli gap-1.5 hover:bg-main-blue/90! dark:hover:bg-lapis-lazuli/90! cursor-pointer"
             title="نسخ"
           >
             <Copy className="size-4.5 translate-y-[0.5px]" />

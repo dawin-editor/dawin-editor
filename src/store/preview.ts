@@ -8,5 +8,5 @@ interface PreviewState {
 
 export const usePreviewStore = create<PreviewState>((set) => ({
   preview: false,
-  setPreview: () => set((state) => ({ preview: !state.preview })),
+  setPreview: (preview) => set({ preview }),
 }));

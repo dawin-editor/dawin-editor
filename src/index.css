@@ -168,6 +168,11 @@ h6 {
   --color-yello-bg: var(--yello-bg);
   --color-yello-border: var(--yello-border);
 
+  --color-lapis-lazuli: var(--lapis-lazuli);
+  --color-jasmine: var(--jasmine);
+  --color-cornsilk: var(--cornsilk);
+  --color-cerulean: var(--cerulean);
+
   /* custom fonts */
   --font-dubai-regular: "Dubai-regular", sans-serif;
   --font-dubai-light: "Dubai-light", sans-serif;
@@ -189,6 +194,7 @@ h6 {
 
 :root {
   --radius: 0.625rem;
+  color-scheme: light;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -228,9 +234,14 @@ h6 {
   --icons-bg: #EEF2F7;
   --yello-bg: #FDF1CF;
   --yello-border: #F7D36F;
+  --jasmine: #c3920a;
+  --cornsilk: #8c6d20;
+  --lapis-lazuli: #2C83CB; /* lighter blue for the top navbar band */
+  --cerulean: #e0f2fe; /* light blue text on the blue navbar */
 }
 
 .dark {
+  color-scheme: dark;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -264,10 +275,17 @@ h6 {
   --sidebar-ring: oklch(0.556 0 0);
 
   /* editor colors (dark variants) */
-  --lapis-lazuli: #4a90e2; /* softer blue, more luminous on dark */
+  --lapis-lazuli: #2c6ab3; /* deep enough blue that white/cerulean text passes AA */
+  --cerulean: #e0f2fe; /* stays light for text on the blue navbar */
   --jasmine: #d4af37; /* deep golden instead of bright yellow */
   --cornsilk: #bfa76a; /* muted warm beige */
-  --alice-blue: #2a3b4d; /* darkened blue-gray */
+  --main-blue: #0d2137; /* darker blue for navbar */
+  --icons-color: #8ab4f8; /* lighter blue for icons */
+  --icons-color-hover: rgba(138, 180, 248, 0.2);
+  --secondary-blue: #0d2137;
+  --icons-bg: #2a3b4d; /* darkened blue-gray */
+  --yello-bg: #3d2e00; /* dark gold */
+  --yello-border: #6b5200; /* muted gold */
 }
 
 @layer base {
@@ -281,6 +299,16 @@ h6 {
 }
 
 
+
+/* ---------------------------------------------------------------
+   Tiptap button overrides for dark mode
+   --main-blue / --secondary-blue are #0d2137 in .dark (navbar bg),
+   but toolbar buttons need visible active/icon colors.
+--------------------------------------------------------------- */
+.dark .tiptap-button {
+  --main-blue: #3b82f6;
+  --secondary-blue: #1e3a5f;
+}
 
 /* show placeholders for table header & cells (works with Placeholder extension) */
 .ProseMirror th p.is-empty::before,
@@ -329,6 +357,25 @@ h6 {
 .ProseMirror table td:hover,
 .ProseMirror table th:hover { background-color: #f9fafb; }
 
+.dark .ProseMirror table th,
+.dark .ProseMirror table td {
+  border-bottom-color: #374151;
+}
+.dark .ProseMirror table th { color: #e5e7eb; }
+.dark .ProseMirror table td { color: #9ca3af; }
+.dark .ProseMirror table td:hover,
+.dark .ProseMirror table th:hover { background-color: #1f2937; }
+
+/* dark mode for table cell placeholders */
+.dark .ProseMirror th p.is-empty::before,
+.dark .ProseMirror td p.is-empty::before,
+.dark .ProseMirror th.is-empty::before,
+.dark .ProseMirror td.is-empty::before,
+.dark .ProseMirror th[data-placeholder]:empty::before,
+.dark .ProseMirror td[data-placeholder]:empty::before {
+  color: #6b7280;
+}
+
 
 @keyframes splashPulse {
   0% {
@@ -346,18 +393,14 @@ h6 {
   animation: splashPulse 1.5s ease-in-out infinite;
 }
 
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 body, html, #root {
   height: 100%;
   margin: 0;
   font-family: sans-serif;
-}
-
-.bg-white {
-  background-color: white;
-}
-
-.bg-gray-900 {
-  background-color: #111827;
 }
 
 .react-renderer.node-image {

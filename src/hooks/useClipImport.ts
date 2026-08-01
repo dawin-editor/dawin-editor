@@ -89,15 +89,13 @@ export function useClipImport(editor: Editor | null): void {
         try {
           // ── Persist to IndexedDB ─────────────────────────────────────────
           // Always ADD a new record — never overwrite an existing one
-          const newId = await db.blogs.add({
+          await db.blogs.add({
             title: title || "Imported Article",
             text: markdown,
             sourceUrl: url,
             createdAt: new Date(),
             updatedAt: new Date(),
           });
-
-          console.log("[DawinImport] Saved blog id:", newId);
 
           // ── Push content into editor ─────────────────────────────────────
           editor.commands.setContent(markdown);

@@ -56,7 +56,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
       <DropdownMenu dir="rtl">
         <DropdownMenuTrigger asChild>
           <button
-            className="md:inline-flex items-center gap-1.5 font-Regular text-cerulean-30 hover:text-white active:text-white focus:outline-none cursor-pointer"
+            className="md:inline-flex items-center gap-1.5 font-dubai-regular text-cerulean hover:text-white active:text-white focus:outline-none cursor-pointer"
             aria-label="قائمة التصدير"
           >
             {isMobile ? (
@@ -88,8 +88,8 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
 
           <DropdownMenuSub >
             <DropdownMenuSubTrigger className="[&>svg]:rotate-180 justify-between">
-              <span className="flex flex-row-reverse items-center justify-start px-1 py-1 cursor-pointer gap-1.5 hover:bg-gray-100 rounded-md">
-                <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
+              <span className="flex flex-row-reverse items-center justify-start px-1 py-1 cursor-pointer gap-1.5 hover:bg-accent rounded-md">
+                <span className="font-dubai-regular text-[0.95rem] leading-none text-muted-foreground">
                   تصدير
                 </span>
                 <Download
@@ -112,7 +112,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
                       className="size-5 translate-y-[0.5px]"
                       opacity={0.6}
                     />
-                    <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
+                    <span className="font-dubai-regular text-[0.95rem] leading-none text-muted-foreground">
                       تصدير HTML
                     </span>
 
@@ -131,7 +131,7 @@ const ExportDropMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
                       className="size-5 translate-y-[0.5px]"
                       opacity={0.6}
                     />
-                    <span className="font-dubai-regular text-[0.95rem] leading-none text-gray-600">
+                    <span className="font-dubai-regular text-[0.95rem] leading-none text-muted-foreground">
                       تصدير Markdown
                     </span>
 
